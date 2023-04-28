@@ -1,0 +1,19 @@
+#ifndef STATEMENT_CX
+#define STATEMENT_CX
+#include <vector>
+#include <iostream>
+#include <stdexcept>
+void solveGrade(void);
+void nestedIf(void);
+void switStatement(void);
+void modifySwitchStatement(void);
+void whilStatement(void);
+void forStatement(void);
+void forStatCapitalize(void);
+void rangeForStatement(void);
+void doWhileStatement(void);
+void breakStatement(void);
+void continueStatement(void);
+void exceptionThrow(void);
+void exceptionTryCatch(void);
+#endif
