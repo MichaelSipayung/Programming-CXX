@@ -197,3 +197,4 @@ void trailingRet(std::vector<int> &x){
     std::transform(x.begin()  , x.end(), x.begin(), 
         [](int i)->int {if(i<0) return -i; else return i;});
 }
+void bindArg();

@@ -29,4 +29,5 @@ void implicitCapture(std::vector<std::string>&,std::vector<std::string>::size_ty
 void changeValueLambda();
 //using trailing return type to lambda  
 void trailingRet(std::vector<int> &);
+void bindArg();
 #endif

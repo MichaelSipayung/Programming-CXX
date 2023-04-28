@@ -1,3 +1,6 @@
+/*all header in main.cpp
+*template not implemented in the separated file
+*/
 #ifndef MAIN_PROG_H
 #define MAIN_PROG_H
 #include <iostream>
