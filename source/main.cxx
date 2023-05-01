@@ -30,6 +30,16 @@ int main(int argc,char ** argv){
     useLambda();
     lamdaWithArgs();
     useCaptureList({"the","red","fox","jumps","ove","red","slow","the","turtle"},4);
+    //using std::bind 
+    std::cout<<"test size : ";
+    using namespace std::placeholders;
+    auto checkSizes  = std::bind(checking_size,_1,6);
+    std::string s_bind = "hello world";
+    bool b1_bind  = checkSizes(s_bind);
+    //std::cout<<"test check size (1:true)?(0:false) : " << check_size("jack",3)<<std::endl;
+    std::cout<<"testing bind object : " << b1_bind<<std::endl;
+    //implementation of the lambda
+    modLambda({"the","red","fox","jumps","ove","red","slow","the","turtle"});
     
     return 0;
 }

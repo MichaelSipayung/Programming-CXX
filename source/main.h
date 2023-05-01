@@ -17,4 +17,5 @@
 #include "container.h"
 #include "stroper.h"
 #include "generic.h"
+#include "bind.h"
 #endif
