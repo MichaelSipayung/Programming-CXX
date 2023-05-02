@@ -45,6 +45,28 @@ int main(int argc,char ** argv){
     std::cout<<"test bind reference parameter : ";
     test_bind_print({"the","red","fox","jumps","ove","red","slow","the","turtle"},std::cout);
     test_bind_corr();
+    //another iterator opearation 
+    //back inserter
+    std::vector<int> iter_nat_num={0,1,2,3,4,5,6,7};
+    std::cout<<"before back_inserter"<<std::endl;
+    iter_print_v(iter_nat_num);
+    std::cout<<"after back inserter : ";
+    iter_back_inst(iter_nat_num,{8,9});//insert in the back of container
+    iter_print_v(iter_nat_num);
+    std::list<int> iter_front_num = {0,1,2,3,4,5,6,7};
+    std::cout<<"applying to lis (front_inserter) : ";
+    iter_print_l(iter_front_num);
+    std::cout<<"after front inserter : ";
+    iter_front_inst(iter_front_num,{8,9});
+    iter_print_l(iter_front_num);
+    //case for vector
+    iter_inserter(iter_nat_num,{10,11});
+    std::cout<<"using inserter for vector: ";
+    iter_print_v(iter_nat_num);
+    //case for list
+    std::cout<<"using inserter for list: ";
+    iter_inserter(iter_front_num,{10,11});
+    iter_print_l(iter_front_num);
 
     return 0;
 }

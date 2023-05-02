@@ -18,4 +18,5 @@
 #include "stroper.h"
 #include "generic.h"
 #include "bind.h"
+#include "iterators.h"
 #endif
