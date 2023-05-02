@@ -79,8 +79,18 @@ int main(int argc,char ** argv){
     //apply iostream iterator on algorithm
     //number : 23 109 45 89 6 34 12 90 34 23 56 23 8 89 23 i
     /*std::cout<<"input number to sum : ";
-    std::istream_iterator<int> istream_iter_test(std::cin),end_of_istream;
+    std::istream_iterator<double> istream_iter_test(std::cin),end_of_istream;
     std::cout<<iter_on_alg(istream_iter_test,end_of_istream)<<std::endl;*/
-
+    
+    //applying std::ostream_iterator
+    //case double
+    std::cout<<"result : ";
+    std::ostream_iterator<double> os_iter_test(std::cout," "); //separate by space for each element
+    iter_ostream(os_iter_test,{5.6,1,2,3,4,5,6,7.0});
+    iter_reverse("jackie");//apply reverse iterator to string
+    //apply to array 
+    const int arr_number[] ={0,1,2,3,4,5,6};
+    iter_reverse(arr_number);
+    
     return 0;
 }
