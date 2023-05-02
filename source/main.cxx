@@ -67,6 +67,20 @@ int main(int argc,char ** argv){
     std::cout<<"using inserter for list: ";
     iter_inserter(iter_front_num,{10,11});
     iter_print_l(iter_front_num);
+    std::cout<<"applying inserter to string :"<<std::endl;
+    std::string iter_author_name="Anton";
+    iter_print_str(iter_author_name);
+    std::cout<<"after call inserter : ";
+    iter_inserter(iter_author_name,{"Howard "});
+    iter_print_str(iter_author_name);
+    //std::istream_iterator<int> istream_iter_test(std::cin),end_of_istream;
+    //iter_istream(istream_iter_test,end_of_istream); //ok test pass .
+    
+    //apply iostream iterator on algorithm
+    //number : 23 109 45 89 6 34 12 90 34 23 56 23 8 89 23 i
+    /*std::cout<<"input number to sum : ";
+    std::istream_iterator<int> istream_iter_test(std::cin),end_of_istream;
+    std::cout<<iter_on_alg(istream_iter_test,end_of_istream)<<std::endl;*/
 
     return 0;
 }
