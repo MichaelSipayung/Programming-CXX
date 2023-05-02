@@ -1,10 +1,12 @@
 #include "container.h"
-void max_vec_hold(){
+void max_vec_hold()
+{
     std::cout<<"maximum elemen can hold by vector : ";
     std::vector<int> max_hol;
     std::cout<<max_hol.max_size();
 }
-void iterat_el(){
+void iterat_el()
+{
     std::vector<int> fin_num   = {11,33,44,55,66,77,88,99};
     auto begin  = fin_num.begin();
     auto end  = fin_num.end();
@@ -16,7 +18,8 @@ void iterat_el(){
     }
     std::cout<<std::endl;
 }
-void const_iter_el(){
+void const_iter_el()
+{
     std::vector<double> num_fin  = { 12.0,14.0,23.0,33.0,44.0,55.0,31.0};
     std::vector<double>::const_iterator begin, end ;
     std::cout<<"just print the element, using const iterator"<<std::endl;
@@ -29,7 +32,8 @@ void const_iter_el(){
     }
     std::cout<<std::endl;
 }
-void rev_iter_el(){
+void rev_iter_el()
+{
     std::list<std::string> name ={"Milton","Shakespare","Austen"};
     std::list<std::string>::reverse_iterator begin ,end;
     begin  = name.rbegin();
@@ -39,24 +43,26 @@ void rev_iter_el(){
     {
         std::cout<<*begin<<" | ";
         ++begin;
-    }
-     
+    }     
 }
 //initialize the container
-void init_con(){
+void init_con()
+{
     std::list<std::string>authors  = {"bob","jane","jack"};
     std::list<std::string> curAuthor  = authors;
     std::vector<const char*> articl  = {"ab article","ac article","ad article"};
     std::vector<std::string> cast_articl  (articl.begin(), articl.end()); //initialize
 }
-void init_con_arr(){
+void init_con_arr()
+{
     std::array<int,42> hold_42;
     std::array<std::string,12> hold_str;
     std::array<int,10> list_init  = {0,1,2,3,4,5,6,7,8,9};
     std::array<int,10> copt_arr  = list_init;
 }
 //copy container
-void copy_con(){
+void copy_con()
+{
     std::array<int,3> def_val  = {1,2,3};
     std::array<int,3> copy_val;
     copy_val = def_val;
@@ -68,14 +74,16 @@ void copy_con(){
     //takes an integral value and an element value
     assign_con.assign(10,"default");
 }
-void swap_con(){
+void swap_con()
+{
     std::list<int> nat_num  = {0,1,2,3,4,5,6};
     std::list<int> inte_num  = {-1,-2,-3,0,1,2,3};
     //using swap, to swap the container
     std::swap(nat_num,inte_num);
 }
 //container size operation 
-void check_size(){
+void check_size()
+{
     std::list<int> demo_size_op ={1,2,3,4};
     //checking the size
     if(demo_size_op.size()>12){
@@ -91,7 +99,8 @@ void check_size(){
             can hold in container"<<std::endl;
     }
 }
-void relat_op(){
+void relat_op()
+{
     std::list<std::string> aut_1  = {"jack","miller"};
     std::list<std::string> aut_2 = {"jack","miller","fall"};
     if (aut_1==aut_2)
@@ -104,7 +113,8 @@ void relat_op(){
     }    
 }
 //adding element to a container
-void add_el(){
+void add_el()
+{
     std::vector<int> nat_num  = {0,1,2,3,4,5,6,7,8};
     std::cout<<"size element in the container" << nat_num.size() <<std::endl;
     //adding element in the back of the container 
@@ -129,7 +139,8 @@ void add_el(){
     add_emplace.emplace_back("Jack",12,14.000); //using 3 argument    
 }
 //adding element using emplace, construct rather than copy
-void demo_emplace(){
+void demo_emplace()
+{
     std::vector<DemoEmplace> personal_data;
     personal_data.emplace_back("Daniel",3,45.000);
     std::cout<<"isbn : " << personal_data[0].x<<std::endl;
@@ -156,7 +167,8 @@ void demo_emplace(){
     //traverse the element through subscript
     std::cout<<"isbn num : " << diff_emplace[0].x <<std::endl;
 }
-void acc_el(){
+void acc_el()
+{
     std::list<std::string> name  = {"Jack","Miller","Doe"};
     if (!name.empty())
     {
@@ -183,7 +195,8 @@ void acc_el(){
         std::cout<<"using at : " << num.at(6)<<std::endl;
     }
 }
-void err_el(){
+void err_el()
+{
     std::list<int> item_num  = {9,3,5,78,31,76};
     if (!item_num.empty())
     {
@@ -219,7 +232,8 @@ void err_el(){
         std::cout<<"ok all element have removed using erase"<<std::endl;
     }
 }
-void demo_err_el(){
+void demo_err_el()
+{
     std::list<int> num  =  {0,1,2,3,4,5,6,7,8,9};
     auto it =  num.begin();
     if(!num.empty()){
@@ -236,12 +250,14 @@ void demo_err_el(){
         }
     }
 }
-void rem_by_pair(){
+void rem_by_pair()
+{
     std::list<int> num = {1,2,3,4,5,6,7,8};
     //using iterator pair to remove the element
     num.erase(num.begin(), ++num.begin());// remove the first element and the next element
 }
-void forw_list_it(){
+void forw_list_it()
+{
     std::forward_list<int> nat_num  = {0,1,2,3,4,5,6,7,8};
     //remove and move the element 
     auto prev = nat_num.before_begin(); //denotes element "off the start"
@@ -281,7 +297,8 @@ void forw_list_it(){
     curr_pos  = nat_num.erase_after(prev_pos);
     std::cout<<"curr_value : " << *curr_pos <<std::endl; 
 }
-void resize_con(){
+void resize_con()
+{
     std::list<int> nat_num = {0,1,2,3,4,5,6,7,8};
     if (!nat_num.empty())
     {
@@ -292,7 +309,8 @@ void resize_con(){
     }
 }
 //demonstrate how we can safely remove or add element to the container
-void safe_it(){
+void safe_it()
+{
     std::vector<int> nat_num  = {0,1,2,3,4,5,6,7,8};
     auto iter = nat_num.begin();
     if (!nat_num.empty())
@@ -315,7 +333,8 @@ void safe_it(){
         }
     }
 }
-void manage_cap(){
+void manage_cap()
+{
     std::vector<int> nat_num  ={0,1,2,3,4,5,6,7,8};
     if (!nat_num.empty())
     {

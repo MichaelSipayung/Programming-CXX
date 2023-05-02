@@ -40,6 +40,11 @@ int main(int argc,char ** argv){
     std::cout<<"testing bind object : " << b1_bind<<std::endl;
     //implementation of the lambda
     modLambda({"the","red","fox","jumps","ove","red","slow","the","turtle"});
-    
+    test_other_f();
+    test_other_f1();
+    std::cout<<"test bind reference parameter : ";
+    test_bind_print({"the","red","fox","jumps","ove","red","slow","the","turtle"},std::cout);
+    test_bind_corr();
+
     return 0;
 }
