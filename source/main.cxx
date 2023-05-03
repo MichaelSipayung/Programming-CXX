@@ -108,5 +108,30 @@ int main(int argc,char ** argv){
     std::cout<<"\nignore some word before push to map"<<std::endl;
     elemin_set(elim_set_test,{"The","the","a","A","And","and"});
 
+    //test case int object
+    std::cout<<"test the difference between multiset and set"<<std::endl;
+    const std::vector<int> number_test_multiset ={0,0,1,1,2,2,3,3,4,4};
+    diff_multiSet(number_test_multiset,{std::begin(number_test_multiset),
+        std::end(number_test_multiset)},{std::begin(number_test_multiset),
+        std::end(number_test_multiset)});
+    //test std::pair
+    moreType_pair(std::pair<std::string,int>({"jackie",20})); //jackie is 20 y old
+    moreType_pair(std::pair<std::string,double>({"Miller",165.5})); //miller have 165.5 kg of the b
+    //return a pair of object
+    std::cout<<"first : " << create_pair(std::vector<std::string>{"jackie","cliff","barrow"}).first
+        <<"\nsecond : " <<create_pair(std::vector<std::string>{"jackie","cliff","barrow"}).second
+        <<std::endl;
+    std::map<std::string,int>iterator_as_test={{"mike",165}};
+    iteratorMap_assoc(iterator_as_test,167); //test success
+    //const iterator on map 
+    iteratorSet_assoc(std::set<int>{12},3);
+    iteratorSet_assoc(std::set<double>{167.0},double{3});
+    std::map<std::string,int>name_and_score = {{"june",7},{"April",9},{"Alex",8}};
+    iterElement_assoc(name_and_score);
+    std::map<std::string,int>alg_insert;
+    addElement_map(std::vector<std::string>({"jack","daniel"}), std::vector<int>({12,13}),
+        alg_insert);
+    addElement_test_print(alg_insert);
+    
     return 0;
 }
