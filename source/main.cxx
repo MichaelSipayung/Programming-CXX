@@ -1,23 +1,23 @@
 #include "main.h"
 int main(int argc,char ** argv){
-    noCopyIo();
-    flushBuffer();
-    std::string filename="sample.txt";
-    readFile(filename);
-    std::string file_name_1="sample_1.txt";
-    readCsv(file_name_1);
-    max_vec_hold();
-    iterat_el();
-    const_iter_el();
-    rev_iter_el();
-    demo_emplace();   
-    forw_list_it(); 
-    resize_con();
-    manage_cap();
-    copyStr("hello world");
-    numConver();
-    findAl({0,1,2,3,4,5,6,7,8,9});
-    sumElm({0,1,2,3,4,5,6,7,8});
+    // noCopyIo();
+    // flushBuffer();
+    // std::string filename="sample.txt";
+    // readFile(filename);
+    // std::string file_name_1="sample_1.txt";
+    // readCsv(file_name_1);
+    // max_vec_hold();
+    // iterat_el();
+    // const_iter_el();
+    // rev_iter_el();
+    // demo_emplace();   
+    // forw_list_it(); 
+    // resize_con();
+    // manage_cap();
+    // copyStr("hello world");
+    // numConver();
+    // findAl({0,1,2,3,4,5,6,7,8,9});
+    // sumElm({0,1,2,3,4,5,6,7,8});
     std::string perform_modif ="literal";
     modifyEl(perform_modif);
     safeInsert(perform_modif);
@@ -91,6 +91,22 @@ int main(int argc,char ** argv){
     //apply to array 
     const int arr_number[] ={0,1,2,3,4,5,6};
     iter_reverse(arr_number);
-    
+    //using std::map<keyObject,valueObject>
+    //std::map<std::string,size_t> word_test_map;
+    //wordCounting_map(word_test_map);
+    std::map<std::string, std::string> number_map_test={
+        {"Daniel","0852-9899-7899"},
+        {"Jackie","0853-00999-9888"},
+        {"Lim","0852-9899-7890"},
+        {"Jackie","0853-00999-8888"},
+        {"Roller","0852-9899-7799"},
+        {"Maverick","0853-00999-2888"}
+    };
+    phoneBook_map(number_map_test);
+    std::cout<<"search name : Roller (result :"<<lookPhone_map(number_map_test,"Roller")<<")";
+    std::map<std::string, size_t>elim_set_test;
+    std::cout<<"\nignore some word before push to map"<<std::endl;
+    elemin_set(elim_set_test,{"The","the","a","A","And","and"});
+
     return 0;
 }

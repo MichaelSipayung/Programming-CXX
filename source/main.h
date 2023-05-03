@@ -19,4 +19,5 @@
 #include "generic.h"
 #include "bind.h"
 #include "iterators.h"
+#include "associative.h"
 #endif
