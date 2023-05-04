@@ -103,7 +103,7 @@ int main(int argc,char ** argv){
         {"Maverick","0853-00999-2888"}
     };
     phoneBook_map(number_map_test);
-    std::cout<<"search name : Roller (result :"<<lookPhone_map(number_map_test,"Roller")<<")";
+    /*std::cout<<"search name : Roller (result :"<<lookPhone_map(number_map_test,"Roller")<<")";
     std::map<std::string, size_t>elim_set_test;
     std::cout<<"\nignore some word before push to map"<<std::endl;
     elemin_set(elim_set_test,{"The","the","a","A","And","and"});
@@ -131,7 +131,10 @@ int main(int argc,char ** argv){
     std::map<std::string,int>alg_insert;
     addElement_map(std::vector<std::string>({"jack","daniel"}), std::vector<int>({12,13}),
         alg_insert);
-    addElement_test_print(alg_insert);
-    
+    addElement_test_print(alg_insert);*/
+    std::multimap<std::string,double>multi_key  = {{"Jackie",65.0}};
+    workW_multimap(multi_key,std::string("Jimmy"),63.0,68.0);
+    erase_map(number_map_test,std::string("Daniel"));
+
     return 0;
 }

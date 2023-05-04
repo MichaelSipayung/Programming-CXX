@@ -172,4 +172,27 @@ void addElement_test_print(const std::map<Object_1,Object_2>&x)
     for(const auto &i:x)
         std::cout<<i.first<<" | "<<i.second<<std::endl;
 }
+//allowing insert the same key to multimap
+//no need return bool, because insert element always return true
+template<typename Object_1,typename Object_2>
+void workW_multimap(std::multimap<Object_1,Object_2> &auth, const Object_1&x_1,const Object_2&x_2,
+    const Object_2 &x_3)
+{
+    //case 1
+    auth.insert({x_1,x_2});
+    auth.insert({x_1,x_3});//insert the same key 
+    std::cout<<"fetch the object with same key"<<std::endl;
+    for(const auto&i:auth)
+        std::cout<<i.first<<" | "<<i.second<<std::endl;
+}
+template<typename Object_1,typename Object_2>
+void erase_map(std::map<Object_1,Object_2>&auth, const Object_1&key)
+{
+    std::cout<<"erase using key : " << auth.erase(key)<<std::endl;
+    auto erase_all  = auth.erase(std::cbegin(auth),std::cend(auth));
+    if(auth.empty())
+        std::cout<<"erase all element";
+    else
+        std::cout<<"fail to erase element"<<std::endl;
+}
 #endif
