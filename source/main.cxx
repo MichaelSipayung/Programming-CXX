@@ -18,61 +18,61 @@ int main(int argc,char ** argv){
     // numConver();
     // findAl({0,1,2,3,4,5,6,7,8,9});
     // sumElm({0,1,2,3,4,5,6,7,8});
-    std::string perform_modif ="literal";
-    modifyEl(perform_modif);
-    safeInsert(perform_modif);
-    std::string tempObj  = "temporary";
-    std::vector<std::string> sortUniq=
-        {"the","quick","red","fox","jumps","over","red","slow","the","turtle"};
-    elimDups(sortUniq);
-    //test condition, by length of each word
-    testPredicate({"the","red","fox","jumps","over","red","slow","the","turtle"});
-    useLambda();
-    lamdaWithArgs();
-    useCaptureList({"the","red","fox","jumps","ove","red","slow","the","turtle"},4);
+    // std::string perform_modif ="literal";
+    // modifyEl(perform_modif);
+    // safeInsert(perform_modif);
+    // std::string tempObj  = "temporary";
+    // std::vector<std::string> sortUniq=
+    //     {"the","quick","red","fox","jumps","over","red","slow","the","turtle"};
+    // elimDups(sortUniq);
+    // //test condition, by length of each word
+    // testPredicate({"the","red","fox","jumps","over","red","slow","the","turtle"});
+    // useLambda();
+    // lamdaWithArgs();
+    // useCaptureList({"the","red","fox","jumps","ove","red","slow","the","turtle"},4);
     //using std::bind 
-    std::cout<<"test size : ";
-    using namespace std::placeholders;
-    auto checkSizes  = std::bind(checking_size,_1,6);
-    std::string s_bind = "hello world";
-    bool b1_bind  = checkSizes(s_bind);
-    //std::cout<<"test check size (1:true)?(0:false) : " << check_size("jack",3)<<std::endl;
-    std::cout<<"testing bind object : " << b1_bind<<std::endl;
-    //implementation of the lambda
-    modLambda({"the","red","fox","jumps","ove","red","slow","the","turtle"});
-    test_other_f();
-    test_other_f1();
-    std::cout<<"test bind reference parameter : ";
-    test_bind_print({"the","red","fox","jumps","ove","red","slow","the","turtle"},std::cout);
-    test_bind_corr();
-    //another iterator opearation 
-    //back inserter
-    std::vector<int> iter_nat_num={0,1,2,3,4,5,6,7};
-    std::cout<<"before back_inserter"<<std::endl;
-    iter_print_v(iter_nat_num);
-    std::cout<<"after back inserter : ";
-    iter_back_inst(iter_nat_num,{8,9});//insert in the back of container
-    iter_print_v(iter_nat_num);
-    std::list<int> iter_front_num = {0,1,2,3,4,5,6,7};
-    std::cout<<"applying to lis (front_inserter) : ";
-    iter_print_l(iter_front_num);
-    std::cout<<"after front inserter : ";
-    iter_front_inst(iter_front_num,{8,9});
-    iter_print_l(iter_front_num);
-    //case for vector
-    iter_inserter(iter_nat_num,{10,11});
-    std::cout<<"using inserter for vector: ";
-    iter_print_v(iter_nat_num);
-    //case for list
-    std::cout<<"using inserter for list: ";
-    iter_inserter(iter_front_num,{10,11});
-    iter_print_l(iter_front_num);
-    std::cout<<"applying inserter to string :"<<std::endl;
-    std::string iter_author_name="Anton";
-    iter_print_str(iter_author_name);
-    std::cout<<"after call inserter : ";
-    iter_inserter(iter_author_name,{"Howard "});
-    iter_print_str(iter_author_name);
+    // std::cout<<"test size : ";
+    // using namespace std::placeholders;
+    // auto checkSizes  = std::bind(checking_size,_1,6);
+    // std::string s_bind = "hello world";
+    // bool b1_bind  = checkSizes(s_bind);
+    // //std::cout<<"test check size (1:true)?(0:false) : " << check_size("jack",3)<<std::endl;
+    // std::cout<<"testing bind object : " << b1_bind<<std::endl;
+    // //implementation of the lambda
+    // modLambda({"the","red","fox","jumps","ove","red","slow","the","turtle"});
+    // test_other_f();
+    // test_other_f1();
+    // std::cout<<"test bind reference parameter : ";
+    // test_bind_print({"the","red","fox","jumps","ove","red","slow","the","turtle"},std::cout);
+    // test_bind_corr();
+    // //another iterator opearation 
+    // //back inserter
+    // std::vector<int> iter_nat_num={0,1,2,3,4,5,6,7};
+    // std::cout<<"before back_inserter"<<std::endl;
+    // iter_print_v(iter_nat_num);
+    // std::cout<<"after back inserter : ";
+    // iter_back_inst(iter_nat_num,{8,9});//insert in the back of container
+    // iter_print_v(iter_nat_num);
+    // std::list<int> iter_front_num = {0,1,2,3,4,5,6,7};
+    // std::cout<<"applying to lis (front_inserter) : ";
+    // iter_print_l(iter_front_num);
+    // std::cout<<"after front inserter : ";
+    // iter_front_inst(iter_front_num,{8,9});
+    // iter_print_l(iter_front_num);
+    // //case for vector
+    // iter_inserter(iter_nat_num,{10,11});
+    // std::cout<<"using inserter for vector: ";
+    // iter_print_v(iter_nat_num);
+    // //case for list
+    // std::cout<<"using inserter for list: ";
+    // iter_inserter(iter_front_num,{10,11});
+    // iter_print_l(iter_front_num);
+    // std::cout<<"applying inserter to string :"<<std::endl;
+    // std::string iter_author_name="Anton";
+    // iter_print_str(iter_author_name);
+    // std::cout<<"after call inserter : ";
+    // iter_inserter(iter_author_name,{"Howard "});
+    // iter_print_str(iter_author_name);
     //std::istream_iterator<int> istream_iter_test(std::cin),end_of_istream;
     //iter_istream(istream_iter_test,end_of_istream); //ok test pass .
     
@@ -84,25 +84,25 @@ int main(int argc,char ** argv){
     
     //applying std::ostream_iterator
     //case double
-    std::cout<<"result : ";
-    std::ostream_iterator<double> os_iter_test(std::cout," "); //separate by space for each element
-    iter_ostream(os_iter_test,{5.6,1,2,3,4,5,6,7.0});
-    iter_reverse("jackie");//apply reverse iterator to string
-    //apply to array 
-    const int arr_number[] ={0,1,2,3,4,5,6};
-    iter_reverse(arr_number);
-    //using std::map<keyObject,valueObject>
-    //std::map<std::string,size_t> word_test_map;
-    //wordCounting_map(word_test_map);
-    std::map<std::string, std::string> number_map_test={
-        {"Daniel","0852-9899-7899"},
-        {"Jackie","0853-00999-9888"},
-        {"Lim","0852-9899-7890"},
-        {"Jackie","0853-00999-8888"},
-        {"Roller","0852-9899-7799"},
-        {"Maverick","0853-00999-2888"}
-    };
-    phoneBook_map(number_map_test);
+    // std::cout<<"result : ";
+    // std::ostream_iterator<double> os_iter_test(std::cout," "); //separate by space for each element
+    // iter_ostream(os_iter_test,{5.6,1,2,3,4,5,6,7.0});
+    // iter_reverse("jackie");//apply reverse iterator to string
+    // //apply to array 
+    // const int arr_number[] ={0,1,2,3,4,5,6};
+    // iter_reverse(arr_number);
+    // //using std::map<keyObject,valueObject>
+    // //std::map<std::string,size_t> word_test_map;
+    // //wordCounting_map(word_test_map);
+    // std::map<std::string, std::string> number_map_test={
+    //     {"Daniel","0852-9899-7899"},
+    //     {"Jackie","0853-00999-9888"},
+    //     {"Lim","0852-9899-7890"},
+    //     {"Jackie","0853-00999-8888"},
+    //     {"Roller","0852-9899-7799"},
+    //     {"Maverick","0853-00999-2888"}
+    // };
+    // phoneBook_map(number_map_test);
     /*std::cout<<"search name : Roller (result :"<<lookPhone_map(number_map_test,"Roller")<<")";
     std::map<std::string, size_t>elim_set_test;
     std::cout<<"\nignore some word before push to map"<<std::endl;
@@ -132,20 +132,23 @@ int main(int argc,char ** argv){
     addElement_map(std::vector<std::string>({"jack","daniel"}), std::vector<int>({12,13}),
         alg_insert);
     addElement_test_print(alg_insert);*/
-    std::multimap<std::string,double>multi_key  = {{"Jackie",65.0},{"Jack",98.6}};
-    //workW_multimap(multi_key,std::string("Jimmy"),63.0,68.0);
-    //erase_map(number_map_test,std::string("Daniel"));
-    accesEl_assoc(std::set<std::string>({"jack","daniel","knuth"}),
-        number_map_test,std::string("Jackie"));
-    //unordered container
-    unorCon_print(std::unordered_map<std::string,std::string>({
-        {"Daniel","0852-9899-7899"},
-        {"Jackie","0853-00999-9888"},
-        {"Lim","0852-9899-7890"},
-        {"Jackie","0853-00999-8888"},
-        {"Roller","0852-9899-7799"},
-        {"Maverick","0853-00999-2888"}
-    }),std::string("Daniel"));
-
+    // std::multimap<std::string,double>multi_key  = {{"Jackie",65.0},{"Jack",98.6}};
+    // //workW_multimap(multi_key,std::string("Jimmy"),63.0,68.0);
+    // //erase_map(number_map_test,std::string("Daniel"));
+    // accesEl_assoc(std::set<std::string>({"jack","daniel","knuth"}),
+    //     number_map_test,std::string("Jackie"));
+    // //unordered container
+    // unorCon_print(std::unordered_map<std::string,std::string>({
+    //     {"Daniel","0852-9899-7899"},
+    //     {"Jackie","0853-00999-9888"},
+    //     {"Lim","0852-9899-7890"},
+    //     {"Jackie","0853-00999-8888"},
+    //     {"Roller","0852-9899-7799"},
+    //     {"Maverick","0853-00999-2888"}
+    // }),std::string("Daniel"));
+    std::shared_ptr<int>x_point;
+    Smart::hello_ptr(x_point,int(13));
+    Smart::alloc_ptr(13.3,"authors"); 
+    
     return 0;
 }

@@ -20,4 +20,5 @@
 #include "bind.h"
 #include "iterators.h"
 #include "associative.h"
+#include "smartpo.h"
 #endif
