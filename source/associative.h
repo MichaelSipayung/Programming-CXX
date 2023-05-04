@@ -195,4 +195,61 @@ void erase_map(std::map<Object_1,Object_2>&auth, const Object_1&key)
     else
         std::cout<<"fail to erase element"<<std::endl;
 }
+template<typename Object_1,typename Object_2>
+void accesEl_assoc(const std::set<Object_1>&x, const std::map<Object_1,Object_2>&y,const Object_1&z)
+{
+    std::cout<<"subscript op on set : " << *x.begin()<<std::endl;
+    auto find_set  = x.find(z); //using member function not generic form
+    if(find_set==x.end())
+        std::cout<<"sorry... not found"<<std::endl;
+    else
+        std::cout<<"found.... dereference it : "<< *find_set<<std::endl;
+    //pay attention work with map, if key exist ok, but if not write it!
+    if(y.find(z)==y.end())
+        std::cout<<"ok key not exist, don't add new key"<<std::endl;
+    else
+        std::cout<<"key exist.. show it"<<std::endl;
+}
+//case for multimap, using count to tell the total object with the same key
+//if the first key found the next value is it neighbours
+template<typename Object_1,typename Object_2>
+void find_multiKey(const std::multimap<Object_1,Object_2>&x,const Object_2&src)
+{
+    auto entries  = x.count(src); //num element
+    auto iter= x.find(src);//first entry, return iterator
+    //guarante that if find do something
+    while(entries)
+    {
+        std::cout<<iter->second<<std::endl;
+        ++iter; //advance to the next title
+        --entries; //keep track of how many we'he printed
+    }
+}
+//using lower_bound and upper bound
+template<typename Object_1, typename Object_2>
+void find_multiKey_d(const std::multimap<Object_1,Object_2>&x, const Object_2&src)
+{
+    auto beg  = x.lower_bound(src);
+    auto end  = x.upper_bound(src);
+    while(beg!=end)
+    {
+        std::cout<<beg->second<<std::endl; //fetch each value with the given key
+        ++beg;
+    }
+}
+//using unordered container
+//using has function rather than compare the element
+template<typename Object_1, typename Object_2>
+void unorCon_print(const std::unordered_map<Object_1,Object_2>&x,const Object_1&key)
+{
+    std::cout<<"see.. different order on containers"<<std::endl;
+    for(const auto &word:x)
+        std::cout<<word.first<<" " <<word.second<<std::endl;
+    std::cout<<"searching using key : "<<key<<std::endl;
+    auto find_key  = x.find(key);
+    if(find_key==x.end())
+        std::cout<<"not found ... "<<std::endl;
+    else 
+        std::cout<<"oh found it ...it's value :  "<< find_key->second<<std::endl;
+}
 #endif

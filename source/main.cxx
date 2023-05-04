@@ -132,9 +132,20 @@ int main(int argc,char ** argv){
     addElement_map(std::vector<std::string>({"jack","daniel"}), std::vector<int>({12,13}),
         alg_insert);
     addElement_test_print(alg_insert);*/
-    std::multimap<std::string,double>multi_key  = {{"Jackie",65.0}};
-    workW_multimap(multi_key,std::string("Jimmy"),63.0,68.0);
-    erase_map(number_map_test,std::string("Daniel"));
+    std::multimap<std::string,double>multi_key  = {{"Jackie",65.0},{"Jack",98.6}};
+    //workW_multimap(multi_key,std::string("Jimmy"),63.0,68.0);
+    //erase_map(number_map_test,std::string("Daniel"));
+    accesEl_assoc(std::set<std::string>({"jack","daniel","knuth"}),
+        number_map_test,std::string("Jackie"));
+    //unordered container
+    unorCon_print(std::unordered_map<std::string,std::string>({
+        {"Daniel","0852-9899-7899"},
+        {"Jackie","0853-00999-9888"},
+        {"Lim","0852-9899-7890"},
+        {"Jackie","0853-00999-8888"},
+        {"Roller","0852-9899-7799"},
+        {"Maverick","0853-00999-2888"}
+    }),std::string("Daniel"));
 
     return 0;
 }
