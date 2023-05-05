@@ -149,6 +149,33 @@ int main(int argc,char ** argv){
     std::shared_ptr<int>x_point;
     Smart::hello_ptr(x_point,int(13));
     Smart::alloc_ptr(13.3,"authors"); 
-    
+    //test strblob class
+    Smart::strBlob mem_dynm;
+    mem_dynm.push_back("jack");
+    mem_dynm.push_back("jane");
+    mem_dynm.push_back("dona");
+    std::cout<<"total element : " << mem_dynm.size()<<std::endl;
+    std::cout<<"is strblob class empty : "<< mem_dynm.empty()<<std::endl;
+    std::cout<<"traverse all the element : ";
+    auto begin_trav= mem_dynm.begin();
+    while(begin_trav!=mem_dynm.end())
+    {
+        std::cout<<*begin_trav<<" | ";
+        ++begin_trav;
+    }
+    std::cout<<std::endl;
+    Smart::dealloc_obj();
+    std::cout<<"freed memory ... "<<std::endl;
+    int *x_freed  = new int(90);
+    std::cout<<"original value : " <<*x_freed<<std::endl;
+    delete x_freed;
+    if(x_freed)
+        std::cout<<"success freed ... "<<std::endl;  
+    std::cout<<"after freed: "<<*x_freed<<std::endl;
+    //delete const object
+    const int*cons_obj = new const int(12);//
+    delete cons_obj; //freed const obj
+    Smart::other_op();
+             
     return 0;
 }
