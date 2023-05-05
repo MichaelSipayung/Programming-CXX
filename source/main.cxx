@@ -150,7 +150,7 @@ int main(int argc,char ** argv){
     Smart::hello_ptr(x_point,int(13));
     Smart::alloc_ptr(13.3,"authors"); 
     //test strblob class
-    Smart::strBlob mem_dynm;
+   /* Smart::strBlob mem_dynm;
     mem_dynm.push_back("jack");
     mem_dynm.push_back("jane");
     mem_dynm.push_back("dona");
@@ -176,6 +176,10 @@ int main(int argc,char ** argv){
     const int*cons_obj = new const int(12);//
     delete cons_obj; //freed const obj
     Smart::other_op();
+    Smart::manage_con();
+    Smart::uniqPtr_alloc();
+    Smart::alloc_weakly();
+    Smart::acc_weakPtr();*/
              
     return 0;
 }
