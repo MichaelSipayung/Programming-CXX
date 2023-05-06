@@ -150,15 +150,15 @@ int main(int argc,char ** argv){
     Smart::hello_ptr(x_point,int(13));
     Smart::alloc_ptr(13.3,"authors"); 
     //test strblob class
-   /* Smart::strBlob mem_dynm;
+    Smart::strBlob mem_dynm;
     mem_dynm.push_back("jack");
     mem_dynm.push_back("jane");
     mem_dynm.push_back("dona");
     std::cout<<"total element : " << mem_dynm.size()<<std::endl;
     std::cout<<"is strblob class empty : "<< mem_dynm.empty()<<std::endl;
     std::cout<<"traverse all the element : ";
-    auto begin_trav= mem_dynm.begin();
-    while(begin_trav!=mem_dynm.end())
+    auto begin_trav= mem_dynm.begin_s();
+    while(begin_trav!=mem_dynm.end_s())
     {
         std::cout<<*begin_trav<<" | ";
         ++begin_trav;
@@ -179,7 +179,10 @@ int main(int argc,char ** argv){
     Smart::manage_con();
     Smart::uniqPtr_alloc();
     Smart::alloc_weakly();
-    Smart::acc_weakPtr();*/
-             
+    Smart::acc_weakPtr();
+    Smart::array_dyn(3);
+    Smart::smart_arr(); 
+    Smart::smart_arr2();
+    
     return 0;
 }

@@ -26,8 +26,8 @@ class strBlob{
         bool empty()const{return data->empty();}
         void push_back(const std::string&t){data->push_back(t);}
         void pop_back();
-        /*iterator begin()const{return data->begin();}
-        iterator end()const{return data->end();}*/
+        iterator begin_s()const{return data->begin();}
+        iterator end_s()const{return data->end();}
         const_iterator cbegin()const {return data->cbegin();}
         const_iterator cend()const{return data->cend();}
         std::string& front();
@@ -283,6 +283,64 @@ class BasePointFriend{
         std::weak_ptr<std::vector<double>> data_f;
         void check();
 };
-//define begin and end 
+//define begin and end
+void array_dyn(const int &x)
+{
+    int *nat_num = new int[x]{0}; //initialize with 0
+    std::cout<<"1. allocate array dynamically :  " << *nat_num<<std::endl;
+    ++nat_num;
+    *nat_num+=2;
+    std::cout<<"2. allocate array dynamically :  " << *nat_num<<std::endl;
+    std::string *authors  = new std::string[x]{}; //value initialized to empty string
+    *authors = "miller";
+    *authors+=" cliff";
+    std::cout<<"allocate for string : " << *authors<<std::endl;
+    char *short_auth  = new char[100]{}; //empty char, value initialized
+    *short_auth  ='j';
+    ++short_auth;
+    *short_auth='a';
+    std::cout<<*(short_auth-1)<<*(short_auth)<<std::endl;
+    //direct initialized using braced list 
+    int *arr_1 = new int[10]{0,12,3,4,5,6,7,74,43,2};
+    std::string *str_1  = new std::string[10]{"jack","miller","pass","new","obj"};
+    delete []arr_1; //freeing dynamic array
+    delete []str_1;
+    std::cout<<"success freed array from memory"<<std::endl;
+    ///str_1[0]="9999"; problem! need to reallocate again //memory leak
+}
+//smart pointer and dynamic array
+//using array inside smart ptr, access using [] not dot
+//not point to object but to allocated array
+void smart_arr()
+{
+    std::unique_ptr<int[]> nat_num(new int[10]{0}); //no cp for unique ptr, must direct init
+    //assign value using []
+    for(int i=0;i<10;++i)
+        nat_num[i]=i*2;
+    //traverse not using begin and end 
+    for(int i=0;i<10;++i)
+        std::cout<<nat_num[i]<<" | ";
+    std::cout<<std::endl;
+    //using release to destroy its pointer
+    nat_num.release();
+    //reset the pointer make it null or allocate the new value
+    nat_num.reset(new int[100]); //ask new storange  
+    nat_num[90]=90;
+    std::cout<<"after reallocate : " <<nat_num[90]<<std::endl;
+    //after that destroy
+    nat_num.release();
+    std::cout<<"safely destroy the object"<<std::endl;
+}
+//shared_ptr have no operator [] and unsupport to arithmetic op
+void smart_arr2()
+{
+    std::shared_ptr<int> sp(new int[10],[](int *p){delete[]p;}); //pass lamda as a deleter
+    //access using get member function 
+    for(size_t i =0;i!=10;++i)
+        *(sp.get()+i)=i; //use get to get built-in pointer //no subscript
+    //free the array 
+    sp.reset();
+    std::cout<<"success reset the pointer sp"<<std::endl;
+}
 }
 #endif
