@@ -342,5 +342,104 @@ void smart_arr2()
     sp.reset();
     std::cout<<"success reset the pointer sp"<<std::endl;
 }
+//the allocator class : seperate allocation fron construction
+//using new and delete doing one thing two times deallocate and also destruction
+void allocator_cl()
+{
+    std::allocator<std::string> alloc; //object that can allocate str
+    auto p = alloc.allocate(3); //allocate 10 unconstructed str
+    auto q=p; //q will point to one past the lst constr mem
+    alloc.construct(q++,"first");
+    alloc.construct(q++,"second");
+    alloc.construct(q++,"three"); //point to last construct
+    //alloc.construct(q++,"hi");//*q is "hi"
+    for(auto i=0;i<3;++i)
+        std::cout<<p[i]<<" | ";
+    std::cout<<std::endl;
+    //destroy the object
+    while(q!=p)
+    {
+        std::cout<<"free the str"<<std::endl;
+        alloc.destroy(--q); //free the string we actually allocated
+    }
+    //after destroy, making q point to the first uncostructed element
+    alloc.construct(q++,"change");
+    std::cout<<"after change : " << p[0]<<std::endl;
+    //don't forget to destroy
+    alloc.destroy(--q);
+    //try to deallocate : free memory
+    alloc.deallocate(p,3); //can't be null value
+    //std::cout<<"val : "<<p[0]<<std::endl; //undefined
+}
+void sumNum()noexcept(true)
+{
+    int a =12;
+    const std::vector<int> b ={9};
+    std::cout<<"noexcept for exception safe : " << a+b[0]<<std::endl;
+}
+//copy element to unconstructed mem
+void copy_unitialized_mem()
+{
+    std::allocator<int> alloc; //object that can allocate int 
+    auto x1 = alloc.allocate(5); //unconstructed
+    for(auto i=0;i<5;++i)
+        alloc.construct(x1+i,i+2);
+    for(auto i=0;i<5;++i)
+        std::cout<<x1[i]<<" | ";
+    //copy to unconstructed memory
+    std::cout<<std::endl;
+    auto dest_x1  = alloc.allocate(5);
+    std::uninitialized_copy(x1, x1+5,dest_x1); //[beg,end,dest] 
+    //after copy to unconstructed memory
+    std::cout<<"copy unitialized : ";
+    for(auto i=0;i<5;++i)
+        std::cout<<dest_x1[i]<<" | ";
+    std::cout<<std::endl;
+}
+//fill with copy 
+void copy_fill(const std::vector<int>&x)noexcept(true)
+{
+    std::allocator<int> alloc;
+    //allocate twice as many el as x hold
+    auto p= alloc.allocate(x.size()*2); //p hold vector to int, x.size()*2 unconstrud el
+    //construct el strt at p as copies of el in v
+    auto q  = std::uninitialized_copy(std::begin(x),std::end(x),p); //point to th last uncon mem
+    //initialized the remaining el to 42
+    std::uninitialized_fill_n(q,x.size(),42); //construct n obj start from q to 42
+    for(auto i=0;i<x.size()*2;++i)
+        std::cout<<p[i] <<" | ";
+    std::cout<<std::endl;
+} 
+//relearn allocator class
+void alloc_cls(const int &z)
+{
+    std::allocator<double> alloc;
+    auto p  = alloc.allocate(z);
+    auto q  =p; //point to the last unconstruted p
+    alloc.construct(q++,35.0); //q point to p[0]
+    alloc.construct(q++,36.0);
+    alloc.construct(q++,37.0);
+    alloc.construct(q++,38.0); //dont dereference *q because it's sit on the uncons obj
+    //p[0]=12.9; //ok memory already constr
+    for(auto i=0;i<z;++i)
+        std::cout<<p[i]<<" | ";
+    std::cout<<std::endl;
+    //destroy.. p still point to p[0] , q point to the one past the last constr elem
+    while(q!=p)
+        alloc.destroy(--q);
+    //the deallocate
+    alloc.deallocate(p,z);// deallocate p
+    //demo copy 
+    auto dest  = alloc.allocate(z*2);
+    const std::vector<double> &tempVec = {0,1,2,3};
+    std::uninitialized_copy(std::begin(tempVec), std::end(tempVec),dest);
+    //point to the last unconstr : dest
+    auto q_temp  = dest;
+    std::uninitialized_fill_n(q_temp+z,z,55.0); 
+    for(auto i=0;i<z*2;++i)
+        std::cout<<dest[i]<<" | ";
+    std::cout<<std::endl;
+}
+
 }
 #endif

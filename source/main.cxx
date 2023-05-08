@@ -183,6 +183,11 @@ int main(int argc,char ** argv){
     Smart::array_dyn(3);
     Smart::smart_arr(); 
     Smart::smart_arr2();
+    Smart::allocator_cl();
+    Smart::sumNum();
+    Smart::copy_unitialized_mem();
+    Smart::copy_fill({1,2,3,4,5,6,7,8});
+    Smart::alloc_cls(4);
     
     return 0;
 }
