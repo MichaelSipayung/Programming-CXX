@@ -23,4 +23,5 @@
 #include "smartpo.h"
 #include "query.h"
 #include  "friendbs.h"
+#include "ctor.h"
 #endif
