@@ -21,4 +21,6 @@
 #include "iterators.h"
 #include "associative.h"
 #include "smartpo.h"
+#include "query.h"
+#include  "friendbs.h"
 #endif
