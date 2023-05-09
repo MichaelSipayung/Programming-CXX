@@ -440,6 +440,5 @@ void alloc_cls(const int &z)
         std::cout<<dest[i]<<" | ";
     std::cout<<std::endl;
 }
-
 }
 #endif

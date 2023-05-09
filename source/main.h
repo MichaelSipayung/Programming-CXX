@@ -24,4 +24,6 @@
 #include "query.h"
 #include  "friendbs.h"
 #include "ctor.h"
+#include "msgcl.h"
+#include "strvec.h"
 #endif

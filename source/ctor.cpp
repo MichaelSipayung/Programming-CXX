@@ -12,27 +12,12 @@ Sales_data::Sales_data(const Sales_data &orig):
     unit_sold{orig.unit_sold},
     revenue{orig.revenue}{} //copies orig.rev 
 //synthesized copy assignment op
-void test_defCtor()
-{
-    Sales_data sal_x;
-    Sales_data sal_y(sal_x);
-}
 Foo &Foo::operator=(const Foo& rhs)
 {
     isbn = rhs.isbn;
     x = rhs.x;
     y= rhs.y;
     return *this; //ret reference to this obj
-}
-void test_copyAss()
-{
-    Foo foo_x;
-    Foo foo_y = foo_x;
-}
-void test_dynClas()
-{
-    auto dyn_sales = make_shared<Sales_data>;
-    auto dyn_foo = make_shared<Foo>;
 }
 HashPtr::HashPtr(const HashPtr&rhs):ps{new string()}{}
 HashPtr &HashPtr::operator=(const HashPtr &rhs)
@@ -46,11 +31,9 @@ void HashPtr::test_dctor()
     HashPtr hashX("Jack");
     std::cout<<"result : "<< hashX.xPoint<<std::endl;
     std::cout<<"point : "<< hashX.ps<<std::endl;
-    {
-        auto byVal=hashX;
-        std::cout<<"result : "<< hashX.xPoint<<std::endl;
-        std::cout<<"point : "<< hashX.ps<<std::endl;
-    }
+    auto byVal=hashX;
+    std::cout<<"result : "<< hashX.xPoint<<std::endl;
+    std::cout<<"point : "<< hashX.ps<<std::endl;
 }
 //cp assignment as default, using synthesized versions
 Default_Sales& Default_Sales::operator=(const Default_Sales&)=default;
@@ -98,4 +81,8 @@ HasPtr_1 &HasPtr_1::operator=(const HasPtr_1& rhs)
     i=rhs.i;
     use = rhs.use;
     return *this; //return this obj
+}
+size_t HasPtr_1::count()const
+{
+    return *use;
 }

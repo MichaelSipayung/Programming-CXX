@@ -5,6 +5,8 @@
 #include <memory>
 using std::string;
 using std::size_t;
+using std::endl;
+using std::cout;
 namespace Adv
 {
 class Sales_data{
@@ -80,6 +82,7 @@ class HasPtr{
 //class act like pointer
 class HasPtr_1{
     public:
+        friend void swap(HasPtr_1&,HasPtr_1&);
         //ctor allocates a new str and a new counter, which it set to 1
         HasPtr_1(const string &s = string()):
             ps{new string(s)}, i{0},use{new size_t(1)}{}
@@ -87,11 +90,19 @@ class HasPtr_1{
         HasPtr_1(const HasPtr_1&p):
             ps{p.ps},i{p.i},use{p.use}{++*use;}
         HasPtr_1& operator=(const HasPtr_1&);
+        size_t count()const;
         ~HasPtr_1();
     private:
         string *ps;
         int i;
         size_t *use; //member to keep track of how many obj share *ps
 };
+inline 
+void swap(HasPtr_1 &lhs, HasPtr_1 &rhs)
+{
+    using std::swap;
+    swap(lhs.ps,rhs.ps); //swap the pointer, not the str data
+    swap(lhs.i, rhs.i); //swap the int members
+}
 }
 #endif
