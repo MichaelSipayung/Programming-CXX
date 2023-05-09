@@ -1,4 +1,5 @@
 #include "main.h"
+using namespace Adv;
 int main(int argc,char ** argv){
     // noCopyIo();
     // flushBuffer();
@@ -188,6 +189,10 @@ int main(int argc,char ** argv){
     Smart::copy_unitialized_mem();
     Smart::copy_fill({1,2,3,4,5,6,7,8});
     Smart::alloc_cls(4);
+    HashPtr hashTestX("jack");
+    hashTestX.test_dctor();
+    HasPtr assign_test;
+    assign_test.test_safeAssig();
     
     return 0;
 }
