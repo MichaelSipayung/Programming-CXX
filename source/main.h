@@ -26,4 +26,5 @@
 #include "ctor.h"
 #include "msgcl.h"
 #include "strvec.h"
+#include "rval.h"
 #endif

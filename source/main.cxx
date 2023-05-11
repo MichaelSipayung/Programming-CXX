@@ -1,4 +1,5 @@
 #include "main.h"
+void swapMove(double*,double*);
 using namespace Adv;
 int main(int argc,char ** argv){
     // noCopyIo();
@@ -189,10 +190,14 @@ int main(int argc,char ** argv){
     Smart::copy_unitialized_mem();
     Smart::copy_fill({1,2,3,4,5,6,7,8});
     Smart::alloc_cls(4);
-    HashPtr hashTestX("jack");
-    hashTestX.test_dctor();
-    HasPtr assign_test;
-    assign_test.test_safeAssig();
-    
+    HashPtr hashTestX("jack");;
+    int noMv=12;
+
     return 0;
+}
+//no need copy just move the pointer
+void swapMove(double *x, double *y){
+    double *temp = x;
+    x=y;
+    y=temp;
 }
