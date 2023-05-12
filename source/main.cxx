@@ -148,7 +148,7 @@ int main(int argc,char ** argv){
     //     {"Roller","0852-9899-7799"},
     //     {"Maverick","0853-00999-2888"}
     // }),std::string("Daniel"));
-    std::shared_ptr<int>x_point;
+    /*std::shared_ptr<int>x_point;
     Smart::hello_ptr(x_point,int(13));
     Smart::alloc_ptr(13.3,"authors"); 
     //test strblob class
@@ -191,7 +191,15 @@ int main(int argc,char ** argv){
     Smart::copy_fill({1,2,3,4,5,6,7,8});
     Smart::alloc_cls(4);
     HashPtr hashTestX("jack");;
-    int noMv=12;
+    int noMv=12;*/
+    Sales_Data_Ov salTest("0x-Tatmh-90",12.0,76.8), salTestY("0x-Tatmh-900",13.0,79.8);
+    cout<<salTest;
+    cout<<endl;
+    //adding
+    cout<<salTest+salTestY<<endl;
+    cout<<" is it equal : " << (salTest==salTestY)<<endl;
+    cout<<"test relational operation : " << (salTest<salTestY)<<endl;
+    cout<<"test relational operation : " << (salTest>salTestY)<<endl;
 
     return 0;
 }

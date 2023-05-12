@@ -20,3 +20,16 @@ double Sales_Data_Ov::avg_price()const
 {
     return revenue/price;
 }
+Sales_Data_Ov &Sales_Data_Ov::operator+=(const Sales_Data_Ov &rh)
+{
+    revenue+=rh.revenue;
+    price+=rh.price;
+    return *this;
+}
+Sales_Data_Ov operator+(const Sales_Data_Ov& lh, const Sales_Data_Ov &rh)
+{
+    Sales_Data_Ov temp =lh;
+    temp+=rh;
+    return temp;
+}
+
