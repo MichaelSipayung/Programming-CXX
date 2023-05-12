@@ -32,4 +32,14 @@ Sales_Data_Ov operator+(const Sales_Data_Ov& lh, const Sales_Data_Ov &rh)
     temp+=rh;
     return temp;
 }
-
+void show_data(const Mat &lhs)
+{
+    auto begin = lhs.data.begin();
+    auto end = lhs.data.end();
+    while (begin!=end)
+    {
+        cout<<*begin<<" ";
+        ++begin;
+    }
+    cout<<endl;
+}

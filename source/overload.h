@@ -19,6 +19,7 @@ friend bool operator<(const Sales_Data_Ov&, const Sales_Data_Ov&);
 friend bool operator>(const Sales_Data_Ov&, const Sales_Data_Ov&);
     public:
         Sales_Data_Ov()=default;
+        Sales_Data_Ov(const vector<string> &list_isbn, const std::size_t &index);
         Sales_Data_Ov(const vector<string>& entry):lstIsbn{entry}{}
         Sales_Data_Ov(const string &is, const double &pr, const double &rv)
             :isbn{is}, revenue{rv}, price{pr}{}
@@ -26,6 +27,10 @@ friend bool operator>(const Sales_Data_Ov&, const Sales_Data_Ov&);
             :isbn{rh.isbn}, revenue{rh.revenue},price{rh.price}{}
         Sales_Data_Ov &operator+=(const Sales_Data_Ov&);
         Sales_Data_Ov &operator=(initializer_list<string>);
+        //string &operator[](std::size_t n)
+        //    {return lstIsbn[n];}
+        //const string &operator[](std::size_t n)const
+        //    {return lstIsbn[n];}
         void currIsbn();
     private:
         double avg_price()const;
@@ -76,4 +81,47 @@ void Sales_Data_Ov::currIsbn()
         ++begin;
     }
 }
+inline
+Sales_Data_Ov::Sales_Data_Ov(const vector<string> &list_isbn, const std::size_t &index)
+    :lstIsbn{list_isbn}, isbn{list_isbn[index]}{}
+class Mat{
+friend void show_data(const Mat&);
+    public:
+        Mat()=default;
+        Mat(const vector<double> temp): data{temp}{}
+        Mat(const Mat& rhs): data{rhs.data}{}
+        Mat &operator=(const Mat&);
+        Mat &operator+(const Mat&);
+    private:
+        bool chk_size(const Mat&);
+        vector<double> data;
+};
+inline
+bool Mat::chk_size(const Mat& rhs)
+{
+    if(data.size() != rhs.data.size())
+        return false;
+    return true;
+}
+inline
+Mat &Mat::operator=(const Mat& rhs)
+{
+    if(!chk_size(rhs))
+        return *this;
+    else
+        this->data=rhs.data;
+    return *this;
+}
+inline
+Mat &Mat::operator+(const Mat& rhs)
+{
+    auto temp = this;
+    if(!chk_size(rhs))
+        return *this;
+    for(int i=0;i<data.size();++i)
+        data[i]+=rhs.data[i];
+    return *this;
+}
+void show_data(const Mat &lhs);
+
 #endif

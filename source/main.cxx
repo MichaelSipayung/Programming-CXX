@@ -200,7 +200,12 @@ int main(int argc,char ** argv){
     cout<<" is it equal : " << (salTest==salTestY)<<endl;
     cout<<"test relational operation : " << (salTest<salTestY)<<endl;
     cout<<"test relational operation : " << (salTest>salTestY)<<endl;
-
+    vector<double> observeX={0,1,2,3,4,5,6,7,8};
+    vector<double> observeY={1,2,3,4,5,6,7,8,9};
+    Mat pointX(observeX), pointY(observeY);
+    pointX=(pointY+pointX);
+    show_data(pointX);
+    
     return 0;
 }
 //no need copy just move the pointer
