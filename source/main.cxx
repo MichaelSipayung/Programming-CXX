@@ -205,7 +205,17 @@ int main(int argc,char ** argv){
     Mat pointX(observeX), pointY(observeY);
     pointX=(pointY+pointX);
     show_data(pointX);
-    
+    //test overload op for incr and dcr
+    const vector<int> uniq_num ={0,1,2,3,4,5,6,7};
+    IncDec_Operator tst_ov(uniq_num);
+    tst_ov.show_curr();
+    cout<<" ";
+    ++tst_ov; //pref op test
+    tst_ov.show_curr();
+    --tst_ov;
+    cout<<" ";
+    tst_ov.show_curr();
+
     return 0;
 }
 //no need copy just move the pointer

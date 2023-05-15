@@ -123,5 +123,63 @@ Mat &Mat::operator+(const Mat& rhs)
     return *this;
 }
 void show_data(const Mat &lhs);
-
+class IncDec_Operator{
+    public:
+        IncDec_Operator()=default;
+        IncDec_Operator(const vector<int>&);
+        IncDec_Operator(const IncDec_Operator &rh);
+        IncDec_Operator &operator++(); //prefix op
+        IncDec_Operator &operator--();
+        IncDec_Operator operator++(int); //postfix, an extra arg supply to distiguishes
+        IncDec_Operator operator--(int);
+        void show_curr();
+    private:
+        vector<int> data;
+        size_t pos;
+};
+inline 
+IncDec_Operator::IncDec_Operator(const IncDec_Operator &rh)
+{
+    data = rh.data;
+    pos= rh.pos;
+}
+inline
+IncDec_Operator &IncDec_Operator::operator++()
+{
+    if(pos<this->data.size())
+        ++pos;
+    return *this;
+}
+inline
+void IncDec_Operator::show_curr()
+{
+    std::cout<< data[pos];
+}
+inline 
+IncDec_Operator &IncDec_Operator::operator--()
+{
+    if(pos<1)
+        throw std::out_of_range("index out of range");
+    else
+        --pos;
+    return *this;
+}
+inline
+IncDec_Operator IncDec_Operator::operator++(int)
+{
+    IncDec_Operator temp = *this;
+    ++*this; //advance the el; prefix chk the incr
+    return temp; //return the saved state
+}
+inline
+IncDec_Operator IncDec_Operator::operator--(int)
+{
+    //no check needed here, the call to prefix dec will do check
+    IncDec_Operator temp =*this; //save the curr state
+    --*this; //move backward one el; prefix --check the decrement
+    return temp; 
+}
+inline 
+IncDec_Operator::IncDec_Operator(const vector<int> &tmp)
+    :data{tmp}, pos{0}{}
 #endif
