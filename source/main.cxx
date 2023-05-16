@@ -215,7 +215,17 @@ int main(int argc,char ** argv){
     --tst_ov;
     cout<<" ";
     tst_ov.show_curr();
-
+    //test member acc op overload 
+    const vector<string> phone_look = {"08-999888-01","08-999888-02", "08-999888-03","08-999888-04"};
+    IncDec_Operator fTest(phone_look);
+    cout<<"before modify :  ";
+    fTest.show_str(); cout<<endl;
+    cout<<"using dereference op to modify : ";
+    *fTest="0099-88-0x3";
+    fTest.show_str();cout<<endl;
+    cout<<"size : " << fTest->size()<<endl;
+    auto tempOv= fTest->begin();
+    
     return 0;
 }
 //no need copy just move the pointer
