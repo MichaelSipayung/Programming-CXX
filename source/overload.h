@@ -60,6 +60,7 @@ struct absInt{
     int operator()(int val)const{
         return val <0?-val:val;
     }
+    std::ostream &operator()(std::ostream&, const std::string&);
     void test_funObj();
 };
 inline
@@ -68,14 +69,36 @@ void absInt::test_funObj()
     absInt test_x;
     std::cout<<test_x(-12);
 }
+inline
+std::ostream &absInt::operator()(std::ostream &os, const std::string &str)
+{
+    os<<str;
+    return os;
+}
 //function obj classes with state
 class PrintString{
     public:
-        PrintString(std::ostream &o=std::cout, char c=' '):
-            os{o}, sep{c}{}
-        void operator()(const std::string &s)const {os<<s<<sep;}
+        PrintString(std::ostream &o  =std::cout, char c=' '):
+        os{o},sep{c}{}
+        void operator()(const std::string s)const{os<<s<<sep;}
     private:
-        std::ostream &os; //stream on which to write
-        char sep; //char to print after each output
+        std::ostream &os;
+        char sep;
+};
+//replace the lambda version
+//has same meaning, demo overload f call op
+//function objects : lamda
+class Shorter_Str{
+    public:
+        bool operator()(const std::string &x, const std::string &y)
+            {return x.size()<y.size();}
+};
+//classes representing lamdas with captures
+class SizeComp{
+    public:
+        SizeComp(size_t n):sz{n}{} //param for each cap lambda
+        bool operator()(const std::string &s){return s.size()>=sz;} //cal op as th lamda did
+    private:
+        size_t sz;
 };
 #endif
