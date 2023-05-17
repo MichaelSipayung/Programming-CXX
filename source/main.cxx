@@ -221,11 +221,21 @@ int main(int argc,char ** argv){
     cout<<"before modify :  ";
     fTest.show_str(); cout<<endl;
     cout<<"using dereference op to modify : ";
-    *fTest="0099-88-0x3";
+    //*fTest="0099-88-0x3";
     fTest.show_str();cout<<endl;
-    cout<<"size : " << fTest->size()<<endl;
-    auto tempOv= fTest->begin();
-    
+    //cout<<"size : " << fTest->size()<<endl;
+    //auto tempOv= fTest->begin();
+    //overload func call
+    absInt funObjX;
+    funObjX.test_funObj();
+    //func obj with state
+    cout<<"\nusing func object with state : ";
+    PrintString strPrint;
+    strPrint("michael sipayung"); //using default ctor, print to standart ostream cout
+    //implement to generic algorithm
+    cout<<"\nresult : ";
+    std::for_each(phone_look.begin(), phone_look.end(), strPrint);//used  as args
+
     return 0;
 }
 //no need copy just move the pointer
