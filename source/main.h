@@ -27,4 +27,7 @@
 #include "msgcl.h"
 #include "strvec.h"
 #include "rval.h"
+#include "overload.h"
+#include "funobj.h"
+#include "objector.h"
 #endif
