@@ -61,4 +61,18 @@ void f_table()
     cout<<binops["%"](121,25)<<endl;
     cout<<binops["*"](12,121)<<endl;
 }
+//conversion operator
+class SmallInt{
+    public:
+        SmallInt(int i=0): val{i}
+        {
+            if(i<0 || i>255)
+                throw std::out_of_range("Bad SmallInt value");
+        }
+        explicit operator int() const{return val;} //need not the ret val and arg
+        //prevent implicit conv
+        void show_conv()const{cout<<val<<endl;}
+    private:
+        std::size_t val;
+};
 #endif
