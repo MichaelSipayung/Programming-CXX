@@ -73,6 +73,6 @@ class SmallInt{
         //prevent implicit conv
         void show_conv()const{cout<<val<<endl;}
     private:
-        std::size_t val;
+        int val;
 };
 #endif
