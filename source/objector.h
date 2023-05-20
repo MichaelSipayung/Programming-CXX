@@ -27,13 +27,27 @@ class Bulk_quote: public Quote {
         //declaration of virtual function from base class
         //using override to explicitly note that it intends a member
         //function to override a virtual that it inherits
-        double net_price(std::size_t n)const override 
-        {
-            return n*price*discount; 
-        }
+        double net_price(std::size_t n)const override;
         //undifined behavior if not already defined
     private:
         std::size_t min_qty=0; //minimum purchase for discount to apply
         double discount=0.0; //functional discount to apply
 };
+//inheritance and static member
+//define only once for entire hierarchy
+class Base{
+    public:
+        static void statmem(){}
+};
+class Derived:public Base{
+    void f(const Derived&);
+};
+//preventing inheritance
+class NoDerived final{
+    public:
+        NoDerived(double xP=0) :xpoint{xP}{}
+    private:
+        double xpoint;
+};
+
 #endif
