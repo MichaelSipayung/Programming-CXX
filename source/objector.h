@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 class Quote{
+friend double print(std::ostream &, const Quote&,std::size_t );
     public:
         Quote()=default;
         Quote(const std::string &book, double sales_price ):
@@ -20,6 +21,7 @@ class Quote{
     protected:
         double price=0.0; //normal, undiscounted price
 };
+double print(std::ostream &, const Quote&,std::size_t );
 class Bulk_quote: public Quote {
     public:
         Bulk_quote()=default;
@@ -49,5 +51,43 @@ class NoDerived final{
     private:
         double xpoint;
 };
-
+//specify override to prevent undifined behavior
+struct B_Base{
+    virtual void f1(int)const;
+    virtual void f2();
+};
+struct B_Derived:B_Base{
+    void f1(int)const override; //specify override explicitly
+    void f2()override;
+};
+//prevent to override
+struct Next_Derived:B_Base{
+    void f1(int)const final; //can't override f1(int)
+};
+struct Attem_Overr:Next_Derived{
+    //void f1(int)const;
+    double x_point;
+};
+//abstract base class
+class Disc_quote:public Quote{
+    public:
+        Disc_quote()=default;
+        Disc_quote(const std::string& book, double price, std::size_t qty,double disc)
+            :Quote{book,price}, quantity{qty}, discount{disc}{}
+        //pure virtual function
+        double net_price(std::size_t)const=0;
+    protected:
+        std::size_t quantity=0; //purchase size for disc to apply
+        double discount=0.0; //fractional discount to apply
+};
+//a derived class ctor initializes 
+//its direct base class only
+class Bulk_quote_ref:public Disc_quote{
+    public:
+        Bulk_quote_ref()=default;
+        Bulk_quote_ref(const std::string &book, double price, std::size_t qty, double disc)
+            : Disc_quote{book,price,qty,disc}{}
+        //overrides the base version to implement the bulk purchase disount policy
+        double net_price(std::size_t)const override;
+};
 #endif

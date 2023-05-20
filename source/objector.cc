@@ -1,5 +1,4 @@
 #include "objector.h"
-
 Bulk_quote::Bulk_quote(const std::string& s, double p, std::size_t total,double disc)
     :Quote{s,p},min_qty{total},discount{disc}{}
 
@@ -17,4 +16,10 @@ void Derived::f(const Derived &der_obj)
     //ok: derived obj can be used to access static member from base
     der_obj.statmem(); //access through a derrived obj
     statmem(); //access through this obj
+}
+double print(std::ostream &os, const Quote &rh, std::size_t total)
+{
+    double ret = rh.net_price(total);
+    os<<"isbn : "<<rh.isbn()<<"# sold: "<<total<<" total due: "<<ret<<std::endl;
+    return ret;
 }
