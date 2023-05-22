@@ -83,4 +83,28 @@ class Derived_Quote_Mv:public Quote_Mv{
     private:
         double center;
 };
+//defining derived cp or mv ctor
+class F_Base{
+    public:
+        ~F_Base(){}
+    private:
+        double x_or;
+};
+class Derived_F_Base:public F_Base{
+    public:
+        //cp the base member initializers for members Derived_F_Base
+        Derived_F_Base(const Derived_F_Base &f) :F_Base{f}{}
+        //move the base member
+        Derived_F_Base(Derived_F_Base &&f):F_Base{std::move(f)}{}
+        //derived class assignment operator
+        Derived_F_Base &operator=( const Derived_F_Base &f)
+        {
+            F_Base::operator=(f); //assign the base part
+            return *this;
+        }
+        //dctor for derived class
+        ~Derived_F_Base(){}
+    private:
+        int x_point;
+};
 #endif
