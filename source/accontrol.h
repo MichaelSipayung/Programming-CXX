@@ -39,4 +39,29 @@ void clobber(Sneaky &s){
 void clobber(Base_Acc &b){
     //b.prot_mem=0; not accessible
 }
+//virtual dctor
+//allow obj in the inheritance hierarchy to be dynamically allocated
+class Quote_S{
+    public:
+        //needed as virtual if this 
+        //obj pointing to a derived obj is deleted
+        virtual ~Quote_S()= default; //dynamic binding for dctor
+};
+class Derived_Quote_S:public Quote_S{
+    private:
+        double x_point;
+};
+//base classes and deleted copy control in the derived
+class X_Point{
+    public:
+        X_Point();
+        X_Point(const X_Point&) = delete;
+    private:
+        double x;
+};
+class Y_Point:public X_Point{
+    //no ctor
+    private:
+        double y;
+};
 #endif
