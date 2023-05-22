@@ -54,7 +54,7 @@ class Derived_Quote_S:public Quote_S{
 //base classes and deleted copy control in the derived
 class X_Point{
     public:
-        X_Point();
+        X_Point(){};
         X_Point(const X_Point&) = delete;
     private:
         double x;
@@ -63,5 +63,24 @@ class Y_Point:public X_Point{
     //no ctor
     private:
         double y;
+};
+//move operation and inheritance
+class Quote_Mv{
+    public:
+        Quote_Mv()=default; //memberwise default init
+        Quote_Mv(const Quote_Mv &)  = default; //memberwise cp
+        Quote_Mv(Quote_Mv&&)=default;// memberwise cp
+        Quote_Mv &operator=(const Quote_Mv&) = default; //copy assign
+        Quote_Mv &operator=(Quote_Mv&&)  = default; //mv assign
+        virtual ~Quote_Mv()= default;
+    private:
+        double x_mv;
+        double y_mv;
+};
+class Derived_Quote_Mv:public Quote_Mv{
+    //ok this obj has cp and move operation 
+    //which is explicitly init
+    private:
+        double center;
 };
 #endif
