@@ -2,9 +2,16 @@
 #define INHERIT_H
 #include <iostream>
 #include <vector>
+#include <set>
+#include <memory>
 class Quote{
-friend double print(std::ostream &, const Quote&,std::size_t );
+friend double print_total(std::ostream &, const Quote&,std::size_t );
     public:
+        //simulating virtual copy
+        //virtual function to return a dynamically allocated copy of itself
+        //these members use reference qualifiers
+        virtual Quote* clone()const &{return new Quote(*this);}
+        virtual Quote* clone() &&{return new Quote(std::move(*this));}
         Quote()=default;
         Quote(const std::string &book, double sales_price ):
             bookNo{book},price{sales_price}{}
@@ -21,9 +28,11 @@ friend double print(std::ostream &, const Quote&,std::size_t );
     protected:
         double price=0.0; //normal, undiscounted price
 };
-double print(std::ostream &, const Quote&,std::size_t );
+double print_total(std::ostream &, const Quote&,std::size_t );
 class Bulk_quote: public Quote {
     public:
+        Bulk_quote* clone()const&{return new Bulk_quote(*this);}
+        Bulk_quote* clone()&&{return new Bulk_quote(std::move(*this));}
         Bulk_quote()=default;
         Bulk_quote(const std::string&, double, std::size_t,double);
         //declaration of virtual function from base class
@@ -89,5 +98,29 @@ class Bulk_quote_ref:public Disc_quote{
             : Disc_quote{book,price,qty,disc}{}
         //overrides the base version to implement the bulk purchase disount policy
         double net_price(std::size_t)const override;
+};
+class Basket{
+    public:
+        //basket uses synthesized default ctor and cp control mem
+        void add_item(const std::shared_ptr<Quote> &sale)
+            {items.insert(sale);}
+        void add_item(const Quote& sale){
+            items.insert(std::shared_ptr<Quote>(sale.clone()));
+        }; //copy the given obj
+        void add_item(Quote&& sale){
+            items.insert(std::shared_ptr<Quote>(std::move(sale).clone()));
+        }; //move the given object
+        //print the total price for each book and the overall total
+        //for all items in the basket
+        double total_receipt(std::ostream&)const;
+    private:
+        //function to compare shared_ptr needed by the multiset member
+        static bool compare_bsk(const std::shared_ptr<Quote> &lhs,
+            const std::shared_ptr<Quote> &rhs){
+                return lhs->isbn()<rhs->isbn();
+        }
+        //multiset to hold multiple quotes, ordered by the compare num
+        std::multiset<std::shared_ptr<Quote>, decltype(compare_bsk)*>
+            items{compare_bsk};
 };
 #endif

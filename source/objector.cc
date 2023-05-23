@@ -17,9 +17,19 @@ void Derived::f(const Derived &der_obj)
     der_obj.statmem(); //access through a derrived obj
     statmem(); //access through this obj
 }
-double print(std::ostream &os, const Quote &rh, std::size_t total)
+double print_total(std::ostream &os, const Quote &rh, std::size_t total)
 {
     double ret = rh.net_price(total);
     os<<"isbn : "<<rh.isbn()<<"# sold: "<<total<<" total due: "<<ret<<std::endl;
     return ret;
+}
+double Basket::total_receipt(std::ostream &os)const
+{
+    double sum=0.0;
+    for(auto iter=items.cbegin(); iter!=items.cend(); 
+        iter=items.upper_bound(*iter)){
+        sum+=print_total(os, **iter, items.count(*iter));
+    }
+    os<<"Total sale: "<<sum<<std::endl;
+    return sum;
 }
