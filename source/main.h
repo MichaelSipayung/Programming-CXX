@@ -30,4 +30,6 @@
 #include "overload.h"
 #include "funobj.h"
 #include "objector.h"
+#include "accontrol.h"
+#include "templ.h"
 #endif

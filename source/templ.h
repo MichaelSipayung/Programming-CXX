@@ -7,9 +7,11 @@
 #include <iostream>
 using std::cout;
 using std::endl;
+using std::string;
 #include <vector>
 using std::vector;
 #include <cstring>
+#include <memory>
 class Test_Template{
     public:
         Test_Template()=default;
@@ -61,4 +63,153 @@ template <typename T> int compare_ind(const T&v1, const T&v2)
     if(std::less<T>()(v1,v2)) return -1;
     if(std::less<T>()(v2,v1)) return 1;
 }
+
+template <typename T> 
+class Blob_T{
+friend void templ_cl_test();
+    public:
+        typedef T value_type;
+        typedef typename std::vector<T>::size_type size_type;
+        typedef typename std::vector<T>::iterator iterator;
+        //type dependent using typedef to tell the compiler what the type that 
+        //we will use
+        //ctor
+        Blob_T();
+        Blob_T(std::initializer_list<T>il);
+        size_type size()const{return data->size();}
+        bool empty()const{return data->empty();}
+        void push_back(const T &t){data->push_back(t);}
+        void push_back(T&&t){data->push_back(std::move(t));}
+        void pop_back();
+        T &back();
+        iterator begin(){return data->begin();}
+        iterator end(){return data->end();}
+        T &operator[](size_type i);
+    private:
+        std::shared_ptr<std::vector<T>> data;
+        void check(size_type i, const std::string &msg)const;
+}; 
+inline void templ_cl_test()
+{
+    Blob_T<int> num_version ={1,2,3,4,5};
+    num_version.push_back(12);
+    cout<<"begin(int) : "<<*num_version.begin()<<endl;
+    Blob_T<string> str_version = {"jack","miller","thomas"};
+    str_version.push_back("walker");
+    cout<<"end (str): "<<*(str_version.end()-1)<<endl;
+    //instantiation of class template member function
+    //instantiates blob_t<int> and init_list<int> ctor
+    Blob_T<int> nat_num = {0,1,2,3,4,5,6,7,8};
+    //ins.. blob<int>::size()const
+    for(size_t i=0;i!=nat_num.size();++i)
+        nat_num[i]=i*i; //ins .. blob<int>::operator[](size t)
+}
+//ctor defenition 
+template<typename T>
+Blob_T<T>::Blob_T(): data{std::make_shared<vector<T>>()}{}
+
+template<typename T>
+Blob_T<T>::Blob_T(std::initializer_list<T> il):data{std::make_shared<vector<T>>(il)}{}
+
+//definition of member class template
+template<typename T>
+void Blob_T<T>::check(size_type i, const std::string &msg)const
+{
+    if(i>=data->size())
+        throw std::out_of_range(msg);
+}
+template<typename T>
+T &Blob_T<T>::back()
+{
+    check(0,"back on empty blob");
+    return data->back();
+}
+template<typename T>
+inline T &Blob_T<T>::operator[](size_type i)
+{
+    check(i,"subscript out of range");
+    return (*data)[i];
+}
+template<typename T>
+inline void Blob_T<T>::pop_back()
+{
+    check(0, "pop_back on empty blob");
+    data->pop_back();
+}
+//thrown an exception on attempts to acc nonexistent element
+template<typename T> class BlobPtr_T{
+    public:
+        BlobPtr_T():curr{0}{}
+        BlobPtr_T(Blob_T<T> &a, size_t sz=0):
+            wptr{a.data},curr{sz}{}
+        T &operator*()const
+        {
+            auto p=check(curr,"dereference past the end");
+            return (*p)[curr]; //(*p) is the vector to which this obj points
+        }
+        BlobPtr_T &operator++(); //prefix op
+        BlobPtr_T &operator--();
+        BlobPtr_T &operator++(int);
+        BlobPtr_T &operator--(int);
+    private:
+        //check returns a shared_ptr to the vec if check succeeds
+        std::shared_ptr<std::vector<T>> check(std::size_t, const std::string&)const;
+        //store a weak_ptr, which means the underlying vec might be destroy
+        std::weak_ptr<std::vector<T>>wptr;
+        std::size_t curr; //current position within the array 
+};
+//using  a class template name outside the class template body
+//postfix op
+template<typename T>
+BlobPtr_T<T> &BlobPtr_T<T>::operator++(int)
+{
+    BlobPtr_T ret= *this; //save the current val
+    ++*this; //advance one element; pref ++check the inc
+    return ret; //ret the saved state
+}
+template<typename T>
+BlobPtr_T<T> &BlobPtr_T<T>::operator--(int){
+    BlobPtr_T ret  = *this;
+    --*this;
+    return ret;
+}
+template<typename T>
+BlobPtr_T<T> &BlobPtr_T<T>::operator++()
+{
+    return ++*this;
+}
+template<typename T>
+BlobPtr_T<T> &BlobPtr_T<T>::operator--()
+{
+    return --*this;
+}
+//one to one friendship
+template<typename> class BlobPtr_N;
+template<typename> class Blob_N; //needed for param in op ==
+template<typename T>
+bool operator==(const Blob_N<T>, const Blob_N<T>&);
+template <typename T>class Blob_N{
+    //each instantiation of blob grant access to version of
+    //Blobptr and equality operator instantianted with the same type
+    friend class BlobPtr_N<T>;
+    friend bool operator==<T>(const Blob_N<T>&, const Blob_N<T>&);
+};
+//template static member
+template<typename t>class Foo_St{
+    public:
+        Foo_St(){}
+        static std::size_t count();//{return ctr;}
+        //other interface members
+    private:
+        static std::size_t ctr;
+        //other implementation members
+};
+//defenition of static member on template class
+template<typename T>
+std::size_t Foo_St<T>::ctr=0; //define and initialize ctr
+template<typename T>
+std::size_t Foo_St<T>::count(){
+    return ++ctr;
+}
+
 #endif
