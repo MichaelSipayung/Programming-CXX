@@ -82,13 +82,25 @@ friend void templ_cl_test();
         void push_back(T&&t){data->push_back(std::move(t));}
         void pop_back();
         T &back();
-        iterator begin(){return data->begin();}
-        iterator end(){return data->end();}
+        iterator begin();//{return data->begin();}
+        iterator end();//{return data->end();}
         T &operator[](size_type i);
     private:
         std::shared_ptr<std::vector<T>> data;
         void check(size_type i, const std::string &msg)const;
 }; 
+//begin with typename followed with the type for
+//members that are types
+template<typename T>
+typename Blob_T<T>::iterator Blob_T<T>::begin()
+{
+    return data->begin();
+}
+template<typename T>
+typename Blob_T<T>::iterator Blob_T<T>::end()
+{
+    return data->end();
+}
 inline void templ_cl_test()
 {
     Blob_T<int> num_version ={1,2,3,4,5};
@@ -211,5 +223,68 @@ template<typename T>
 std::size_t Foo_St<T>::count(){
     return ++ctr;
 }
+//more than one param
+template<typename T, typename Obj>
+class Book_Str{
+    public:
+        Book_Str(){}
+        //using class member that are types
+        typedef std::string::size_type type;
+        //tell the compiler that we use this member as type
+        typedef typename std::vector<T>::iterator iterator;
+        iterator begin();
+        type show_all();
+        typedef T name;
+        //ctor
+        Book_Str(const std::vector<T> &val):data{val}{}
+        name show_curr()const;
+    private:
+        unsigned t_buy;
+        std::string initial_name;
+        std::vector<double> data;
+};
+//inform compiler that a name represents a type
+//using keyword typename
+template<typename T,typename Obj>
+typename Book_Str<T,Obj>::iterator Book_Str<T,Obj>::begin()
+{
+    return data.begin();
+}
+template<typename T, typename Obj>
+typename Book_Str<T,Obj>::type Book_Str<T,Obj>::show_all()
+{
+    return typename Book_Str::type();
+}
 
+template<unsigned M, unsigned N>
+class MatD{
+    public:
+        MatD(){}
+        void resize(unsigned row,unsigned cols)const;
+    private:
+        int aux_mem;
+};
+//using default argument
+//comp has default template argument, less<t>
+template<typename T, typename F=std::less<T>>
+int compare_Def(const T& v1, const T& v2, F f=F())
+{
+    if(f(v1,v2))
+        return -1;
+    if(f(v2,v1))
+        return 1;
+    return 0;
+}
+template<typename T>
+T great(const T &x=T())
+{
+    return x;
+}
+//default arguments and class template
+template<typename T=int>class Numbers{ //by default T is int
+    public:
+        Numbers(T v=0):val(v){}
+    private:
+        T val;
+};
 #endif
