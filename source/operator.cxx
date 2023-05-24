@@ -48,10 +48,10 @@ void memAccessOper(void){
     std::cout<<"access vector member where they point : " << *(*x).begin()<<std::endl;
 }
 void conditionalOpera(void){
-    const int grade = 90;
-    std::string finalGrade= (grade<60)? "low":"high";
+    const int grades = 90;
+    std::string finalGrade= (grades<60)? "low":"high";
     std::cout<<"using basic conditional operator : " <<finalGrade<<std::endl;
-    finalGrade  = (grade>90)?"high pass":(grade<60)?"fail":"pass";
+    finalGrade  = (grades>90)?"high pass":(grades<60)?"fail":"pass";
     std::cout<<"nested conditional operator : " << finalGrade<<std::endl;
 }
 void bitwiseOperator(void){

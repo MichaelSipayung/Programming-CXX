@@ -107,4 +107,6 @@ class Derived_F_Base:public F_Base{
     private:
         int x_point;
 };
+//container and inheritance
+
 #endif
