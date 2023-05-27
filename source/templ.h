@@ -287,4 +287,37 @@ template<typename T=int>class Numbers{ //by default T is int
     private:
         T val;
 };
+//member template of ordinary class
+class DebugDelete_T{
+    public:
+        DebugDelete_T(std::ostream &s=std::cerr): os{s}{}
+        //as with any function template, the type of T is deduced by the compiler
+        template <typename T> void operator()(T *p)const
+        {
+            os<<"deleting uniquie ptr"<<std::endl;
+            delete p;
+        }
+    private:
+        std::ostream &os;
+};
+//member template of class templates
+template<typename T>class Blob_Mem_T{
+    public:
+        Blob_Mem_T(){}
+        template<typename It>Blob_Mem_T(It beg, It end):
+            data{std::make_shared<std::vector<T>>(beg,end)}
+        {
+        }
+        void show_mem()const{
+            auto begin =data->begin();
+            auto end  = data->end();
+            while (begin!=end)
+            {
+                cout<<*begin<<" ";
+                ++begin;
+            }      
+        }
+    private:
+        std::shared_ptr<std::vector<T>> data;
+};
 #endif
