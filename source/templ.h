@@ -9,9 +9,12 @@ using std::cout;
 using std::endl;
 using std::string;
 #include <vector>
+#include <algorithm>
 using std::vector;
 #include <cstring>
 #include <memory>
+#include <sstream>
+using std::ostringstream; 
 class Test_Template{
     public:
         Test_Template()=default;
@@ -320,4 +323,52 @@ template<typename T>class Blob_Mem_T{
     private:
         std::shared_ptr<std::vector<T>> data;
 };
+//allowing conversion on the arguments
+template<typename A, typename B>
+int compare_T(const A& v1, const B& v2)
+{
+    if(v1<v2)
+        return -1;
+    if(v2<v1)
+        return 1;
+    return 0;
+}
+//rvalue arguments on template
+template<typename T> void rval_T(T&& val)
+{
+    T t  = val; //copy or binding a reference
+    if(val==t)
+        cout<<"always true if t is reference type .. "<<endl;
+} 
+//writting overload templates
+template<typename T> string debug_rep(const T &t)
+{
+    ostringstream ret;
+    ret<<t; //uses T's out op to print a representation of t
+    return ret.str(); //return a cp of the str which ret is bound
+}
+//the second version
+template<typename T> string debug_rep(T *p)
+{
+    ostringstream ret;
+    ret<<"pointer: " <<p; //print the pointer's own value
+    if(p)
+        ret<<" "<<debug_rep(*p); //print the value to which p points
+    else
+        ret<<" null pointer"; //or indicate that the p is null
+    return ret.str();//return a cp of the str to which ret is bound
+}
+//variadic templates
+template<typename T, typename ...Args>
+void varia_temp(const T&, const Args ...rest)
+{
+    cout<<"variadic template"<<endl;
+}
+//the sizeof operator example
+template<typename ...Args>void g_temp(Args ...args)
+{
+    cout<<"using sizeof : "<<endl;
+    cout<<sizeof...(Args)<<endl; //number of type parameters
+    cout<<sizeof...(args)<<endl; //number of function parameters
+}
 #endif

@@ -32,4 +32,5 @@
 #include "objector.h"
 #include "accontrol.h"
 #include "templ.h"
+#include "libfac.h"
 #endif

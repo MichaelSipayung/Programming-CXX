@@ -18,3 +18,6 @@ void Test_Template::compare_str()const
 {
     cout<<"using nontype template param : " << compare_s("hi","mom")<<endl;
 }
+//explicit instantiation to avoid overhead of instantiation the same template 
+//with the same template arguments
+extern template class Blob_Mem_T<std::string>;

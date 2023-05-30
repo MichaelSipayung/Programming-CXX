@@ -33,5 +33,24 @@ int main(int argc,char ** argv){
     std::shared_ptr<std::vector<int>> temp = 
         std::make_shared<std::vector<int>>(std::begin(a1),std::end(a1));
     cout<<*temp->begin();
+    //ok avoid overhead calling string version in this file
+    std::string numAut[]= {"jack","miller","ross"};
+    Blob_Mem_T<std::string> test_exY(std::begin(numAut), std::end(numAut));
+    cout<<endl;
+    test_exY.show_mem();
+    //strategy to allowing conversion
+    cout<<"\ncompare result : "<<compare_T(12,12.7)<<endl;
+    //test overload template
+    string s_test("hi");
+    cout<<debug_rep(s_test); //use the first version
+    cout<<endl;
+    cout<<debug_rep(&s_test);//use the second version
+    int g_temp_int;
+    double g_temp_db;
+    g_temp(g_temp_int,g_temp_db);
+    init_tup();
+    init_regex();
+    init_random();
+    
     return 0;
 }
