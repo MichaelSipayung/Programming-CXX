@@ -43,3 +43,36 @@ void init_random()
     cout<<"1. using seed : "<<use_seed()<<endl;
     cout<<"2. using seed : "<<use_seed_v2()<<endl;
 }
+void ctr_boolean_f()
+{
+    cout<<"default bool values: "<<true<<" "<<false
+        <<"\nalpha bool values: "<<std::boolalpha<<true<<" "<<false<<endl;
+    //undo format state
+    cout<<"change the state : "<<std::noboolalpha<<true<<" "<<false<<endl;
+}
+void ctr_integral_f()
+{
+    using std::oct;
+    using std::dec;
+    using std::hex;
+    cout<<"default : "<<20<<" "<<1024<<endl;
+    cout<<"oct : "<< oct<<20<<" "<<1024<<endl;
+    cout<<"hexadecimal : "<<hex<<20<<" "<<1024<<endl;
+    cout<<"decimal : " <<dec<<20<<" "<<1024<<endl;
+    using std::showbase;
+    //making the base number visible
+    cout<<showbase<<hex<<20<<" "<<1024<<endl;
+    cout<<oct<<20<<" "<<1024<<endl;
+    cout<<dec;
+}
+void ctr_floating_f()
+{
+    //report current precison value
+    cout<<"precision: "<<cout.precision()<<", Value: "<<std::sqrt(2.0)<<endl;
+    cout.precision(12);
+    cout<<"precision: "<<cout.precision()<<", value: "<<std::sqrt(2.0)<<endl;
+    //using setprecision
+    cout<<setprecision(15);
+    cout<<"precision : "<<cout.precision()<<", value: "<<std::sqrt(2.0)<<endl;
+    cout.precision(); //change the state back
+}

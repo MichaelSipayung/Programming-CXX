@@ -3,7 +3,7 @@
 #include <iostream>
 class Consref{
     public:
-        Consref() = default;
+        Consref() = delete;
         Consref(int ii):i(ii),ci(ii),ri(i){} //explictly initialize reference and const member
     private:
         int i;

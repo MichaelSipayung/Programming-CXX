@@ -3,7 +3,7 @@
 * declare and define on the same header
 */
 #ifndef FRIEND_PRACT
-#define FRIEND_FACT
+#define FRIEND_PRACT
 #include <iostream>
 namespace Frn{
 class Friend_Pract{
@@ -19,5 +19,4 @@ void fstate(const Friend_Pract&st)noexcept(true)
     auto x  = st.data;
 }
 }
-
 #endif

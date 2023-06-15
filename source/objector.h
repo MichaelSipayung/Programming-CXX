@@ -31,8 +31,8 @@ friend double print_total(std::ostream &, const Quote&,std::size_t );
 double print_total(std::ostream &, const Quote&,std::size_t );
 class Bulk_quote: public Quote {
     public:
-        Bulk_quote* clone()const&{return new Bulk_quote(*this);}
-        Bulk_quote* clone()&&{return new Bulk_quote(std::move(*this));}
+        Bulk_quote* clone()const & override{return new Bulk_quote(*this);}
+        Bulk_quote* clone()&& override{return new Bulk_quote(std::move(*this));}
         Bulk_quote()=default;
         Bulk_quote(const std::string&, double, std::size_t,double);
         //declaration of virtual function from base class

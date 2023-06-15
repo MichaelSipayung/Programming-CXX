@@ -39,9 +39,6 @@ Mat &Mat::operator=(const Mat& rhs)
 	auto temp=chk_size(rhs);
     if(temp)
         this->data=rhs.data;
-    else
-        this->data=this->data;
-		cout<<"0";
     return *this;
 }
 Mat &Mat::operator+(const Mat& rhs)

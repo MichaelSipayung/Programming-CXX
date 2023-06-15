@@ -20,11 +20,9 @@ class Screen{
         Screen &set(pos,pos,char);
         //display overloaded on whether the object is const or not
         Screen &display(std::ostream&os){
-            do_display(os); return *this;
+            do_display(os); 
+            return *this;
         }
-        /*const Screen &display(std::ostream &os){
-            do_display(os);return /**this;
-        }*/
         //friendship between two class
         friend class Window_mgr; //share screen member or data to window_mgr class
         //making a member function a friend

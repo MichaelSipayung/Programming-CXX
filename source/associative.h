@@ -26,15 +26,15 @@ void phoneBook_map(const std::map<std::string, std::string> &phone)
     for(auto &x:phone)
         std::cout<<x.first<<" \t : " << x.second<<std::endl;
 }
-const std::string &lookPhone_map(const std::map<std::string, std::string>&phone, 
+const std::string lookPhone_map(const std::map<std::string, std::string>&phone, 
     const std::string &name)
 {
-    const std::string &not_found=" empty";
+    const std::string not_found=" empty";
     for(const auto &fetchObj:phone)
     {
         if(fetchObj.first==name)
         {
-            const std::string &found = fetchObj.second;
+            const std::string found = fetchObj.second;
             return found;
             break;
         }   
