@@ -1,23 +1,21 @@
 #ifndef FILE_IN_OUT_H
 #define FILE_IN_OUT_H
-#include <iostream>
 #include <fstream>
-#include <vector>
+#include <iostream>
 #include <sstream>
-struct Reading
-{
-    int hour;
-    double temperature;
+#include <vector>
+struct Reading {
+  int hour;
+  double temperature;
 };
-struct StudentData
-{
-    unsigned int number;
-    std::string nim;
-    std::string name;
+struct StudentData {
+  unsigned int number;
+  std::string nim;
+  std::string name;
 };
-struct PersonalInfo{
-    std::string name;
-    std::vector<std::string> phones;
+struct PersonalInfo {
+  std::string name;
+  std::vector<std::string> phones;
 };
 void fileStreamIn();
 void fileStreamOut();

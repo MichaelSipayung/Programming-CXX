@@ -1,7 +1,7 @@
 #ifndef IO_CHAP_H
 #define IO_CHAP_H
-#include <iostream>
 #include <fstream>
+#include <iostream>
 void noCopyIo();
 void condState();
 void manageState();

@@ -1,8 +1,8 @@
 #ifndef STATEMENT_CX
 #define STATEMENT_CX
-#include <vector>
 #include <iostream>
 #include <stdexcept>
+#include <vector>
 void solveGrade(void);
 void nestedIf(void);
 void switStatement(void);

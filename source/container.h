@@ -1,32 +1,32 @@
 #ifndef CONTAINER_H
 #define CONTAINER_H
-#include <iostream>
-#include <vector>
-#include <list>
 #include <array>
 #include <forward_list>
-class DemoEmplace
-{
-    public:
-        DemoEmplace()= default;
-        //using explicit to avoid cast
-        explicit DemoEmplace(std::string isbn, unsigned total_sold, double price_b):
-            x(isbn), sold(total_sold),price(price_b){}
-    public:
-        std::string x;
-        unsigned sold;
-        double price;
+#include <iostream>
+#include <list>
+#include <vector>
+class DemoEmplace {
+public:
+  DemoEmplace() = default;
+  // using explicit to avoid cast
+  explicit DemoEmplace(std::string isbn, unsigned total_sold, double price_b)
+      : x(isbn), sold(total_sold), price(price_b) {}
+
+public:
+  std::string x;
+  unsigned sold;
+  double price;
 };
-class DemoVector
-{
-    public:
-        DemoVector()= default;
-        DemoVector(std::string isbn, unsigned total_sold, double price_b):
-            x(isbn), sold(total_sold),price(price_b){}
-    public:
-        std::string x;
-        unsigned sold;
-        double price;
+class DemoVector {
+public:
+  DemoVector() = default;
+  DemoVector(std::string isbn, unsigned total_sold, double price_b)
+      : x(isbn), sold(total_sold), price(price_b) {}
+
+public:
+  std::string x;
+  unsigned sold;
+  double price;
 };
 void max_vec_hold();
 void iterat_el();

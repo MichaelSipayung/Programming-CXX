@@ -12,11 +12,11 @@ using std::vector;
 using std::bitset;
 #include <regex>
 using std::regex;
-using std::smatch;
 using std::regex_search;
-#include <random>
+using std::smatch;
 #include <iomanip>
-using std::setprecision; //manipulator that take an arg
+#include <random>
+using std::setprecision; // manipulator that take an arg
 void init_tup();
 void init_bit();
 void init_regex();

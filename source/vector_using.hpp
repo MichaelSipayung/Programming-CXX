@@ -1,8 +1,8 @@
 #ifndef VECTOR_USING
 #define VECTOR_USING
-#include <vector>
-#include <iostream>
 #include <cstring>
+#include <iostream>
+#include <vector>
 void introToVector(void);
 void addElement(void);
 void modifyElement(void);
