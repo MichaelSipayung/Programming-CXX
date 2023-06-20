@@ -73,7 +73,6 @@ public:
   Quote_Mv &operator=(const Quote_Mv &) = default; // copy assign
   Quote_Mv &operator=(Quote_Mv &&) = default;      // mv assign
   virtual ~Quote_Mv() = default;
-
 private:
   double x_mv;
   double y_mv;

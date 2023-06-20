@@ -7,6 +7,7 @@
 #include <iostream>
 #include <map>
 #include <set>
+#include <unordered_map>
 #include <utility> //using pair member
 #include <vector>
 template <typename Object>

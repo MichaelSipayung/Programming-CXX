@@ -10,16 +10,30 @@ using std::ostream;
 using std::string;
 #include <vector>
 using std::vector;
-namespace Ref {
-struct Sales_Data {
+namespace Refac {
+class Sales_Data {
+  // friend declarations for nonmember sales_data operations added
+  friend Sales_Data add(const Sales_Data &, const Sales_Data &);
+  friend ostream &print(ostream &, const Sales_Data &);
+  friend istream &read(istream &, Sales_Data &);
+
+public:
+  // constructor added
+  Sales_Data() = default;
+  Sales_Data(const string &s) : bookNo{s} {}
+  Sales_Data(const string &s, unsigned n, double p)
+      : bookNo{s}, unit_sold{n}, reveneu{p * n} {}
+  Sales_Data(istream &);
   string isbn() const { return bookNo; }
   Sales_Data &combine(const Sales_Data &);
+
+private:
   double avg_price() const;
   string bookNo;
   unsigned unit_sold = 0;
   double reveneu = 0.0;
 };
-// nonmember sales_data interface f
+// declaration for nonmember parts of the sales_data interface
 Sales_Data add(const Sales_Data &, const Sales_Data &);
 ostream &print(ostream &, const Sales_Data &);
 istream &read(istream &, Sales_Data &);
@@ -55,5 +69,65 @@ Sales_Data add(const Sales_Data &lhs, const Sales_Data &rhs) {
   sum.combine(rhs);
   return sum;
 }
-} // namespace Ref
+/*define ctror outside the class body*/
+// read will read a transaction from is into this object
+// no return type for ctor
+// using this to access object as a whole
+Sales_Data::Sales_Data(istream &is) { read(is, *this); }
+class Screen {
+public:
+  typedef std::string::size_type pos;
+  Screen() = default;
+  Screen(pos ht, pos wd, char c)
+      : height{ht}, width{wd}, contents{static_cast<char>(ht * wd), c} {}
+  ~Screen();
+  char get() const { return contents[cursor]; }
+  inline char get(pos ht, pos wd) const;
+  Screen &move(pos r, pos c);
+  void some_member() const;
+  Screen &set(char);
+  Screen &set(pos, pos, char);
+  // overload base on constness
+  Screen &display(ostream &os) {
+    do_display(os);
+    return *this;
+  }
+  const Screen &display(ostream &os) const {
+    do_display(os);
+    return *this;
+  }
+
+private:
+  pos cursor = 0;
+  pos height = 0, width = 0;
+  string contents;
+  // adding mutable data member
+  mutable size_t access_ctr;
+  void do_display(ostream &os) const { os << contents; }
+};
+inline Screen &Screen::move(pos r, pos c) {
+  pos row = r * width;
+  cursor = row + c;
+  return *this;
+}
+// get: const f that return to specific location of the screen
+char Screen::get(pos r, pos c) const {
+  pos row = r * width;
+  return contents[row + c];
+}
+// some_member: making data member mutable even if const const member f
+void Screen::some_member() const { ++access_ctr; }
+inline Screen &Screen::set(char c) {
+  contents[cursor] = c;
+  return *this; // ret as lval
+}
+inline Screen &Screen::set(pos r, pos col, char ch) {
+  contents[r * width + col] = ch;
+  return *this;
+}
+class Window_mgr {
+private:
+  vector<Screen> screens{Screen{24, 80, ' '}};
+};
+} // namespace Refac
 #endif
