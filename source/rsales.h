@@ -20,13 +20,15 @@ class Sales_Data {
 public:
   // constructor added
   Sales_Data() = default;
-  Sales_Data(const string &s) : bookNo{s} {}
+  // declaring the ctor as explicit, prevent implicit conversion
+  explicit Sales_Data(const string &s) : bookNo{s} {}
   Sales_Data(const string &s, unsigned n, double p)
       : bookNo{s}, unit_sold{n}, reveneu{p * n} {}
-  Sales_Data(istream &);
+  explicit Sales_Data(istream &); // useful for single arguments
   string isbn() const { return bookNo; }
   Sales_Data &combine(const Sales_Data &);
-
+  // delegate ctor
+  // Sales_Data():Sales_Data("",0,0){}
 private:
   double avg_price() const;
   string bookNo;
@@ -69,18 +71,22 @@ Sales_Data add(const Sales_Data &lhs, const Sales_Data &rhs) {
   sum.combine(rhs);
   return sum;
 }
-/*define ctror outside the class body*/
+/*define ctor outside the class body*/
 // read will read a transaction from is into this object
 // no return type for ctor
 // using this to access object as a whole
 Sales_Data::Sales_Data(istream &is) { read(is, *this); }
+// forward declaration for friendship
+class Window_mgr;
 class Screen {
+  friend class Window_mgr;
+
 public:
   typedef std::string::size_type pos;
   Screen() = default;
   Screen(pos ht, pos wd, char c)
       : height{ht}, width{wd}, contents{static_cast<char>(ht * wd), c} {}
-  ~Screen();
+  ~Screen(){};
   char get() const { return contents[cursor]; }
   inline char get(pos ht, pos wd) const;
   Screen &move(pos r, pos c);
@@ -126,8 +132,71 @@ inline Screen &Screen::set(pos r, pos col, char ch) {
   return *this;
 }
 class Window_mgr {
+public:
+  typedef vector<Screen>::size_type ScreenIndex; // location id for each screen
+  void clear(ScreenIndex); // reset the screen at given position
+  ScreenIndex
+  addScreen(const Screen &); // add a screen to the window and return its index
 private:
   vector<Screen> screens{Screen{24, 80, ' '}};
 };
+void Window_mgr::clear(ScreenIndex i) {
+  // reference to the screen we want to clear
+  Screen &s = screens[i];
+  // reset the contents of that screen
+  s.contents = string(s.height * s.width, ' ');
+}
+Window_mgr::ScreenIndex Window_mgr::addScreen(const Screen &s) {
+  screens.push_back(s);
+  return screens.size() - 1;
+}
+class ConstRef {
+public:
+  ConstRef(int);
+  // constexpr on nonaggregate class
+  constexpr bool nonLiteral() { return i > 0; };
+
+private:
+  int i;
+  const int ci;
+  int &ri;
+};
+// explicitly intialize reference and const member
+ConstRef::ConstRef(int ii) : i{ii}, ci{ii}, ri{i} {}
+// constexpr ctor for literal class, all member is default initialize
+class Debug {
+public:
+  constexpr Debug(bool b = true) : hw{b}, io{b}, other{b} {}
+  constexpr Debug(bool h, bool i, bool o) : hw{h}, io{i}, other{o} {}
+  constexpr bool any() { return hw || io || other; }
+  void set_io(bool b) { io = b; }
+  void set_hw(bool b) { hw = b; }
+  void set_other(bool b) { hw = b; }
+
+private:
+  bool hw;    // hardware errors
+  bool io;    // io errors
+  bool other; // other errors
+};
+class Account {
+public:
+  void calculate() { amount += amount * interestRate; }
+  static double rate() { return interestRate; }
+  static void rate(double);
+
+private:
+  string owner;
+  double amount;
+  static double interestRate;
+  static double initRate();
+  // in-class initialization of static data member
+  static constexpr int period = 30; // period is a constant expr
+  double daily_tbl[period];
+};
+void Account::rate(double newRate) { interestRate = newRate; }
+// define and initialize a static class member
+double Account::interestRate = initRate();
+double Account::initRate() { return 0.008; }
+
 } // namespace Refac
 #endif
