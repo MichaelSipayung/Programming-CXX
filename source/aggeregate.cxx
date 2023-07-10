@@ -5,7 +5,7 @@ void DataAggeregate::allMemberPub(void) {
   std::cout << "Demo aggeragate class (val): " << data_1.val << std::endl;
   std::cout << "Demo aggeragate class (name): " << data_1.s << std::endl;
 }
-// defenition of static data member
+// definition of static data member
 // define the member just only once
 // program return undifined behavior if static member  not defined
 // account::initRate defenition
