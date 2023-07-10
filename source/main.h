@@ -1,8 +1,8 @@
-/*all header in main.cpp
- *template not implemented in the separated file
- */
-#ifndef MAIN_PROG_H
-#define MAIN_PROG_H
+﻿// Advanced C++.h : Include file for standard system include files,
+// or project specific include files.
+#ifndef MAIN_H
+#define MAIN_H
+#include <iostream>
 #include "accontrol.h"
 #include "aggeregate.h"
 #include "associative.h"
@@ -33,5 +33,8 @@
 #include "stroper.h"
 #include "strvec.h"
 #include "templ.h"
-#include <iostream>
+#include "iolib.h"
+#include "seqcontainer.h"
+#include "rgeneric.h"
 #endif
+// TODO: Reference additional headers your program requires here.

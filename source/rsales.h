@@ -197,6 +197,5 @@ void Account::rate(double newRate) { interestRate = newRate; }
 // define and initialize a static class member
 double Account::interestRate = initRate();
 double Account::initRate() { return 0.008; }
-
 } // namespace Refac
 #endif

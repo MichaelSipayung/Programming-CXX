@@ -32,7 +32,7 @@ void fObj_onAlg() {
 }
 void lib_fType() {
   function<int(int, int)> f1 = std::plus<int>(); // function pointer
-  function<int(int, int)> f2 = std::divides();
+  function<int(int, int)> f2 = std::divides<int>();
   cout << "add : " << f1(3, 2) << endl;
   cout << "div : " << f2(4, 2) << endl;
   function<int(int, int)> f3 = [](int i, int j) { return i * j; }; // lamda
@@ -41,7 +41,7 @@ void lib_fType() {
 // function table
 void f_table() {
   function<int(int, int)> f1 = std::plus<int>(); // function pointer
-  function<int(int, int)> f2 = std::divides();
+  function<int(int, int)> f2 = std::divides<int>();
   function<int(int, int)> f3 = [](int i, int j) { return i * j; }; // lamda
   function<int(int, int)> f4 = std::minus<int>();
   function<int(int, int)> f5 = std::modulus<int>();
