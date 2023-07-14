@@ -2,7 +2,6 @@
 // or project specific include files.
 #ifndef MAIN_H
 #define MAIN_H
-#include <iostream>
 #include "accontrol.h"
 #include "aggeregate.h"
 #include "associative.h"
@@ -15,6 +14,7 @@
 #include "funobj.h"
 #include "generic.h"
 #include "iochap.h"
+#include "iolib.h"
 #include "iterators.h"
 #include "libfac.h"
 #include "m_sales.h"
@@ -24,17 +24,17 @@
 #include "operator.hpp"
 #include "overload.h"
 #include "query.h"
+#include "rgeneric.h"
 #include "rsales.h"
 #include "rval.h"
 #include "sales.h"
 #include "screen.h"
+#include "seqcontainer.h"
 #include "smartpo.h"
 #include "statement.hpp"
 #include "stroper.h"
 #include "strvec.h"
 #include "templ.h"
-#include "iolib.h"
-#include "seqcontainer.h"
-#include "rgeneric.h"
+#include <iostream>
 #endif
 // TODO: Reference additional headers your program requires here.

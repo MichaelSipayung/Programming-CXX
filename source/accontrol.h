@@ -3,6 +3,7 @@
 #include <iostream>
 using std::cin;
 using std::cout;
+using std::endl;
 using std::string;
 #include <vector>
 using std::vector;
@@ -73,6 +74,7 @@ public:
   Quote_Mv &operator=(const Quote_Mv &) = default; // copy assign
   Quote_Mv &operator=(Quote_Mv &&) = default;      // mv assign
   virtual ~Quote_Mv() = default;
+
 private:
   double x_mv;
   double y_mv;
@@ -108,5 +110,7 @@ public:
 private:
   int x_point;
 };
-// container and inheritance
+// no namespace
+// consider to make a new namespace
+//  container and inheritance
 #endif

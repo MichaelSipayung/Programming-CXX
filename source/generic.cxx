@@ -147,7 +147,7 @@ void lamdaWithArgs() {
 void useCaptureList(const std::vector<std::string> &x,
                     std::string::size_type sz) {
   //[capture list]... only variable in the capture list can appear in the func
-  //body
+  // body
   auto shorter = [sz](const std::string &a) { return a.size() >= sz; };
   auto wc = std::find_if(x.begin(), x.end(), shorter);
   std::cout << "find word which is greater than : " << sz << std::endl;
