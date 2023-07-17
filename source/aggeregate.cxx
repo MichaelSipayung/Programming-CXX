@@ -22,7 +22,7 @@ void Account::inClassInit() {
   std::cout << "otherwise the program may fail to compile" << std::endl;
 }
 /*use a static member as a default arguments*/
-// defeni the default value
+// define the default value
 const int AnotherStatic::backgr = 13;
 AnotherStatic &AnotherStatic::clear(char x) { return *this; }
 double preccision = 0.0000008;
