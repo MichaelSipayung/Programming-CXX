@@ -24,7 +24,11 @@ using std::unique;      // find unique element
 #include <numeric>
 using std::accumulate;
 #include <iterator>
-using std::back_inserter; // insert element on a container at the end
+using std::back_inserter;  // insert element on a container at the end
+using std::front_inserter; // insert on the front
+using std::inserter;       // insert val with specific location
+#include <functional>
+using std::bind; // binding argumens
 typedef vector<string>::size_type size_type;
 namespace Refac {
 // read only algorithm
@@ -196,6 +200,117 @@ void capByRefLambda(std::ostream &os) {
   };
   // call the lambda with capture list as a reference
   f();
+}
+// implicit capture, lambda expression
+void implicitCapLamda(const vector<string> &_x, const int &_sz) {
+  // capture by value using = and by reference using &
+  // find_if the items size is greater than _sz
+  auto wc = find_if(_x.begin(), _x.end(),
+                    [=](const string &_word) { return _x.size() >= _sz; });
+}
+// mutable lambda: by default lamda can't change the capture list which
+// is capture by value
+void mutableLamda(size_t &_sz) {
+  // increase value inside lambda expression using mutable keyword
+  auto f = [_sz]() mutable { return ++_sz; };
+  cout << "current value : " << f() << endl;
+}
+// specifying the lambda return type for
+// the problem involve more than one statement
+void explicRet(vector<int> &_x) {
+  using std::transform;
+  // using library transform to transform each item to its absolute value
+  transform(_x.begin(), _x.end(), _x.begin(), [](const int &_val) -> int {
+    if (_val < 0)
+      return -_val;
+    else
+      return _val;
+  });
+}
+// checkSize: check the size of given string
+bool checkSizeBnd(const string &_x, size_type _sz) { return _x.size() >= _sz; }
+// bind function: general purpose function adaptor
+// solve the limited version of lambda expression
+void bindArgs(const string &_x) {
+  using std::placeholders::_1;
+  auto check = bind(checkSizeBnd, _1, 6);
+  bool test = check(_x);
+  cout << "binding arguments : " << test << endl;
+}
+// test on algorithm: using bind
+// showing the first match item which has size greater than _sz
+void showMatchWord(const vector<string> &_x, const int &_sz) {
+  // binding arguments using bind
+  using std::bind;             // for binding the arguments
+  using std::placeholders::_1; // stand for the first arguments
+  // store the match items
+  auto matchIterator =
+      find_if(_x.cbegin(), _x.cend(), bind(checkSizeBnd, _1, _sz));
+  // show it to standart output
+  for_each(matchIterator, _x.cend(),
+           [](const string &_a) { cout << _a << "|"; });
+  std::cout << "------" << std::endl;
+}
+// arguments to bind, callable object
+// reorder parameter using bind
+void argsToBind(vector<string> &_x) {
+  using namespace std::placeholders;
+  // reorder arguments, isShorterAlg(B,A) != isShorterAlg(A,B);
+  sort(_x.begin(), _x.end(), bind(isShorterAlg, _2, _1));
+  for (const auto &item : _x)
+    cout << item << " | ";
+  cout << endl;
+}
+// explicitly think about bind arguments
+void argsArrage(const string &_x, const int &_y) {
+  cout << "x value : " << _x << endl;
+  cout << "y value : " << _y << endl;
+}
+// test using arguments on bind
+void testArrArgs() {
+  using namespace std::placeholders;
+  auto temp = bind(argsArrage, _2, _1);
+  temp(14, "miller");
+}
+// iterator: back_inserter, front_inserter and inserter
+void iterWork(const list<string> &_x) {
+  list<string> _y, _z;
+  // copy element and put on the front
+  //_y containt last el, last el-1, the first of the _x
+  copy(_x.begin(), _x.end(), front_inserter(_y));
+  // specify the element we want to insert
+  //_z contain first el, next, and the end of _x element
+  copy(_x.begin(), _x.end(), inserter(_z, _z.begin()));
+  // debugging for front inserter
+  cout << "front inserter version : ";
+  for (const auto &item : _y)
+    cout << item << " | ";
+  cout << endl;
+  // debugging for inserter
+  cout << "inserter version : ";
+  for (const auto &item : _z)
+    cout << item << " | ";
+  cout << endl;
+}
+// stream iterator: istream_iterator, ostream_iterator<T>
+void istIterator() {
+  using std::istream_iterator;
+  using std::ostream_iterator;
+  // define istream_iterator
+  cout << "input number : ";
+  // assign _eof from _in which read from standard input
+  istream_iterator<int> in(cin), eof;
+  // using accumulate
+  cout << "result: " << accumulate(in, eof, 0) << endl;
+}
+// ostream iterator, operator = is use to assign val to the ostream
+void ostIterator(const vector<int> &_x) {
+  // define ostream_iterator
+  ostream_iterator<int> out_iter(cout, " ");
+  // assign and then show to standard output
+  for (const auto &item : _x)
+    *out_iter++ = item; // assign all item on _x to ostream
+  cout << endl;
 }
 } // namespace Refac
 #endif
