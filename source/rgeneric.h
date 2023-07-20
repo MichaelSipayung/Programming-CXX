@@ -358,5 +358,22 @@ void removeElement(vector<int> &_x, vector<int> &_y) {
   remove_copy_if(_x.begin(), _x.end(), std::back_inserter(_y),
                  [](int i) { return i % 2; });
 }
+//container specify operation for list and forward list
+//generic version has cost in performance
+//case 1: sort element
+template<typename Object>
+void sortList_m(list<Object> &_x){
+  _x.sort(); //calling sort member version
+}
+//case 2:merge element from _y to _x
+template<typename Object>
+void mergeList_m(list<Object> &_x, list<Object>&_y){
+  _x.merge(_y); //calling merge mem version
+}
+//case 3:reverse the order of element
+template<typename Object>
+void reverseList_m(list<Object> &_x){
+  _x.reverse();
+}
 } // namespace Refac
 #endif
