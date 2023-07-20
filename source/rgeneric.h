@@ -312,5 +312,51 @@ void ostIterator(const vector<int> &_x) {
     *out_iter++ = item; // assign all item on _x to ostream
   cout << endl;
 }
+// reverse iterator:crbegin, crend, rbegin and rend
+// traverse element from right to left
+template <typename Container> void reversIterator(const Container &_x) {
+  auto begin = _x.rbegin(); // pos right, non const version
+  auto end = _x.rend();     // pos left
+  // show on standard output
+  while (begin != end)
+    cout << *begin++ << " | ";
+  cout << endl;
+}
+// application: sort in reverse, the small element located on the last
+template <typename Container> void reverSort(Container &_x) {
+  sort(_x.rbegin(), _x.rend()); // calling sort function
+}
+// algorithm naming conventions
+// using two version of reverse
+template <typename Container>
+void reverseElement(Container &_x, Container &_y) {
+  using std::reverse;
+  using std::reverse_copy;
+  // reverse element _x
+  reverse(_x.begin(), _x.end());
+  // copy element in reverse order
+  // assume destinaton is large enough to hold _x
+  if (_y.size() >= _x.size())
+    reverse_copy(_x.begin(), _x.end(), _y.begin());
+  else {
+    std::cerr << "reverse element failed, check destination size!" << endl;
+    return;
+  }
+}
+// using two version of remove_if
+// remove odd element
+void removeElement(vector<int> &_x, vector<int> &_y) {
+  using std::remove_copy_if;
+  using std::remove_if;
+  // remove from _x, not change the size of the container
+  auto point = remove_if(_x.begin(), _x.end(), [](int i) { return i % 2; });
+  // clean the first non odd element , end)
+  _x.erase(point, _x.end());
+  // assume add odd element
+  _x.push_back(13);
+  // copies only the even elements from _x to dest
+  remove_copy_if(_x.begin(), _x.end(), std::back_inserter(_y),
+                 [](int i) { return i % 2; });
+}
 } // namespace Refac
 #endif
