@@ -22,7 +22,7 @@ using std::stack;
 #include <queue>
 using std::priority_queue;
 using std::queue;
-namespace Refac {
+namespace Refactor {
 
 void vecWork() {
   vector<int> basic = {0, 12, 3, 12, 4, 5, 6};
@@ -441,5 +441,5 @@ void prioQueTest() {
   order_name.push("steve");
   cout << "low priority : " << order_name.top() << endl;
 }
-} // namespace Refac
+} // namespace Refactor
 #endif

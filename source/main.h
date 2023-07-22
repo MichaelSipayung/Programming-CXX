@@ -36,5 +36,6 @@
 #include "strvec.h"
 #include "templ.h"
 #include <iostream>
+#include "rassoc.h"
 #endif
 // TODO: Reference additional headers your program requires here.

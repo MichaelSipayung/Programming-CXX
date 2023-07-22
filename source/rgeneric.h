@@ -30,7 +30,7 @@ using std::inserter;       // insert val with specific location
 #include <functional>
 using std::bind; // binding argumens
 typedef vector<string>::size_type size_type;
-namespace Refac {
+namespace Refactor {
 // read only algorithm
 void useFind(const vector<int> &x, const int &val) {
   auto result = find(x.cbegin(), x.cend(), val);
@@ -375,5 +375,5 @@ template<typename Object>
 void reverseList_m(list<Object> &_x){
   _x.reverse();
 }
-} // namespace Refac
+} // namespace Refactor
 #endif

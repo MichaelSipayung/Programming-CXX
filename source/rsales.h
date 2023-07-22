@@ -10,7 +10,7 @@ using std::ostream;
 using std::string;
 #include <vector>
 using std::vector;
-namespace Refac {
+namespace Refactor {
 class Sales_Data {
   // friend declarations for nonmember sales_data operations added
   friend Sales_Data add(const Sales_Data &, const Sales_Data &);
@@ -197,5 +197,5 @@ void Account::rate(double newRate) { interestRate = newRate; }
 // define and initialize a static class member
 double Account::interestRate = initRate();
 double Account::initRate() { return 0.008; }
-} // namespace Refac
+} // namespace Refactor
 #endif

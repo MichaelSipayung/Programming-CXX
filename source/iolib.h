@@ -14,7 +14,7 @@ using std::ofstream; // output file
 using std::istringstream; // read a string
 using std::ostringstream; // write a string
 #include <vector>
-namespace Refac {
+namespace Refactor {
 struct PersonalInfo {
   string name;
   vector<string> phones;
@@ -44,5 +44,5 @@ void test_istringstream() {
     people.push_back(info); // append this record to people
   }
 }
-} // namespace Refac
+} // namespace Refactor
 #endif
