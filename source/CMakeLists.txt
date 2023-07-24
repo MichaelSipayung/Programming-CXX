@@ -2,6 +2,7 @@
 # project specific logic here.
 #
 # Add source to this project's executable.
+cmake_minimum_required(VERSION 3.25)
 project(TheC)
 add_executable (main "main.cxx" "main.h")
 # TODO: Add tests and install targets if needed.
