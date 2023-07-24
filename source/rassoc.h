@@ -196,8 +196,50 @@ void addingElementMultiMap(multimap<string, string> &_x) {
   _x.insert({"John", "Math for fun"});
   // insert same author but different value
   _x.insert({"John", "Basic Calculus"});
+  _x.insert({"Miller", "Basic Algebra"});
+  _x.insert({"Miller", "Matrix Cookbook"});
   // debugging purpose
   debugPurpose(_x);
+}
+// erasing an element or specific range on associative container
+// test case map
+template <typename Object1, typename Object2>
+void eraseMap(map<Object1, Object2> &_x, const Object1 &_key) {
+  // erase : return how many element were removed
+  // for map it's o or 1
+  if (!_x.empty()) {
+    if (_x.erase(_key)) // there are 3 version of remove function
+      cout << "ok : " << _key << " removed\n";
+    else // not match the key
+      cout << "fail: " << _key << " not found!\n";
+  } else { // show to the standard error
+    std::cerr << "error, map is empty";
+    return;
+  }
+}
+// erasing element with specifiy key on multimap
+template <typename Object1, typename Object2>
+void eraseMap(multimap<Object1, Object2> &_x, const Object1 &_key) {
+  // erase : return how many element were removed
+  // return may not only 0 or 1
+  if (!_x.empty()) {
+    if (_x.erase(_key)) // 3 version (key),(iterator), (beg,end)
+      cout << "ok : " << _key << " removed\n";
+    else // not match the key
+      cout << "fail: " << _key << " not found!\n";
+  } else { // show to the standard error
+    std::cerr << "error, map is empty";
+    return;
+  }
+}
+// subscripting on map container, multimap and set not provide subscript
+// if key exist, change the value, but if not make one
+template <typename Object1, typename Object2>
+void subscriptMap(map<Object1, Object2> &_x, const Object1 &_key,
+                  const Object2 &_val) {
+  _x[_key] = _val; // key is exists, don't write but change val
+  // test the result
+  Refactor::debugPurpose(_x);
 }
 } // namespace Refactor
 #endif
