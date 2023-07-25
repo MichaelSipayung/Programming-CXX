@@ -196,6 +196,7 @@ void addingElementMultiMap(multimap<string, string> &_x) {
   _x.insert({"John", "Math for fun"});
   // insert same author but different value
   _x.insert({"John", "Basic Calculus"});
+  _x.insert({"John", "Differential Calculus"});
   _x.insert({"Miller", "Basic Algebra"});
   _x.insert({"Miller", "Matrix Cookbook"});
   // debugging purpose
@@ -240,6 +241,39 @@ void subscriptMap(map<Object1, Object2> &_x, const Object1 &_key,
   _x[_key] = _val; // key is exists, don't write but change val
   // test the result
   Refactor::debugPurpose(_x);
+}
+// prefer accessing elements using function rather
+// than subscript operator since it will write if not exist
+template <typename Object>
+void accessElementContainer(const set<Object> &_x, const Object &_y) {
+  if (_x.find(_y) != _x.cend())
+    cout << "key exists : ";
+  // using member count, but useless since set has unique key
+}
+template <typename Object1, typename Object2>
+void accessElementContainer(const map<Object1, Object2> &_x,
+                            const Object1 &_y) {
+  if (_x.find(_y) != _x.cend())
+    cout << "key exist : " << _y;
+}
+// finding elements in a multimap and multiset
+// using count to tell that we want to know total object
+// find return iterator to the given key
+template <typename Object1, typename Object2>
+void accessElementContainer(const multimap<Object1, Object2> &_x,
+                            const Object1 &_y) {
+  if (_x.size() == 0)
+    return;
+  // _y is the key, traverse all value with the given key
+  // for multimap, the key with different value will be adjacent
+  auto n = _x.count(_y);   // total elements
+  auto iter = _x.find(_y); // return iterator to the first match
+  // traverse n times
+  while (n) {
+    cout << iter->second << " | ";
+    ++iter; // advance to next
+    --n;    // keep track, zero is indicator to stop
+  }
 }
 } // namespace Refactor
 #endif
