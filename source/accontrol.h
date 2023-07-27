@@ -54,7 +54,7 @@ private:
 // base classes and deleted copy control in the derived
 class X_Point {
 public:
-  X_Point(){};
+  X_Point(const double &_val) : x(_val){};
   X_Point(const X_Point &) = delete;
 
 private:
@@ -88,6 +88,8 @@ private:
 // defining derived cp or mv ctor
 class F_Base {
 public:
+  F_Base() = default;
+  F_Base(const double &_c) : x_or{_c} {};
   ~F_Base() {}
 
 private:
@@ -95,10 +97,13 @@ private:
 };
 class Derived_F_Base : public F_Base {
 public:
+  Derived_F_Base(const int &_x) : x_point(_x) {}
   // cp the base member initializers for members Derived_F_Base
-  Derived_F_Base(const Derived_F_Base &f) : F_Base{f} {}
+  Derived_F_Base(const Derived_F_Base &f, const int &_x)
+      : F_Base(f), x_point(_x) {}
   // move the base member
-  Derived_F_Base(Derived_F_Base &&f) : F_Base{std::move(f)} {}
+  Derived_F_Base(Derived_F_Base &&f, const int &_x = 0) noexcept
+      : F_Base{std::move(f)}, x_point(_x) {}
   // derived class assignment operator
   Derived_F_Base &operator=(const Derived_F_Base &f) {
     F_Base::operator=(f); // assign the base part

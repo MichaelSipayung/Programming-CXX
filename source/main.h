@@ -23,7 +23,9 @@
 #include "objector.h"
 #include "operator.hpp"
 #include "overload.h"
+#include "problem.h"
 #include "query.h"
+#include "rassoc.h"
 #include "rgeneric.h"
 #include "rsales.h"
 #include "rval.h"
@@ -36,6 +38,5 @@
 #include "strvec.h"
 #include "templ.h"
 #include <iostream>
-#include "rassoc.h"
 #endif
 // TODO: Reference additional headers your program requires here.

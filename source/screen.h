@@ -8,7 +8,7 @@ public:
   typedef std::string::size_type pos; // adding constructors
   Screen() = default;
   Screen(pos ht, pos wd, char c)
-      : height(ht), width(wd), contents(ht * wd, c) {}
+      : height(ht), width(wd), contents(ht * wd, c), access_ctr(0) {}
   char get() const { return contents[cursor]; }
   inline char get(pos ht, pos wd) const; // explicitly inline
   Screen &move(pos r, pos c);            // can be made inline later

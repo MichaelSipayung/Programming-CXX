@@ -39,43 +39,6 @@ private:
 Sales_Data add(const Sales_Data &, const Sales_Data &);
 ostream &print(ostream &, const Sales_Data &);
 istream &read(istream &, Sales_Data &);
-/*avg_price: get the average*/
-double Sales_Data::avg_price() const {
-  if (unit_sold)
-    return reveneu / unit_sold;
-  else
-    return 0;
-}
-/*combine: combine the other sales to the current sales*/
-Sales_Data &Sales_Data::combine(const Sales_Data &rhs) {
-  unit_sold += rhs.unit_sold;
-  reveneu += rhs.reveneu;
-  return *this;
-}
-/*read: input transaction contain isbn, num of copies ..*/
-istream &read(istream &is, Sales_Data &item) {
-  double price = 0;
-  is >> item.bookNo >> item.unit_sold >> price;
-  item.reveneu = price * item.unit_sold;
-  return is;
-}
-/*print: print content to standart output*/
-ostream &print(ostream &os, const Sales_Data &item) {
-  os << item.isbn() << " " << item.unit_sold << " " << item.reveneu << " "
-     << item.avg_price();
-  return os;
-}
-/*add: sum two sales data*/
-Sales_Data add(const Sales_Data &lhs, const Sales_Data &rhs) {
-  Sales_Data sum = lhs;
-  sum.combine(rhs);
-  return sum;
-}
-/*define ctor outside the class body*/
-// read will read a transaction from is into this object
-// no return type for ctor
-// using this to access object as a whole
-Sales_Data::Sales_Data(istream &is) { read(is, *this); }
 // forward declaration for friendship
 class Window_mgr;
 class Screen {
@@ -85,7 +48,8 @@ public:
   typedef std::string::size_type pos;
   Screen() = default;
   Screen(pos ht, pos wd, char c)
-      : height{ht}, width{wd}, contents{static_cast<char>(ht * wd), c} {}
+      : height{ht}, width{wd}, contents{static_cast<char>(ht * wd), c},
+        access_ctr(0) {}
   ~Screen(){};
   char get() const { return contents[cursor]; }
   inline char get(pos ht, pos wd) const;
@@ -122,7 +86,7 @@ char Screen::get(pos r, pos c) const {
   return contents[row + c];
 }
 // some_member: making data member mutable even if const const member f
-void Screen::some_member() const { ++access_ctr; }
+inline void Screen::some_member() const { ++access_ctr; }
 inline Screen &Screen::set(char c) {
   contents[cursor] = c;
   return *this; // ret as lval
@@ -140,16 +104,7 @@ public:
 private:
   vector<Screen> screens{Screen{24, 80, ' '}};
 };
-void Window_mgr::clear(ScreenIndex i) {
-  // reference to the screen we want to clear
-  Screen &s = screens[i];
-  // reset the contents of that screen
-  s.contents = string(s.height * s.width, ' ');
-}
-Window_mgr::ScreenIndex Window_mgr::addScreen(const Screen &s) {
-  screens.push_back(s);
-  return screens.size() - 1;
-}
+
 class ConstRef {
 public:
   ConstRef(int);
@@ -162,7 +117,7 @@ private:
   int &ri;
 };
 // explicitly intialize reference and const member
-ConstRef::ConstRef(int ii) : i{ii}, ci{ii}, ri{i} {}
+inline ConstRef::ConstRef(int ii) : i{ii}, ci{ii}, ri{i} {}
 // constexpr ctor for literal class, all member is default initialize
 class Debug {
 public:
@@ -193,9 +148,7 @@ private:
   static constexpr int period = 30; // period is a constant expr
   double daily_tbl[period];
 };
-void Account::rate(double newRate) { interestRate = newRate; }
-// define and initialize a static class member
-double Account::interestRate = initRate();
-double Account::initRate() { return 0.008; }
+inline void Account::rate(double newRate) { interestRate = newRate; }
+inline double Account::initRate() { return 0.008; }
 } // namespace Refactor
 #endif

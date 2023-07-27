@@ -136,21 +136,6 @@ void alloc_new() {
   const std::string *str1 =
       new const std::string(); // default initialized, empty string
 }
-// if new unable to allocate the requested storange, throw exception bad_alloc
-// nothrow to return null pointer if it fail
-void alloc_nothrow() {
-  int *p1 = new int;                // ooh fail, throw bad_alloc
-  int *p2 = new (std::nothrow) int; // if fail, return null pointer
-}
-void dealloc_obj() {
-  int *x = new int(13);
-  int *y = new (std::nothrow) int[10];
-  for (int i = 0; i < 10; ++i) {
-    *y = i;
-    std::cout << *y << " | ";
-    ++y;
-  }
-}
 // using new in smart pointer
 // smart pointer ctor is explicit so you can't implicitly convert
 std::shared_ptr<int> clone(int p) {
@@ -411,7 +396,8 @@ void alloc_cls(const int &z) {
   // the deallocate
   alloc.deallocate(p, z); // deallocate p
   // demo copy
-  auto dest = alloc.allocate(z * 2);
+  int castExpr = z * 2;
+  auto dest = alloc.allocate(castExpr);
   const std::vector<double> &tempVec = {0, 1, 2, 3};
   std::uninitialized_copy(std::begin(tempVec), std::end(tempVec), dest);
   // point to the last unconstr : dest

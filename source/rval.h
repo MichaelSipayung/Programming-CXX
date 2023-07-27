@@ -37,6 +37,7 @@ private:
 };
 // Synthesized move operations
 struct X {
+  X(const int &_val, const string _str) : i{_val}, s{_str} {}
   int i;    // built in type can move
   string s; // str defines its own mv oper
 };
@@ -111,10 +112,7 @@ inline void Foo_1::noMoveOp() noexcept {
   Foo_1 y(x);
   Foo_1 z(std::move(x)); // calling cp ctor no mv ctor; ok safe
 }
-void syntMove() {
-  X x, x2 = std::move(x);
-  hasX hx, hx2 = std::move(hx); // use synt move ctr
-}
+
 inline void RvalRef::rvalBase() noexcept(true) {
   int xPoint = 12;
   int &lvalRef = xPoint;

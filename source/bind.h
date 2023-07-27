@@ -35,7 +35,8 @@ void test_other_f() {
 }
 bool other_f1(int x, int y, const std::string &word, int z,
               const std::string &otherW) {
-  if (word.size() < (x + y))
+  int sum = x + y;
+  if (word.size() < sum)
     return false;
   else
     return otherW.size() > z;
@@ -61,7 +62,8 @@ void test_bind_print(const std::vector<std::string> &word, std::ostream &os) {
 }
 bool bind_corrected(int x, int y, const std::string &word, int x_1,
                     const std::string word_1) {
-  if ((x + y) < word.size())
+  int sum = x + y;
+  if (sum < word.size())
     std::cout << "bind parameter call : (x,y)-> word : " << word << std::endl;
   return false;
   if (x_1 < word_1.size())
