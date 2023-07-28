@@ -1,11 +1,7 @@
 #include "main.h"
-int main() {
-  //builMap test
-  ifstream filename;
-  filename.open("rule.txt");
-  auto result  = Refactor::buildMap(filename);
-  for(const auto &item:result)
-    cout<<"key : " <<item.first<<", value : " << item.second<<endl;
-  filename.close();
-  return 0;
+int main() { 
+  vector<string> authname  = {"miller","jack","john","jimmy","tyson","fuler"};
+  string namefind  =  "otherwise";
+  Problem::binarySearch(authname,namefind);
+  return 0; 
 }

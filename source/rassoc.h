@@ -35,7 +35,7 @@ template <typename Object> void debugPurpose(const std::set<Object> &_x) {
   for (const auto &item : _x)
     std::cout << "key : " << item << std::endl;
 }
-//first word_counting program
+// first word_counting program
 void wordCounting();
 // using set, key as a value
 // modification of word counting program, remove unnecessary word like "or",....
@@ -156,8 +156,8 @@ void accessElementContainer_m(const std::multimap<Object1, Object2> &_x,
     ++begin;
   }
 }
-void word_transform(std::ifstream &, std::ifstream &);
-std::map<std::string, std::string> buildMap(std::ifstream&);
+void wordTransform(std::ifstream &, std::ifstream &);
+std::map<std::string, std::string> buildMap(std::ifstream &);
 const std::string &transform(const std::string &,
                              const std::map<std::string, std::string> &);
 } // namespace Refactor

@@ -6,25 +6,36 @@ using std::endl;
 using std::string;
 #include <vector>
 using std::vector;
+#include <algorithm>
 #include <string>
 namespace Problem {
-vector<size_t> spacePosition(const string &_x) {
-  vector<size_t> temp;
-  for (size_t i = 0; i < _x.length(); ++i)
-    if (isspace(_x[i])) {
-      temp.push_back(i);
-    }
-  return temp;
-}
-string stringReplace(const vector<string> &_dict, const string &_word) {
-  string result;
-  size_t len = _word.length();
-  for (size_t i = 0; i < _dict.size(); ++i) {
-    size_t len_dict = _dict[i].length();
-    for (size_t j = 0; j <= (len - len_dict); ++j) {
+// performing binary search algorithm using template
+// with running time O(lg n), note for halving range
+// begin + (end-begin)/2; the present of begin on the front is
+// adding the current left range to traverse [left, right]
+// [right, left] !
+vector<vector<int>> threeSum(vector<int> &);
+template <typename Object>
+void binarySearch(vector<Object> &_x, const Object &_data) {
+  if (_x.empty()) // performing nothing because it it consist no element
+    return;
+  std::sort(_x.begin(), _x.end());
+  size_t begin = 0;
+  size_t end = _x.size();
+  size_t middle;
+  while (begin <= end) // accept the same range but not the outside
+  {
+    middle = begin + (end - begin) / 2; // begin + (half)
+    if (_data < _x[middle]) {
+      end = middle - 1; // move left [begin, middle-1]
+    } else if (_data > _x[middle]) {
+      begin = middle + 1; // move right [middle+1, end]
+    } else {
+      cout << "result : " << _x[middle] << endl;
+      return;
     }
   }
-  return result;
+  std::cerr << "no instance of : " << _data << " found " << endl;
 }
 } // namespace Problem
 #endif
