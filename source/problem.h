@@ -9,12 +9,13 @@ using std::vector;
 #include <algorithm>
 #include <string>
 namespace Problem {
+typedef struct ListNode ListNode;
 // performing binary search algorithm using template
 // with running time O(lg n), note for halving range
 // begin + (end-begin)/2; the present of begin on the front is
 // adding the current left range to traverse [left, right]
 // [right, left] !
-vector<vector<int>> threeSum(vector<int> &);
+vector<vector<int>> threeSum(const vector<int> &);
 template <typename Object>
 void binarySearch(vector<Object> &_x, const Object &_data) {
   if (_x.empty()) // performing nothing because it it consist no element
@@ -37,5 +38,19 @@ void binarySearch(vector<Object> &_x, const Object &_data) {
   }
   std::cerr << "no instance of : " << _data << " found " << endl;
 }
+void combinationUtil(int arr[], int data[], int start, int end, int index,
+                     int r);
+void showres();
+long int fact(long int);
+// definition for singly-linked list
+struct ListNode {
+  int val;
+  ListNode *next;
+  ListNode() : val(0), next(nullptr) {}
+  explicit ListNode(int x) : val{x}, next{nullptr} {}
+  ListNode(int x, ListNode *next) : val{x}, next{next} {}
+};
+ListNode *addTwoNumbers(ListNode *, ListNode *);
+ListNode *addTwoNumbers(ListNode*, ListNode*,const int&);
 } // namespace Problem
 #endif
