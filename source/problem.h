@@ -40,7 +40,7 @@ void binarySearch(vector<Object> &_x, const Object &_data) {
 }
 void combinationUtil(int arr[], int data[], int start, int end, int index,
                      int r);
-void showres();
+void showResult();
 long int fact(long int);
 // definition for singly-linked list
 struct ListNode {
@@ -51,6 +51,8 @@ struct ListNode {
   ListNode(int x, ListNode *next) : val{x}, next{next} {}
 };
 ListNode *addTwoNumbers(ListNode *, ListNode *);
-ListNode *addTwoNumbers(ListNode*, ListNode*,const int&);
+ListNode *addTwoNumbers_m(ListNode *, ListNode *);
+void testAddTwoNumber();
+void traverseLikedList(ListNode*);
 } // namespace Problem
 #endif
