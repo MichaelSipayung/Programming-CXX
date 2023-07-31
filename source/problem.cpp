@@ -66,15 +66,15 @@ long int fact(long int n) {
 // leetcode problem, linked list
 // two numbers problem, given singly-linked list1 and list2
 // find the sum of link1 and link2 reverse order and return that number
-ListNode *addTwoNumbers_r(ListNode *link1, ListNode *link2) {
-  int carry = 0;
-  // stopping condition, if both link1 and link2 is null
-  //and carry is 0
+ListNode *addTwoNumbers_r(ListNode *link1, ListNode *link2, int carry) {
+  //special case, when we add each number one by one
+  //but there is remaining element, for example 999 + 99 = 8901
+  //forgetting carry can happen during each node added
   if (!link1 && !link2) {
     //there is still carry result or remaining number
     if (carry) {
-      auto temp = new ListNode(carry);
-      return temp; //make sure we traverse all node, since we have carry number
+      auto temp = new ListNode(carry); //example 999 + 99 = 8901
+      return temp;//return carry in the right most place, carry is one
     }
     //stop the recursive operation, since carry is 0, link1 and link2
     //point to nothing or there are no node is still exist
@@ -87,7 +87,7 @@ ListNode *addTwoNumbers_r(ListNode *link1, ListNode *link2) {
     carry = link1->val / 10; // contain zero or one as a value
     link1->val = link1->val % 10;
     link1->next = addTwoNumbers_r(
-        link1->next, link2->next); // recursive call to link1 and link2 next
+        link1->next, link2->next,carry); // recursive call to link1 and link2 next
   }
   // there are still exist number to add on link1 even link2 is nullptr
   //  we must do addition,  special case, link1 contain more digit
@@ -96,7 +96,7 @@ ListNode *addTwoNumbers_r(ListNode *link1, ListNode *link2) {
     carry = link1->val / 10;
     link1->val = link1->val % 10;
     link1->next =
-        addTwoNumbers_r(link1->next, nullptr); // recursive call to link1->next
+        addTwoNumbers_r(link1->next, nullptr,carry ); // recursive call to link1->next
     return link1;
   }
   // link2 still contain number to add, even if link1 is nullptr
@@ -106,7 +106,7 @@ ListNode *addTwoNumbers_r(ListNode *link1, ListNode *link2) {
     carry = link2->val / 10;
     link2->val = link2->val % 10;
     link2->next =
-        addTwoNumbers_r(nullptr, link2->next); // recursive call to link2->next
+        addTwoNumbers_r(nullptr, link2->next,carry); // recursive call to link2->next
     return link2;
   }
   return link1;
@@ -138,20 +138,20 @@ ListNode *addTwoNumbers_m(ListNode *list1, ListNode *list2) {
     list1 = list1 ? list1->next : nullptr;
     list2 = list2 ? list2->next : nullptr;
   }
-  return dummyHead->next; // return the result
+  return dummyHead->next; // return the result one pass after dummyHead
 }
 // demonstration of adding two number from singly linked list A and B
 // number are store in reverse order
 // the result also in reverse order
 void testAddTwoNumber() {
   // store number reverse order
-  ListNode left_one(3);
-  ListNode left_nextOne(4, &left_one);
-  ListNode left_end(2, &left_nextOne);
+  ListNode left_one(9);
+  ListNode left_nextOne(9, &left_one);
+  ListNode left_end(9, &left_nextOne);
   //ListNode left_most(1, &left_end);
-  ListNode right_one(5);
-  ListNode right_nextOne(6, &right_one);
-  ListNode right_end(5, &right_nextOne);
+  ListNode right_one(9);
+  ListNode right_nextOne(9, &right_one);
+  ListNode right_end(9, &right_nextOne);
   auto resultLinked = addTwoNumbers_r(&left_end, &right_end);
   traverseLikedList(resultLinked);
 }

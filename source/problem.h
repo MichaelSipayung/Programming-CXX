@@ -50,7 +50,7 @@ struct ListNode {
   explicit ListNode(int x) : val{x}, next{nullptr} {}
   ListNode(int x, ListNode *next) : val{x}, next{next} {}
 };
-ListNode *addTwoNumbers_r(ListNode *, ListNode *);
+ListNode *addTwoNumbers_r(ListNode *, ListNode *,int carry=0);
 ListNode *addTwoNumbers_m(ListNode *, ListNode *);
 void testAddTwoNumber();
 void traverseLikedList(ListNode *);
