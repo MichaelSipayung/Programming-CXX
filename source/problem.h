@@ -18,7 +18,7 @@ typedef struct ListNode ListNode;
 vector<vector<int>> threeSum(const vector<int> &);
 template <typename Object>
 void binarySearch(vector<Object> &_x, const Object &_data) {
-  if (_x.empty()) // performing nothing because it it consist no element
+  if (_x.empty()) // performing nothing because consist no element
     return;
   std::sort(_x.begin(), _x.end());
   size_t begin = 0;
@@ -50,9 +50,9 @@ struct ListNode {
   explicit ListNode(int x) : val{x}, next{nullptr} {}
   ListNode(int x, ListNode *next) : val{x}, next{next} {}
 };
-ListNode *addTwoNumbers(ListNode *, ListNode *);
+ListNode *addTwoNumbers_r(ListNode *, ListNode *);
 ListNode *addTwoNumbers_m(ListNode *, ListNode *);
 void testAddTwoNumber();
-void traverseLikedList(ListNode*);
+void traverseLikedList(ListNode *);
 } // namespace Problem
 #endif
