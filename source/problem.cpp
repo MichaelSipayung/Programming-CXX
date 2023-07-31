@@ -112,6 +112,7 @@ ListNode *addTwoNumbers_r(ListNode *link1, ListNode *link2, int carry) {
   return link1;
 }
 // adding two singly linked list, non-recursive version
+// stopping condition : l1 and l2 and carry is null
 ListNode *addTwoNumbers_m(ListNode *list1, ListNode *list2) {
   // adding dummy node
   auto *dummyHead = new ListNode(0);

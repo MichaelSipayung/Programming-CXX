@@ -23,7 +23,6 @@ using std::stack;
 using std::priority_queue;
 using std::queue;
 namespace Refactor {
-
 void vecWork() {
   vector<int> basic = {0, 12, 3, 12, 4, 5, 6};
   vector<int>::iterator begin, end;

@@ -9,9 +9,12 @@
 #include <iostream>
 #include <map>
 #include <set>
+#include <unordered_map>
+#include <unordered_set>
 #include <sstream>
 #include <utility> //the pair type
 #include <vector>
+#include "m_sales.h"
 namespace Refactor {
 // debugPurpose : test if insertion, erasing element and others work properly
 // test case map with every type
@@ -160,5 +163,11 @@ void wordTransform(std::ifstream &, std::ifstream &);
 std::map<std::string, std::string> buildMap(std::ifstream &);
 const std::string &transform(const std::string &,
                              const std::map<std::string, std::string> &);
+//hash-er function, calculate hash code
+size_t hasher(const M_Sales_data& sd);
+std::unordered_map<std::string, size_t> &wordCount (std::unordered_map<std::string, size_t>&);
+/*std::unordered_map<M_Sales_data, decltype(hasher)*,size_t> &wordCount
+  (std::unordered_map<M_Sales_data, decltype(hasher)*, size_t>&);
+*/
 } // namespace Refactor
 #endif

@@ -192,10 +192,10 @@ map<string, string> buildMap(ifstream &map_file) {
   string key;                    // a word to transform
   string value;                  // phrase to use instead
   // read the first word into key and the rest of the line into value
-  // calling getline means after read key read the rest before newline
+  // calling get-line means after read key read the rest before newline
   while (map_file >> key && getline(map_file, value)) {
-    // since getline will read whitespace betweeen word and rule
-    // we must calling susbstr to ensure the rule not followed by space
+    // since get-line will read whitespace betweeen word and rule
+    // we must call susbstr to ensure the rule not followed by space
     if (value.size() > 1)               // check that there is a transformation
       trans_map[key] = value.substr(1); // skip leading space
     else
@@ -215,4 +215,25 @@ const string &transform(const string &s, const map<string, string> &m) {
   else
     return s; // otherwise return the original unchanged
 }
+//generate hash code
+size_t hasher(const M_Sales_data &sd) {
+  return  std::hash<std::string>()(sd.isbn());
+}
+//using unordered version of map, instead of comparison operation to organize
+//their elements, these versions using hash function and the key type's==
+//wordCount : count appearance of the word on a given sentence
+std::unordered_map<std::string, size_t> &wordCount (std::unordered_map<std::string, size_t>&_x) {
+  string word;
+  cout<<"input word to count : ";
+  while(cin>>word)
+    ++_x[word]; //increase the counter
+  return _x;
+}
+/*
+std::unordered_map<M_Sales_data, decltype(hasher)*,size_t> &
+    Refactor::wordCount(std::unordered_map<M_Sales_data, decltype(hasher)*, size_t> &_x) {
+    return _x;
+}*/
+//using sales data as a key on associative container
+//for unordered version, we must define == operator on sales data
 } // namespace Refactor

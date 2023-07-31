@@ -16,7 +16,6 @@ class Sales_Data {
   friend Sales_Data add(const Sales_Data &, const Sales_Data &);
   friend ostream &print(ostream &, const Sales_Data &);
   friend istream &read(istream &, Sales_Data &);
-
 public:
   // constructor added
   Sales_Data() = default;
@@ -85,7 +84,7 @@ char Screen::get(pos r, pos c) const {
   pos row = r * width;
   return contents[row + c];
 }
-// some_member: making data member mutable even if const const member f
+// some_member: making data member mutable even if const member f
 inline void Screen::some_member() const { ++access_ctr; }
 inline Screen &Screen::set(char c) {
   contents[cursor] = c;
@@ -108,7 +107,7 @@ private:
 class ConstRef {
 public:
   ConstRef(int);
-  // constexpr on nonaggregate class
+  // constexpr on non aggregate class
   constexpr bool nonLiteral() { return i > 0; };
 
 private:

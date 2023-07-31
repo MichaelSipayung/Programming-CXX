@@ -11,15 +11,17 @@ public: // access specifier added
   M_Sales_data() = default;
   // default arguments and constructors
   /*M_Sales_data(std::string s=""):bookNo(s){}*/
-  M_Sales_data(const std::string s) : bookNo(s) {}
+  explicit M_Sales_data(const std::string s) : bookNo(s) {}
   M_Sales_data(const std::string s, unsigned int n, double p)
       : bookNo(s), unit_sold(n), revenue(p * n) {}
-  M_Sales_data(std::istream &);
+  explicit M_Sales_data(std::istream &);
   std::string isbn() const { return bookNo; }
   M_Sales_data &combine(const M_Sales_data &);
   // prevent implicit conversion
   // explicit M_Sales_data(const std::string &s):bookNo(s){}
   void show_data();
+  //needed for sales_data as a key
+  static bool equalOperator(const M_Sales_data&, const M_Sales_data&);
 
 private: // access specifier added
   double avg_price() const { return unit_sold ? revenue / unit_sold : 0; }
