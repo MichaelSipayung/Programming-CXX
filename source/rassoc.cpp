@@ -215,25 +215,26 @@ const string &transform(const string &s, const map<string, string> &m) {
   else
     return s; // otherwise return the original unchanged
 }
-//generate hash code
+// generate hash code
 size_t hasher(const M_Sales_data &sd) {
-  return  std::hash<std::string>()(sd.isbn());
+  return std::hash<std::string>()(sd.isbn());
 }
-//using unordered version of map, instead of comparison operation to organize
-//their elements, these versions using hash function and the key type's==
-//wordCount : count appearance of the word on a given sentence
-std::unordered_map<std::string, size_t> &wordCount (std::unordered_map<std::string, size_t>&_x) {
+// using unordered version of map, instead of comparison operation to organize
+// their elements, these versions using hash function and the key type's==
+// wordCount : count appearance of the word on a given sentence
+std::unordered_map<std::string, size_t> &
+wordCount(std::unordered_map<std::string, size_t> &_x) {
   string word;
-  cout<<"input word to count : ";
-  while(cin>>word)
-    ++_x[word]; //increase the counter
+  cout << "input word to count : ";
+  while (cin >> word)
+    ++_x[word]; // increase the counter
   return _x;
 }
 /*
 std::unordered_map<M_Sales_data, decltype(hasher)*,size_t> &
-    Refactor::wordCount(std::unordered_map<M_Sales_data, decltype(hasher)*, size_t> &_x) {
-    return _x;
+    Refactor::wordCount(std::unordered_map<M_Sales_data, decltype(hasher)*,
+size_t> &_x) { return _x;
 }*/
-//using sales data as a key on associative container
-//for unordered version, we must define == operator on sales data
+// using sales data as a key on associative container
+// for unordered version, we must define == operator on sales data
 } // namespace Refactor

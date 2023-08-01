@@ -7,9 +7,26 @@ using std::string;
 #include <vector>
 using std::vector;
 #include <algorithm>
+#include <stack>
 #include <string>
 namespace Problem {
+typedef struct linkedList linkedList;
 typedef struct ListNode ListNode;
+// definition for singly-linked list
+struct ListNode {
+  int val;
+  ListNode *next;
+  ListNode() : val(0), next(nullptr) {}
+  explicit ListNode(int x) : val{x}, next{nullptr} {}
+  ListNode(int x, ListNode *next) : val{x}, next{next} {}
+};
+// single linked list declaration
+struct linkedList {
+  string item;
+  linkedList *next;
+};
+// searching on linked list
+linkedList *searchList(linkedList *, const string &);
 // performing binary search algorithm using template
 // with running time O(lg n), note for halving range
 // begin + (end-begin)/2; the present of begin on the front is
@@ -42,17 +59,11 @@ void combinationUtil(int arr[], int data[], int start, int end, int index,
                      int r);
 void showResult();
 long int fact(long int);
-// definition for singly-linked list
-struct ListNode {
-  int val;
-  ListNode *next;
-  ListNode() : val(0), next(nullptr) {}
-  explicit ListNode(int x) : val{x}, next{nullptr} {}
-  ListNode(int x, ListNode *next) : val{x}, next{next} {}
-};
-ListNode *addTwoNumbers_r(ListNode *, ListNode *,int carry=0);
+ListNode *addTwoNumbers_r(ListNode *, ListNode *, int carry = 0);
 ListNode *addTwoNumbers_m(ListNode *, ListNode *);
 void testAddTwoNumber();
 void traverseLikedList(ListNode *);
+long fastExp(const int &, const int &);
+std::string removeKDigits(const string &, int &);
 } // namespace Problem
 #endif

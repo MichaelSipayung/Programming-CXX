@@ -16,6 +16,7 @@ class Sales_Data {
   friend Sales_Data add(const Sales_Data &, const Sales_Data &);
   friend ostream &print(ostream &, const Sales_Data &);
   friend istream &read(istream &, Sales_Data &);
+
 public:
   // constructor added
   Sales_Data() = default;

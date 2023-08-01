@@ -20,8 +20,8 @@ public: // access specifier added
   // prevent implicit conversion
   // explicit M_Sales_data(const std::string &s):bookNo(s){}
   void show_data();
-  //needed for sales_data as a key
-  static bool equalOperator(const M_Sales_data&, const M_Sales_data&);
+  // needed for sales_data as a key
+  static bool equalOperator(const M_Sales_data &, const M_Sales_data &);
 
 private: // access specifier added
   double avg_price() const { return unit_sold ? revenue / unit_sold : 0; }
