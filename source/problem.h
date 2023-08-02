@@ -19,14 +19,21 @@ struct ListNode {
   ListNode() : val(0), next(nullptr) {}
   explicit ListNode(int x) : val{x}, next{nullptr} {}
   ListNode(int x, ListNode *next) : val{x}, next{next} {}
+  bool operator==(const ListNode &other) const {
+    return val == other.val && next == other.next;
+  }
 };
 // single linked list declaration
 struct linkedList {
   string item;
   linkedList *next;
+  linkedList(const string &item, linkedList *next) : item(item), next(next) {}
+  linkedList() : item(string(" ")), next(nullptr) {}
+  explicit linkedList(const string &_s) : item(_s), next(nullptr) {}
+  bool operator==(const linkedList &other) const {
+    return item == other.item && next == other.next;
+  }
 };
-// searching on linked list
-linkedList *searchList(linkedList *, const string &);
 // performing binary search algorithm using template
 // with running time O(lg n), note for halving range
 // begin + (end-begin)/2; the present of begin on the front is
@@ -65,5 +72,11 @@ void testAddTwoNumber();
 void traverseLikedList(ListNode *);
 long fastExp(const int &, const int &);
 std::string removeKDigits(const string &, int &);
+// searching on linked list
+linkedList *searchList(linkedList *, const string &);
+void insert_list(linkedList **, const string &);
+linkedList *item_head(linkedList *, linkedList *);
+void delete_list(linkedList **, linkedList **);
+linkedList *successor(linkedList *, linkedList *);
 } // namespace Problem
 #endif

@@ -28,7 +28,8 @@ std::ostream &print(std::ostream &os, const M_Sales_data &item) {
   os << item.isbn();
   return os;
 }
-//since hash using operator ==, we must first create definition of operator ==
-bool M_Sales_data::equalOperator(const M_Sales_data &_x, const M_Sales_data &_y) {
-  return _x.isbn()==_y.isbn();
+// since hash using operator ==, we must first create definition of operator ==
+bool M_Sales_data::equalOperator(const M_Sales_data &_x,
+                                 const M_Sales_data &_y) {
+  return _x.isbn() == _y.isbn();
 }

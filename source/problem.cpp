@@ -40,7 +40,7 @@ void showResult() {
 // 3sum problem, leetcode.com problem
 vector<vector<int>> threeSum(const vector<int> &nums) {
   int arr[3];
-  std::copy(nums.begin(), nums.end(), arr+0);
+  std::copy(nums.begin(), nums.end(), arr + 0);
   int data[3];
   combinationUtil(arr, data, 0, (int)nums.size() - 1, 0, 3);
   long int total_com =
@@ -173,10 +173,8 @@ long fastExp(const int &_base, const int &_power) {
   if (_power == 0)
     return 1;
   auto x = fastExp(_base, _power / 2);
-  if (_power % 2 == 0)
-    return (long)std::pow(x, 2);
-  else
-    return _base * (long)std::pow(x, 2);
+  //recursively doing exponentiation
+  return _power % 2 == 0 ? (long)std::pow(x, 2) : _base * (long)std::pow(x, 2);
 }
 // remove k digits from string and find the smallest substring
 //_x is a string that contain non-negative number and k is number
@@ -208,15 +206,14 @@ std::string removeKDigits(const string &_x, int &_k) {
   // using conditional statement to make sure leading zero is passed
   string store;
   auto find_zero = std::find(std::begin(stack), std::end(stack), '0');
-  if (find_zero != std::begin(stack)) {
+  if (find_zero != std::begin(stack))
     for (const auto &item : stack)
       store += item;
-  } else {
+  else {
     auto begin = stack.begin();
     // ok contain any leading zero, remove it before return
-    while (*begin == '0') {
+    while (*begin == '0')
       ++begin;
-    }
     // after not meet any leading zero, put all to variable store
     while (begin != std::cend(stack)) {
       store += *begin;
@@ -232,9 +229,48 @@ std::string removeKDigits(const string &_x, int &_k) {
 linkedList *searchList(linkedList *_ls, const string &_data) {
   if (_ls == nullptr)
     return nullptr;
-  if (_ls->item == _data) // first searching on head
-    return _ls;
-  else // traverse recursively on next
-    return (searchList(_ls->next, _data));
+  return _ls->item == _data ? _ls : searchList(_ls->next, _data);
+}
+// insert an element on singly linked list
+// update head of data structure using temporary variable
+void insert_list(linkedList **_ls, const string &_item) {
+  linkedList *temp = nullptr; // temporary variable
+  temp = new linkedList;      // allocate new object
+  temp->item = _item;         // assign item to temporary object
+  temp->next = *_ls;          // temporary.next point to *ls, remember the head
+  *_ls = temp;                // copy temp to the place pointed by *ls
+}
+// find the predecessor because it points to the doomed node
+// so its next pointer must be changed, predecessor is element
+// before linked-list _rh on _lh, look successor for further explanation
+linkedList *item_head(linkedList *_lh, linkedList *_rh) {
+  // check if _ls point to something
+  if ((_lh == nullptr) || (_lh->next == nullptr))
+    return nullptr;
+  // traverse the next linked list
+  // if it's, return head otherwise look recursively to next
+  return _lh->next == _rh ? _lh : item_head(_lh->next, _rh);
+}
+// delete linked-list from given position _rh from _lh
+void delete_list(linkedList **_lh, linkedList **_rh) {
+  linkedList *p = nullptr;           // item pointer
+  linkedList *predecessor = nullptr; // predecessor pointer
+  p = *_lh;
+  // find the predecessor of _rh
+  predecessor = item_head(*_lh, *_rh);
+  // if predecessor is null, take all _lh.next to head or move all next element
+  // otherwise _lh.next contain the linked-list _th next
+  predecessor == nullptr ? *_lh = p->next : predecessor->next = (*_rh)->next;
+  free(*_rh); // free memory used by node
+}
+// auxiliary function to tell the successor of the linked-list
+//_ls is the linked-list which consist of some pointer to it
+//_rh is the given list we want to know its successor
+linkedList *successor(linkedList *_lh, linkedList *_rh) {
+  if ((_lh == nullptr) ||
+      (_lh->next == nullptr)) // if given linked-list point to nothing
+    return nullptr;           // point to nothing return null pointer
+  // recursively look for the successor
+  return (_lh == _rh ? _lh->next : successor(_lh->next, _rh));
 }
 } // namespace Problem
