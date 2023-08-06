@@ -11,6 +11,8 @@ using std::vector;
 namespace problem {
 typedef struct linked_list linked_list;
 typedef struct list_node list_node;
+typedef struct node node;
+typedef struct node_q node_q;
 // definition for singly-linked list
 struct list_node {
   int val;
@@ -42,63 +44,157 @@ public:
   bool empty() const;
   void push(const Item &item);
   void pop();
-  void  top();
-  size_t size()const;
+  void top();
+  size_t size() const;
+
 private:
-  Item *s_; //pointer
-  size_t n_; //maximum 
-  size_t idx_; //index
+  Item *s_;    // pointer
+  size_t n_;   // maximum
+  size_t idx_; // index
   bool check_size() const;
 };
 
 template <class Item>
-stack_array_base<Item>::stack_array_base(const size_t& max):n_(max)
-{
+stack_array_base<Item>::stack_array_base(const size_t &max) : n_(max) {
   s_ = new Item[max];
   idx_ = 0;
 }
 
-template <class Item>
-bool stack_array_base<Item>::empty() const
-{
+template <class Item> bool stack_array_base<Item>::empty() const {
   return idx_ == 0;
 }
 
-template <class Item>
-void stack_array_base<Item>::push(const Item& item){
-	if (check_size()){
+template <class Item> void stack_array_base<Item>::push(const Item &item) {
+  if (check_size()) {
     std::cerr << "error: push fail";
     return;
-	}
-	s_[idx_++] = item;
+  }
+  s_[idx_++] = item;
 }
 
-template <class Item>
-void stack_array_base<Item>::pop(){
-	if (idx_==0){
-		std::cerr << "error: pop fail";
+template <class Item> void stack_array_base<Item>::pop() {
+  if (idx_ == 0) {
+    std::cerr << "error: pop fail";
     return;
-	}
+  }
   --idx_;
 }
 
-template <class Item>
-void stack_array_base<Item>::top(){
+template <class Item> void stack_array_base<Item>::top() {
   if (idx_ == 0)
     return;
-  cout << s_[idx_-1];
+  cout << s_[idx_ - 1];
 }
 
-template <class Item>
-size_t stack_array_base<Item>::size() const
-{
-  return n_;;
+template <class Item> size_t stack_array_base<Item>::size() const {
+  return n_;
+  ;
 }
 
-template <class Item>
-bool stack_array_base<Item>::check_size() const
-{
+template <class Item> bool stack_array_base<Item>::check_size() const {
   return idx_ >= n_ ? true : false;
+}
+// stack based on linked-list, all method is equal in array based
+template <class Item> class stack_linked_based {
+public:
+  stack_linked_based() : head_(nullptr), sz_(0) {}
+  bool empty() const { return head_ == nullptr; }
+  void push(Item x) {
+    head_ = new node(x, head_);
+    ++sz_; // increase size of linked list
+  }
+  Item pop();
+  size_t size() const { return sz_; }
+
+private:
+  struct node {
+    node(Item x, node *t);
+    Item item;
+    node *next;
+  };
+  node *head_; // head node
+  size_t sz_;  // counter for total linked list element
+};
+// pop method to remove last element
+template <class Item> Item stack_linked_based<Item>::pop() {
+  if (head_ == nullptr) {
+    std::cerr << "error while pop";
+    return Item{};
+  }
+  Item v = head_->item;  // copy item
+  node *t = head_->next; // point to next
+  delete head_;          // delete from memory
+  head_ = t;             // move next to head
+  --sz_;                 // increase size of stack
+  return v;              // return pop element
+}
+// constructor for node class
+template <class Item> stack_linked_based<Item>::node::node(Item x, node *t) {
+  item = x;
+  next = t;
+}
+// fifo queue ADT interface, first in, first out
+// non analog version of vector
+template <class Item> class queue_linked {
+public:
+  queue_linked();
+  queue_linked(node_q *head, node_q *tail);
+  // check if no element on queue
+  int empty();
+  void put(const Item &);
+  Item get();
+
+private:
+  struct node_q {
+    explicit node_q(Item x);
+    Item item;
+    node_q *next;
+  };
+  node_q *head_; // pointer to the head of queue
+  node_q *tail_; // to the tail of queue
+};
+// constructor for node in a queue class
+template <class Item> queue_linked<Item>::node_q::node_q(Item x) {
+  item = x;
+  next = nullptr;
+}
+
+template <class Item>
+queue_linked<Item>::queue_linked():head_(nullptr), tail_(nullptr)
+{}
+
+template <class Item>
+queue_linked<Item>::queue_linked(problem::node_q* head, problem::node_q* tail): head_(head), tail_(tail)
+{}
+
+template <class Item>
+int queue_linked<Item>::empty()
+{ return head_ == nullptr; }
+
+// put : public member function which is used
+// to add element to the queue, put new element to the tail
+template <class Item> void queue_linked<Item>::put(const Item &it) {
+  node_q *t = tail_;      // temporary variable to store where is the tail
+  tail_ = new node_q(it); // request new storage
+  if (head_ == nullptr)   // no element
+    head_ = tail_;        // head point to tail
+  else // otherwise, set tail to proper place, which is t->next is the tail
+    t->next = tail_;
+}
+// get : public member function which is used to pop element
+// the first added element will pop
+template <class Item> Item queue_linked<Item>::get() {
+  //error handling for empty queue to pop
+  if(empty())
+  {
+	  std::cerr << "error, no element on a queue";
+    return Item{};  
+  }
+  Item v = head_->item;    // copy the information, what will be removed
+  node_q *t = head_->next; // temporary variable, store next element
+  delete head_;            // remove from memory
+  head_ = t; // copy t to head, all element on next will move to head
+  return v;  // return what i remove
 }
 
 // performing binary search algorithm using template

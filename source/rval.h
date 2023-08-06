@@ -18,7 +18,7 @@ namespace Adv {
 class RvalRef {
 public:
   RvalRef() = default;
-  RvalRef(const string &is, const double &rev) : isbn{is}, revenue{rev} {}
+  RvalRef(string is, const double &rev) : isbn{std::move(is)}, revenue{rev} {}
   RvalRef(const RvalRef &rh) : isbn{rh.isbn}, revenue{rh.revenue} {}
   RvalRef(RvalRef &&s) noexcept; // mv ctor
   RvalRef &operator=(RvalRef &&) noexcept;
