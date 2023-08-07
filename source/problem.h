@@ -53,17 +53,17 @@ private:
   size_t idx_; // index
   bool check_size() const;
 };
-
+//contructor to initialize stack class, no default constructor
 template <class Item>
 stack_array_base<Item>::stack_array_base(const size_t &max) : n_(max) {
   s_ = new Item[max];
   idx_ = 0;
 }
-
+//check if stack is empty
 template <class Item> bool stack_array_base<Item>::empty() const {
   return idx_ == 0;
 }
-
+//push an element to stack
 template <class Item> void stack_array_base<Item>::push(const Item &item) {
   if (check_size()) {
     std::cerr << "error: push fail";
@@ -71,7 +71,7 @@ template <class Item> void stack_array_base<Item>::push(const Item &item) {
   }
   s_[idx_++] = item;
 }
-
+//pop an element from stack
 template <class Item> void stack_array_base<Item>::pop() {
   if (idx_ == 0) {
     std::cerr << "error: pop fail";
@@ -79,18 +79,15 @@ template <class Item> void stack_array_base<Item>::pop() {
   }
   --idx_;
 }
-
+//show an element in top of the stack
 template <class Item> void stack_array_base<Item>::top() {
   if (idx_ == 0)
     return;
   cout << s_[idx_ - 1];
 }
-
-template <class Item> size_t stack_array_base<Item>::size() const {
-  return n_;
-  ;
-}
-
+//check the current size of stack
+template <class Item> size_t stack_array_base<Item>::size() const { return n_; }
+//check if the index  exceed from maximum capacity of stack
 template <class Item> bool stack_array_base<Item>::check_size() const {
   return idx_ >= n_ ? true : false;
 }
@@ -160,16 +157,15 @@ template <class Item> queue_linked<Item>::node_q::node_q(Item x) {
 }
 
 template <class Item>
-queue_linked<Item>::queue_linked():head_(nullptr), tail_(nullptr)
-{}
+queue_linked<Item>::queue_linked() : head_(nullptr), tail_(nullptr) {}
 
 template <class Item>
-queue_linked<Item>::queue_linked(problem::node_q* head, problem::node_q* tail): head_(head), tail_(tail)
-{}
+queue_linked<Item>::queue_linked(problem::node_q *head, problem::node_q *tail)
+    : head_(head), tail_(tail) {}
 
-template <class Item>
-int queue_linked<Item>::empty()
-{ return head_ == nullptr; }
+template <class Item> int queue_linked<Item>::empty() {
+  return head_ == nullptr;
+}
 
 // put : public member function which is used
 // to add element to the queue, put new element to the tail
@@ -184,11 +180,10 @@ template <class Item> void queue_linked<Item>::put(const Item &it) {
 // get : public member function which is used to pop element
 // the first added element will pop
 template <class Item> Item queue_linked<Item>::get() {
-  //error handling for empty queue to pop
-  if(empty())
-  {
-	  std::cerr << "error, no element on a queue";
-    return Item{};  
+  // error handling for empty queue to pop
+  if (empty()) {
+    std::cerr << "error, no element on a queue";
+    return Item{};
   }
   Item v = head_->item;    // copy the information, what will be removed
   node_q *t = head_->next; // temporary variable, store next element
@@ -197,32 +192,80 @@ template <class Item> Item queue_linked<Item>::get() {
   return v;  // return what i remove
 }
 
+// FIFO queue array implementation, the contents of the queue
+// are all the elements in the array between head and tail, when
+// the end of array encountered, it will back to 0, and if tail==head
+// the queue is empty, but if put make it equal we consider the queue to be-full
+template <class Item> class queue_array {
+public:
+  explicit queue_array(const int &max);
+  int empty() const;
+  void put(const Item &item);
+  Item get();
+
+private:
+  Item *q_;
+  int n_;
+  int head_;
+  int tail_;
+};
+
+// constructor for queue based on array implementation
+template <class Item> queue_array<Item>::queue_array(const int &max) {
+  q_ = new Item[max + 1];
+  n_ = max + 1;
+  head_ = n_;
+  tail_ = 0;
+}
+
+// check if the queue is an empty queue
+template <class Item> int queue_array<Item>::empty() const {
+  return head_ % n_ == tail_;
+}
+
+// insert an element to the end, after element 0,1, ..., n-1
+//  using postfix operator, to make sure that tail_ not greater than max+1
+template <class Item> void queue_array<Item>::put(const Item &item) {
+  q_[tail_++] = item;
+  // if tail == _n or maximum element + 1, tail will point to first element
+  tail_ = tail_ % n_; // otherwise, insert element to proper place before n_
+}
+
+// remove first element, equal to pop front
+//  using postfix operator, to make sure that head not greater than max+1
+template <class Item> Item queue_array<Item>::get() {
+  // first case: head==n, then remove q[0]
+  head_ = head_ % n_; // if head < n, remove _q[head], but if head == n
+  return q_[head_++]; // get element on the front and pop it or erase it
+  // increase the position of head one step to the end
+}
+
 // performing binary search algorithm using template
 // with running time O(lg n), note for halving range
 // begin + (end-begin)/2; the present of begin on the front is
 // adding the current left range to traverse [left, right]
 // [right, left] !
-vector<vector<int>> threeSum(const vector<int> &);
+vector<vector<int>> three_sum(const vector<int> &);
 template <typename Object>
-void binary_search(vector<Object> &_x, const Object &_data) {
-  if (_x.empty()) // performing nothing because consist no element
+void binary_search(vector<Object> &x, const Object &data) {
+  if (x.empty()) // performing nothing because consist no element
     return;
-  std::sort(_x.begin(), _x.end());
+  std::sort(x.begin(), x.end());
   size_t begin = 0;
-  size_t end = _x.size();
+  size_t end = x.size();
   while (begin <= end) // accept the same range but not the outside
   {
     size_t middle = begin + (end - begin) / 2; // begin + (half)
-    if (_data < _x[middle]) {
+    if (data < x[middle]) {
       end = middle - 1; // move left [begin, middle-1]
-    } else if (_data > _x[middle]) {
+    } else if (data > x[middle]) {
       begin = middle + 1; // move right [middle+1, end]
     } else {
-      cout << "result : " << _x[middle] << endl;
+      cout << "result : " << x[middle] << endl;
       return;
     }
   }
-  std::cerr << "no instance of : " << _data << " found " << endl;
+  std::cerr << "no instance of : " << data << " found " << endl;
 }
 void combination_util(int arr[], int data[], int start, int end, int index,
                       int r);

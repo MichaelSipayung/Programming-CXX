@@ -38,7 +38,7 @@ void show_result() {
     cout << item << " | ";
 }
 // 3sum problem, leetcode.com problem
-vector<vector<int>> threeSum(const vector<int> &nums) {
+vector<vector<int>> three_sum(const vector<int> &nums) {
   int arr[3];
   std::copy(nums.begin(), nums.end(), arr + 0);
   int data[3];
