@@ -13,6 +13,7 @@ typedef struct linked_list linked_list;
 typedef struct list_node list_node;
 typedef struct node node;
 typedef struct node_q node_q;
+
 // definition for singly-linked list
 struct list_node {
   int val;
@@ -53,17 +54,17 @@ private:
   size_t idx_; // index
   bool check_size() const;
 };
-//contructor to initialize stack class, no default constructor
+// contructor to initialize stack class, no default constructor
 template <class Item>
 stack_array_base<Item>::stack_array_base(const size_t &max) : n_(max) {
   s_ = new Item[max];
   idx_ = 0;
 }
-//check if stack is empty
+// check if stack is empty
 template <class Item> bool stack_array_base<Item>::empty() const {
   return idx_ == 0;
 }
-//push an element to stack
+// push an element to stack
 template <class Item> void stack_array_base<Item>::push(const Item &item) {
   if (check_size()) {
     std::cerr << "error: push fail";
@@ -71,7 +72,7 @@ template <class Item> void stack_array_base<Item>::push(const Item &item) {
   }
   s_[idx_++] = item;
 }
-//pop an element from stack
+// pop an element from stack
 template <class Item> void stack_array_base<Item>::pop() {
   if (idx_ == 0) {
     std::cerr << "error: pop fail";
@@ -79,15 +80,15 @@ template <class Item> void stack_array_base<Item>::pop() {
   }
   --idx_;
 }
-//show an element in top of the stack
+// show an element in top of the stack
 template <class Item> void stack_array_base<Item>::top() {
   if (idx_ == 0)
     return;
   cout << s_[idx_ - 1];
 }
-//check the current size of stack
+// check the current size of stack
 template <class Item> size_t stack_array_base<Item>::size() const { return n_; }
-//check if the index  exceed from maximum capacity of stack
+// check if the index  exceed from maximum capacity of stack
 template <class Item> bool stack_array_base<Item>::check_size() const {
   return idx_ >= n_ ? true : false;
 }
@@ -239,7 +240,27 @@ template <class Item> Item queue_array<Item>::get() {
   return q_[head_++]; // get element on the front and pop it or erase it
   // increase the position of head one step to the end
 }
-
+// binary search tree implementations, left pointer, right pointer
+// parent pointer (an optional pointer)
+template <class Item> struct tree {
+  Item item;              // data item
+  tree *parent = nullptr; // pointer to parent
+  tree *left = nullptr;   // pointer to left child
+  tree *right = nullptr;  // pointer to right child
+};
+// for search operation, we assume that item is comparable
+// first we look that tree is not null, and check item is is equal
+// otherwise, we recursively look to left or right, depend on item size
+template <class Item>
+tree<Item> *search_tree(tree<Item> *tr, const Item &item) {
+  if (tr == nullptr) // base case
+    return nullptr;
+  if (tr->item == item) // next case after pass base case
+    return tr;
+  if (tr->item < item) // traverse to left of node
+    return search_tree(tr->left, item);
+  return search_tree(tr->right, item); // otherwise traverse to right of node
+}
 // performing binary search algorithm using template
 // with running time O(lg n), note for halving range
 // begin + (end-begin)/2; the present of begin on the front is
