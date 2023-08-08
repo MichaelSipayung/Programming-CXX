@@ -53,7 +53,11 @@ vector<vector<int>> three_sum(const vector<int> &num) {
   for (int i = 0; i < total_com; ++i) {
     int total = 0;
     for (int j = 0; j < 3; ++j) {
-      temp_obj[i][j] = result[i * 3 + j];
+      temp_obj[i][j] =
+          result[static_cast<std::vector<int, std::allocator<int>>::size_type>(
+                     static_cast<long>(i)) *
+                     3 +
+                 j];
       total += temp_obj[i][j];
     }
     if (total == 0) {
@@ -322,19 +326,47 @@ long fib_r(const int n) {
 // save it using caching technique, here f[n] is the place
 // assume f[6] = f[5] + f[4], f[5] = f[4] + f[3] and so on until f[2]
 long fib_c(const int n) {
-  if (f[n] == unknown) //remember base case is f[0] and f[1]
-    f[n] = fib_c(n - 1) + fib_c(n - 2); //rule is same, but result is filled in cache
-  return f[n]; //save it, example f[6] = fib(5) + fib(4), f[5] = fib(4) + fib(3) ..
-  //and sum it without call sum fib(n) every time
+  if (f[n] == unknown) // remember base case is f[0] and f[1]
+    f[n] = fib_c(n - 1) +
+           fib_c(n - 2); // rule is same, but result is filled in cache
+  return f[n]; // save it, example f[6] = fib(5) + fib(4), f[5] = fib(4) +
+               // fib(3) ..
+  // and sum it without call sum fib(n) every time
 }
 // main function for compute fibonacci number with caching
 // the for loop is intended to fill f[n] or cache result
 // this method give better result to recursive version of fib_r with O(n)
 long cache_fib(const int n) {
-  f[0] = 0; //fir base case
+  f[0] = 0; // fir base case
   f[1] = 1;
   for (int i = 2; i <= n; ++i)
     f[i] = unknown;
   return fib_c(n);
+}
+// find fibonacci number using dynamic programming with performance O(n)
+// this program is identically to cache_fib version with recursive call
+long fib_dynamic(const int n) {
+  vector<int> caching(n + 1, 0);
+  caching[0] = 0; // base case f(0) = 0
+  caching[1] = 1; // and f(1) =1
+  for (int i = 2; i <= n; ++i)
+    caching[i] = caching[i - 1] + caching[i - 2];
+  return caching[n];
+}
+// find fibonacci number using dynamic programming with constant space
+// this version only reduce the space required while performing fib_dynamic
+// the idea is, we using last two value to compute fib(n)
+long fib_ultimate(const int n) {
+  long back1 = 1; // last two values for f[0], f[1]
+  long back2 = 0;
+  if (n == 0)
+    return back2; // if n=1, return 0 + 1 !
+  for (int i = 2; i < n;
+       ++i) { // stopping condition is i < n, since we use last 2 value
+    const long next = back1 + back2; // temporary variable for sum
+    back2 = back1;
+    back1 = next;
+  }
+  return back1 + back2;
 }
 } // namespace problem

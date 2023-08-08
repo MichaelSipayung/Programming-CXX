@@ -15,16 +15,16 @@ using std::unique_ptr;
 #include <utility>
 using std::sort;
 namespace Adv {
-class RvalRef {
+class r_value {
 public:
-  RvalRef() = default;
-  RvalRef(string is, const double &rev) : isbn{std::move(is)}, revenue{rev} {}
-  RvalRef(const RvalRef &rh) : isbn{rh.isbn}, revenue{rh.revenue} {}
-  RvalRef(RvalRef &&s) noexcept; // mv ctor
-  RvalRef &operator=(RvalRef &&) noexcept;
-  RvalRef &operator=(const RvalRef &) noexcept;
+  r_value() { isbn = " "; revenue = 0; }
+  r_value(string is, const double &rev) : isbn{std::move(is)}, revenue{rev} {}
+  r_value(const r_value &rh) : isbn{rh.isbn}, revenue{rh.revenue} {}
+  r_value(r_value &&s) noexcept; // mv ctor
+  r_value &operator=(r_value &&) noexcept;
+  r_value &operator=(const r_value &) noexcept;
   // RvalRef &operator=(const RvalRef&)=delete;
-  ~RvalRef(){}; // need dctor for cp ctor an cp assign
+  ~r_value(){}; // need dctor for cp ctor an cp assign
   void rvalBase() noexcept(true);
   void rvalMove() noexcept(true);
   void showData() noexcept;
@@ -103,8 +103,8 @@ inline Rhs_1 &Rhs_1::operator=(Rhs_1 mvCp) {
   return *this;
 }
 inline void Rhs_1::demo_mvCp() noexcept {
-  Rhs_1 hp, hp2;
-  hp = hp2;            // hp2 is lval
+  Rhs_1 hp2 = {};
+  Rhs_1 hp = hp2;            // hp2 is lval
   hp = std::move(hp2); // mv ctor moves hp2
 }
 inline void Foo_1::noMoveOp() noexcept {
@@ -113,7 +113,7 @@ inline void Foo_1::noMoveOp() noexcept {
   Foo_1 z(std::move(x)); // calling cp ctor no mv ctor; ok safe
 }
 
-inline void RvalRef::rvalBase() noexcept(true) {
+inline void r_value::rvalBase() noexcept(true) {
   int xPoint = 12;
   int &lvalRef = xPoint;
   xPoint = 13;
@@ -125,7 +125,7 @@ inline void RvalRef::rvalBase() noexcept(true) {
   int &&anRvalRef = xPoint++; // postfix op. ok, val : 13, xpoint =14
   cout << "dealing rval ref with postfix operator : " << anRvalRef << endl;
 }
-inline void RvalRef::rvalMove() noexcept(true) {
+inline void r_value::rvalMove() noexcept(true) {
   // variables are lvalues
   int &&rr1 = 42;
   // int &&rr2=rr1; error
@@ -133,15 +133,15 @@ inline void RvalRef::rvalMove() noexcept(true) {
   int &&rr3 = std::move(rr1); // cast, thinking about temporary object
 }
 // body for destroying object that can't aut destroy eq. pointer
-RvalRef::RvalRef(RvalRef &&s) noexcept : isbn{s.isbn}, revenue{s.revenue} {
+r_value::r_value(r_value &&s) noexcept : isbn{s.isbn}, revenue{s.revenue} {
   s.isbn = " "; // ensure no object point to this
   s.revenue = 0.0;
 }
-inline void RvalRef::showData() noexcept {
+inline void r_value::showData() noexcept {
   cout << "isbn : " << isbn << endl;
   cout << "revenue : " << revenue << endl;
 }
-RvalRef &RvalRef::operator=(RvalRef &&s) noexcept {
+r_value &r_value::operator=(r_value &&s) noexcept {
   if (this != &s) {
     // freed memory if it contain pointer
     isbn = s.isbn;
@@ -151,27 +151,27 @@ RvalRef &RvalRef::operator=(RvalRef &&s) noexcept {
   }
   return *this;
 }
-RvalRef &RvalRef::operator=(const RvalRef &s) noexcept {
+r_value &r_value::operator=(const r_value &s) noexcept {
   if (this != &s) {
     isbn = s.isbn;
     revenue = s.revenue;
   }
   return *this;
 }
-inline void RvalRef::mvMatch() noexcept {
-  RvalRef v1, v2("jackie", 15.5);
+inline void r_value::mvMatch() noexcept {
+  r_value v1, v2("jackie", 15.5);
   v1 = std::move(v2); // mv assignment;
   cout << " calling mv assignment : " << endl;
   v1.showData();
 }
-inline void RvalRef::cpMatch() noexcept {
-  RvalRef v1, v2;
+inline void r_value::cpMatch() noexcept {
+  r_value v1, v2;
   v1 = v2; // cp assignment
 }
 class Ref_Mem_Fun {
 public:
-  Ref_Mem_Fun() = default;
-  Ref_Mem_Fun(const Ref_Mem_Fun &s) : fixPoint{s.fixPoint} {}
+  Ref_Mem_Fun() { fixPoint = " "; xPoint = 0; }
+  Ref_Mem_Fun(const Ref_Mem_Fun &s) : fixPoint{s.fixPoint}, xPoint(0) {}
   Ref_Mem_Fun &
   operator=(const Ref_Mem_Fun &) &; // may assign only to modifiable lval
   ~Ref_Mem_Fun() {}

@@ -372,5 +372,7 @@ int power_sum(int, int);
 long fib_r(int n);
 long fib_c(int n);
 long cache_fib(int n);
+long fib_dynamic(int n);
+long fib_ultimate(int n);
 } // namespace problem
 #endif
