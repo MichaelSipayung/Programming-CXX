@@ -8,6 +8,9 @@ using std::vector;
 #include <algorithm>
 #include <cmath>
 #include <set>
+constexpr int max_fib = 92; // assume maximum n
+constexpr int unknown = -1;
+long f[max_fib + 1]; // array of caching fib values
 namespace problem {
 // result must store on global scope, since we want to use it on
 // showResult function
@@ -38,13 +41,13 @@ void show_result() {
     cout << item << " | ";
 }
 // 3sum problem, leetcode.com problem
-vector<vector<int>> three_sum(const vector<int> &nums) {
+vector<vector<int>> three_sum(const vector<int> &num) {
   int arr[3];
-  std::copy(nums.begin(), nums.end(), arr + 0);
+  std::copy(num.begin(), num.end(), arr + 0);
   int data[3];
-  combination_util(arr, data, 0, static_cast<int>(nums.size()) - 1, 0, 3);
-  const long int total_com = fact(static_cast<int>(nums.size())) /
-                             (6 * (fact(static_cast<int>(nums.size()) - 3)));
+  combination_util(arr, data, 0, static_cast<int>(num.size()) - 1, 0, 3);
+  const long int total_com = fact(static_cast<int>(num.size())) /
+                             (6 * (fact(static_cast<int>(num.size()) - 3)));
   int temp_obj[4][3];
   vector<vector<int>> temp;
   for (int i = 0; i < total_com; ++i) {
@@ -306,5 +309,32 @@ string pangram(const string &s) {
 int power_sum(const int x, const int n) {
   const auto max = static_cast<int>(std::pow(x, (1.0 / n)));
   return max;
+}
+// compute fibonacci number, f_n = f_n-1 + f_n-2, with f_0 = 0, f-1 =1
+long fib_r(const int n) {
+  if (n == 0) // base case n=0
+    return 0;
+  if (n == 1) // base case for n=1
+    return 1;
+  return fib_r(n - 1) + fib_r(n - 2); // otherwise, call fib recursively
+}
+// fibonacci number with caching, if f(n) is already compute
+// save it using caching technique, here f[n] is the place
+// assume f[6] = f[5] + f[4], f[5] = f[4] + f[3] and so on until f[2]
+long fib_c(const int n) {
+  if (f[n] == unknown) //remember base case is f[0] and f[1]
+    f[n] = fib_c(n - 1) + fib_c(n - 2); //rule is same, but result is filled in cache
+  return f[n]; //save it, example f[6] = fib(5) + fib(4), f[5] = fib(4) + fib(3) ..
+  //and sum it without call sum fib(n) every time
+}
+// main function for compute fibonacci number with caching
+// the for loop is intended to fill f[n] or cache result
+// this method give better result to recursive version of fib_r with O(n)
+long cache_fib(const int n) {
+  f[0] = 0; //fir base case
+  f[1] = 1;
+  for (int i = 2; i <= n; ++i)
+    f[i] = unknown;
+  return fib_c(n);
 }
 } // namespace problem
