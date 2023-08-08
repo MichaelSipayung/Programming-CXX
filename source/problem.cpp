@@ -115,11 +115,11 @@ list_node *add_two_numbers_r(list_node *link1, list_node *link2, int carry) {
 }
 // adding two singly linked list, non-recursive version
 // stopping condition : l1 and l2 and carry is null
-list_node *add_two_numbers_m(list_node *list1, list_node *list2) {
+list_node *add_two_numbers_m(const list_node *list1, const list_node *list2) {
   // adding dummy node
-  auto *dummyHead = new list_node(0);
+  auto *dummy_head = new list_node(0);
   // remember the current node
-  list_node *curr = dummyHead;
+  list_node *cur = dummy_head;
   // carry is the remainder, since we only have one digit! 2+9 =11
   // since sum / 10 = 1, store that value as  to carry
   int carry = 0;
@@ -133,15 +133,15 @@ list_node *add_two_numbers_m(list_node *list1, list_node *list2) {
     // store the solution on curr->next node
     // if sum less than ten, store sum to the
     // current node, otherwise store remainder of sum with ten
-    curr->next = new list_node(sum % 10);
+    cur->next = new list_node(sum % 10);
     // make curr point to curr->next
-    curr = curr->next;
+    cur = cur->next;
     // check the condition, if not null, move to next node
     // if list1 is point to nothing, assign as nullptr
     list1 = list1 ? list1->next : nullptr;
     list2 = list2 ? list2->next : nullptr;
   }
-  return dummyHead->next; // return the result one pass after dummyHead
+  return dummy_head->next; // return the result one pass after dummyHead
 }
 // demonstration of adding two number from singly linked list A and B
 // number are store in reverse order
@@ -159,7 +159,7 @@ void test_add_two_number() {
   traverse_liked_list(resultLinked);
 }
 // show all number one by one from singly linked list
-void traverse_liked_list(list_node *ls) {
+void traverse_liked_list(const list_node *ls) {
   cout << " result [";
   while (ls) { // where there is a number
     cout << ls->val << " , ";
@@ -168,29 +168,29 @@ void traverse_liked_list(list_node *ls) {
   cout << " ]" << endl;
 }
 // recursive fast exponential function with time complexity O(log n)
-long fast_exp(const int &_base, const int &_power) {
-  if (_power == 0)
+long fast_exp(const int &base, const int &power) {
+  if (power == 0)
     return 1;
-  auto x = fast_exp(_base, _power / 2);
+  const auto x = fast_exp(base, power / 2);
   // recursively doing exponentiation
-  return _power % 2 == 0 ? static_cast<long>(std::pow(x, 2))
-                         : _base * static_cast<long>(std::pow(x, 2));
+  return power % 2 == 0 ? static_cast<long>(std::pow(x, 2))
+                        : base * static_cast<long>(std::pow(x, 2));
 }
 // remove k digits from string and find the smallest substring
 //_x is a string that contain non-negative number and k is number
 // of digit we will remove from _x, return the smallest number0
-std::string remove_k_digits(const string &_x, int &_k) {
+std::string remove_k_digits(const string &x, int &k) {
   // special case, if there are _k digits to remove
   //  and _k==len(_x) and k=0, and nothing to do
-  if (_x.empty() || _x.size() == _k || _k < 0)
+  if (x.empty() || x.size() == static_cast<unsigned int>(k) || k < 0)
     return {"0"};
   vector<char> stack; // store the object
-  for (const auto &item : _x) {
+  for (const auto &item : x) {
     // remove element, removing must meet the condition
     // where the k times is limit for removing a number from stack
-    while (_k > 0 && !stack.empty() && stack.back() > item) {
+    while (k > 0 && !stack.empty() && stack.back() > item) {
       stack.pop_back();
-      --_k;
+      --k;
     }
     stack.push_back(item);
   }
@@ -198,9 +198,9 @@ std::string remove_k_digits(const string &_x, int &_k) {
   // meet, the top conditional statement that not guarantee
   // we remove k times, so pop_back() means remove last element
   // k times, consistently using prefix operator for reduce k value
-  while (_k > 0) {
+  while (k > 0) {
     stack.pop_back();
-    --_k;
+    --k;
   }
   // store the minimum number, if there is a leading zero, skip it
   // using conditional statement to make sure leading zero is passed
@@ -234,10 +234,10 @@ linked_list *search_list(linked_list *ls, const string &data) {
 // insert an element on singly linked list
 // update head of data structure using temporary variable
 void insert_list(linked_list **ls, const string &item) {
-  linked_list *temp = nullptr; // temporary variable
-  temp = new linked_list();    // allocate new object
-  temp->item = item;           // assign item to temporary object
-                               // tem->item = thomas, ls point to jack
+  // temporary variable
+  auto *temp = new linked_list(); // allocate new object
+  temp->item = item;              // assign item to temporary object
+                                  // tem->item = thomas, ls point to jack
   // example : current linked-list : knuth -> jack -> miller
   temp->next = *ls; // temporary.next point to *ls, remember the head
                     // temp->next = jack ->miller
@@ -261,10 +261,11 @@ linked_list *item_head(linked_list *lh, linked_list *rh) {
 // if del point to first linked list or front/ begin
 // head = lh.next otherwise predecessor.next = (*del).next
 void delete_list(linked_list **lh, linked_list **del) {
-  linked_list *predecessor = nullptr; // predecessor pointer
-  const linked_list *temp = *lh;      // temporary variable
+  // predecessor pointer
+  const linked_list *temp = *lh; // temporary variable
   // find the predecessor of _rh
-  predecessor = item_head(*lh, *del); // find head or linked list before del
+  linked_list *predecessor =
+      item_head(*lh, *del); // find head or linked list before del
   // if predecessor is null, take all lh.next to head or move all next element
   // otherwise lh.next contain the linked-list del next
   // if we remove beginning of linked list, move next to head

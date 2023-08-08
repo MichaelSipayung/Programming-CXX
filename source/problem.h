@@ -261,6 +261,69 @@ tree<Item> *search_tree(tree<Item> *tr, const Item &item) {
     return search_tree(tr->left, item);
   return search_tree(tr->right, item); // otherwise traverse to right of node
 }
+// finding minimum element, the minimum element must be the left
+// descendant of the root
+template <class Item> tree<Item> *find_minimum(tree<Item> *t) {
+  // pointer to minimum
+  if (t == nullptr)
+    return nullptr;
+  tree<Item> *min = t; // min point to t
+  // look for the left node until left point to nothing
+  while (min->left != nullptr)
+    min = min->left;
+  return min;
+}
+// find maximum is equal to find maximum with special
+//  case we point to right of tree
+template <class Item> tree<Item> *find_maximum(tree<Item> *t) {
+  if (t == nullptr)
+    return nullptr;
+  // pointer to maximum
+  tree<Item> *max = t; // max point to t
+  // look for the right node until right point to nothing
+  while (max->right != nullptr)
+    max = max->right; // traverse all node to right
+  return max;
+}
+// traverse all node in binary search tree with running time O(n)
+// recursively look to left and right of subtree, until t is point
+// to nothing in binary search tree, processing the item first yield
+// pre-order traversals, while processing it last gives a post-order traversal
+template <class Item> void traverse_tree(tree<Item> *t) {
+  if (t != nullptr) {
+    traverse_tree(t->left);  // recursively move to left of tree
+    cout << t->item;         // assume t is work well with std::cout
+    traverse_tree(t->right); // recursively move to right of tree
+  }
+}
+// insertion in a tree, there is exactly one place to insert an item x
+// into a binary search tree T so we can be certain where to find it again.
+// we must replace the null pointer found in T after unsuccessful query for the
+// key of x, arguments (a pointer to the pointer linking the search subtree
+// to the rest of the tree, the key x to be inserted and a parent pointer to
+// the parent node containing l, the node is allocated and linked
+// in after hitting the null pointer, this implementation combine search and
+// node insertion stages of key insertion
+template <class Item>
+void insert_tree(tree<Item> *t, const Item &x, tree<Item> *parent) {
+  // allocating the node and linking it into the tree is a constant time
+  // operation, after the search has been performed in O(h) time, h denotes the
+  // height of search tree
+  if (*t == nullptr) // check, if tree is contain nothing
+  {
+    tree<Item> *temp = new tree<Item>;  // allocate temporary object
+    temp->item = x;                     // put x to temporary variable
+    temp->left = temp->right = nullptr; // set left and right point to nothing
+    temp->parent = parent;              // copy parent to temporary parent
+    *t = temp;                          // then copy temp to tree
+    return;
+  }
+  if (x < (*t).left) // recursively insert node to left of subtree, t as a
+                     // parent
+    insert_tree(&((*t->left)), x, *t);
+  else
+    insert_tree(&((*t).right), x, *t);
+}
 // performing binary search algorithm using template
 // with running time O(lg n), note for halving range
 // begin + (end-begin)/2; the present of begin on the front is
@@ -293,9 +356,9 @@ void combination_util(int arr[], int data[], int start, int end, int index,
 void show_result();
 long int fact(long int);
 auto add_two_numbers_r(list_node *, list_node *, int carry = 0) -> list_node *;
-list_node *add_two_numbers_m(list_node *, list_node *);
+list_node *add_two_numbers_m(const list_node *, const list_node *);
 void test_add_two_number();
-void traverse_liked_list(list_node *);
+void traverse_liked_list(const list_node *);
 long fast_exp(const int &, const int &);
 std::string remove_k_digits(const string &, int &);
 // searching on linked list

@@ -1,18 +1,22 @@
 #include "main.h"
-using namespace Problem;
+using namespace problem;
 int main() {
-  // auto result = searchList(&ls,string("miller"));
-  linkedList ls;
-  ls.item = "Turing"; //head-2
-  linkedList rs(string("Knuth"), &ls); //head-1
-  linkedList last(string("Jack"), &rs); //head
-  //Jack -> knuth -> Turing
-  auto *test = &last;
-  //looking the predecessor of Knuth : Jack
-  auto result = item_head(test,&last);
-  if(result)
-    cout<<"pred value : "<< result->item<<endl;
-  else
-    cerr<<"error, no successor"<<endl;
-  return 0;
+	queue_linked<int> num;
+	num.put(3);
+	num.put(5);
+	num.put(7);
+	while (!num.empty())
+	{
+		cout << num.get() <<" | ";
+	}
+	queue_array<string> auth(3);
+	auth.put("miller");
+	auth.put("thomas");
+	if (!auth.empty())
+	{
+		cout << auth.get()<<endl;
+		cout << auth.get();
+
+	}
+	return 0;
 }
