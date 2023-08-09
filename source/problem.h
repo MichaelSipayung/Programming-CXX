@@ -374,5 +374,6 @@ long fib_c(int n);
 long cache_fib(int n);
 long fib_dynamic(int n);
 long fib_ultimate(int n);
+long binomial_coefficient(int n, int k);
 } // namespace problem
 #endif

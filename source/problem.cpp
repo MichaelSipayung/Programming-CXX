@@ -369,4 +369,21 @@ long fib_ultimate(const int n) {
   }
   return back1 + back2;
 }
+// an efficient way to compute binomial coefficient (n\k)
+// count the number of ways to choose k things out of n possibilities
+long binomial_coefficient(const int n, const int k)
+{
+	constexpr int max= 12; //maximum number
+  //fill left most and right most with base case, value 1
+  long bc[max + 1][max + 1]; //binomial coefficient table
+  for (int i = 0; i <= n; ++i)
+    bc[i][0] = 1; //base case,  for (n\0) =1
+  for (int j = 0; j <= n; j++)
+    bc[j][j] = 1; //base case, for (n\n)=1
+  //apply dynamic programming, store the coefficient on given matrix
+  for(int i=2;i<=n;++i) //generate n coefficient as general not until k reach
+	  for (int j = 1; j < i; ++j) //j<i, since base case is already filled with value
+		  bc[i][j] = bc[i - 1][j - 1] + bc[i - 1][j]; //fill i,j with before and after
+	return bc[n][k]; //return the binomial coefficient
+}
 } // namespace problem
