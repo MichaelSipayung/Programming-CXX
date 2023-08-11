@@ -368,7 +368,7 @@ linked_list *item_head(linked_list *, linked_list *);
 void delete_list(linked_list **, linked_list **);
 linked_list *successor(const linked_list *, linked_list *);
 string pangram(const string &);
-int power_sum(int, int);
+int power_sum(int, int, int);
 long fib_r(int n);
 long fib_c(int n);
 long cache_fib(int n);

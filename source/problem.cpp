@@ -1,5 +1,6 @@
 #include "problem.h"
 #include <iostream>
+#include <valarray>
 using std::cout;
 using std::endl;
 using std::string;
@@ -53,11 +54,10 @@ vector<vector<int>> three_sum(const vector<int> &num) {
   for (int i = 0; i < total_com; ++i) {
     int total = 0;
     for (int j = 0; j < 3; ++j) {
-      temp_obj[i][j] =
-          result[static_cast<std::vector<int, std::allocator<int>>::size_type>(
-                     static_cast<long>(i)) *
-                     3 +
-                 j];
+      temp_obj[i][j] = result[static_cast<std::vector<int>::size_type>(
+                                  static_cast<long>(i)) *
+                                  3 +
+                              j];
       total += temp_obj[i][j];
     }
     if (total == 0) {
@@ -309,10 +309,20 @@ string pangram(const string &s) {
     return {"not pangram"};
   return (temp.size() == 26 ? "pangram" : "not pangram");
 }
-// power sum definition
-int power_sum(const int x, const int n) {
-  const auto max = static_cast<int>(std::pow(x, (1.0 / n)));
-  return max;
+// power sum definition, x is target, n is power destination
+// and start is, index or base to raise with n
+int power_sum(const int x, const int n, int start) {
+  if(x==0)
+  	return 1;
+  int total=0;
+  //std::cerr<<"error"<<endl;
+  //goal is raise base to n until it equals to x
+  for (int i = start+1; pow(i,n)<=x; ++i){
+  	cout<<i<<endl;
+  	total+= power_sum(x-pow(i,n),n,i);
+  	cout<<"tot :"<<total<<endl;
+  }
+  return total;
 }
 // compute fibonacci number, f_n = f_n-1 + f_n-2, with f_0 = 0, f-1 =1
 long fib_r(const int n) {
@@ -346,11 +356,12 @@ long cache_fib(const int n) {
 // find fibonacci number using dynamic programming with performance O(n)
 // this program is identically to cache_fib version with recursive call
 long fib_dynamic(const int n) {
-  vector<int> caching(n + 1, 0);
+  vector<int> caching(static_cast<vector<int>::size_type>(n) + 1, 0);
   caching[0] = 0; // base case f(0) = 0
   caching[1] = 1; // and f(1) =1
   for (int i = 2; i <= n; ++i)
-    caching[i] = caching[i - 1] + caching[i - 2];
+    caching[i] = caching[static_cast<std::vector<int>::size_type>(i) - 1] +
+                 caching[static_cast<std::vector<int>::size_type>(i) - 2];
   return caching[n];
 }
 // find fibonacci number using dynamic programming with constant space
@@ -371,19 +382,25 @@ long fib_ultimate(const int n) {
 }
 // an efficient way to compute binomial coefficient (n\k)
 // count the number of ways to choose k things out of n possibilities
-long binomial_coefficient(const int n, const int k)
-{
-	constexpr int max= 12; //maximum number
-  //fill left most and right most with base case, value 1
-  long bc[max + 1][max + 1]; //binomial coefficient table
+long binomial_coefficient(const int n, const int k) {
+  constexpr int max = 12; // maximum number
+  vector<vector<long>> bc(12,
+                          vector<long>(max, 0)); // binomial coefficient table
+  // fill left most and right most with base case, value 1
   for (int i = 0; i <= n; ++i)
-    bc[i][0] = 1; //base case,  for (n\0) =1
+    bc[i][0] = 1; // base case,  for (n\0) =1
   for (int j = 0; j <= n; j++)
-    bc[j][j] = 1; //base case, for (n\n)=1
-  //apply dynamic programming, store the coefficient on given matrix
-  for(int i=2;i<=n;++i) //generate n coefficient as general not until k reach
-	  for (int j = 1; j < i; ++j) //j<i, since base case is already filled with value
-		  bc[i][j] = bc[i - 1][j - 1] + bc[i - 1][j]; //fill i,j with before and after
-	return bc[n][k]; //return the binomial coefficient
+    bc[j][j] = 1; // base case, for (n\n)=1
+  // apply dynamic programming, store the coefficient on given matrix
+  for (int i = 2; i <= n;
+       ++i) // generate n coefficient as general not until k reach
+    for (int j = 1; j < i;
+         ++j) // j<i, since base case is already filled with value
+      bc[i][j] =
+          bc[static_cast<std::vector<std::vector<long>>::size_type>(i) - 1]
+            [static_cast<std::vector<long>::size_type>(j) - 1] +
+          bc[static_cast<std::vector<std::vector<long>>::size_type>(i) - 1]
+            [j];   // fill i,j with before and after
+  return bc[n][k]; // return the binomial coefficient
 }
 } // namespace problem
