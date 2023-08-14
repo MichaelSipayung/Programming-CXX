@@ -248,51 +248,51 @@ template <class Item> struct tree {
   tree *left = nullptr;   // pointer to left child
   tree *right = nullptr;  // pointer to right child
 };
-// for search operation, we assume that item is comparable
-// first we look that tree is not null, and check item is is equal
-// otherwise, we recursively look to left or right, depend on item size
+// we assume that item is comparable, time complexity O(h), h is height of tree
+// first we look that tree is not null, and check the root first
+// otherwise, we recursively look to left or right, depend on is 
+// less or greater than root, and find the suitable position
 template <class Item>
 tree<Item> *search_tree(tree<Item> *tr, const Item &item) {
   if (tr == nullptr) // base case
     return nullptr;
-  if (tr->item == item) // next case after pass base case
+  if (tr->item == item) // start at the root
     return tr;
-  if (tr->item < item) // traverse to left of node
+  if (tr->item < item) // traverse to left if item less than root
     return search_tree(tr->left, item);
   return search_tree(tr->right, item); // otherwise traverse to right of node
 }
-// finding minimum element, the minimum element must be the left
-// descendant of the root
-template <class Item> tree<Item> *find_minimum(tree<Item> *t) {
-  // pointer to minimum
-  if (t == nullptr)
+// finding minimum element, the minimum element must be the left of subtree
+template <class Item> tree<Item> *find_minimum(tree<Item> *tr) {
+  if (tr == nullptr)
     return nullptr;
-  tree<Item> *min = t; // min point to t
+  tree<Item> *min = tr; // pointer to minimum, tou don't need to change the tree
   // look for the left node until left point to nothing
   while (min->left != nullptr)
     min = min->left;
   return min;
 }
-// find maximum is equal to find maximum with special
-//  case we point to right of tree
+// find maximum element on a tree, focus on right node of the root
 template <class Item> tree<Item> *find_maximum(tree<Item> *t) {
   if (t == nullptr)
     return nullptr;
-  // pointer to maximum
-  tree<Item> *max = t; // max point to t
-  // look for the right node until right point to nothing
+  tree<Item> *max = t; //temporary variable, you don't need change the tree
   while (max->right != nullptr)
-    max = max->right; // traverse all node to right
+    max = max->right;
   return max;
 }
-// traverse all node in binary search tree with running time O(n)
+// empty method: check if the tree is null, additional function for error handling
+template <class Item> bool empty_tree(tree<Item>* t) {
+  return t == nullptr;
+}
+// traversal in a tree, running time O(n), n is number of node
 // recursively look to left and right of subtree, until t is point
 // to nothing in binary search tree, processing the item first yield
 // pre-order traversals, while processing it last gives a post-order traversal
 template <class Item> void traverse_tree(tree<Item> *t) {
   if (t != nullptr) {
     traverse_tree(t->left);  // recursively move to left of tree
-    cout << t->item;         // assume t is work well with std::cout
+    cout << t->item << " | "; // assume t is work well with std::cout
     traverse_tree(t->right); // recursively move to right of tree
   }
 }

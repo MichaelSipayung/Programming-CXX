@@ -312,16 +312,13 @@ string pangram(const string &s) {
 // power sum definition, x is target, n is power destination
 // and start is, index or base to raise with n
 int power_sum(const int x, const int n, int start) {
-  if(x==0)
-  	return 1;
-  int total=0;
-  //std::cerr<<"error"<<endl;
-  //goal is raise base to n until it equals to x
-  for (int i = start+1; pow(i,n)<=x; ++i){
-  	cout<<i<<endl;
-  	total+= power_sum(x-pow(i,n),n,i);
-  	cout<<"tot :"<<total<<endl;
-  }
+  if (x == 0)
+    return 1; // solution
+  int total = 0; // x!= 0, not solution add 0 to total
+  // std::cerr<<"error"<<endl;
+  // goal is raise base to n until it equals to x
+  for (int i = start + 1; pow(i, n) <= x; ++i)
+    total += power_sum(x - pow(i, n), n, i); // add 1 to total
   return total;
 }
 // compute fibonacci number, f_n = f_n-1 + f_n-2, with f_0 = 0, f-1 =1
