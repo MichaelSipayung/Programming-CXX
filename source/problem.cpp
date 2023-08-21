@@ -313,7 +313,7 @@ string pangram(const string &s) {
 // and start is, index or base to raise with n
 int power_sum(const int x, const int n, int start) {
   if (x == 0)
-    return 1; // solution
+    return 1;    // solution
   int total = 0; // x!= 0, not solution add 0 to total
   // std::cerr<<"error"<<endl;
   // goal is raise base to n until it equals to x

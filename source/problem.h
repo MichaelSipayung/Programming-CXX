@@ -1,5 +1,4 @@
-#ifndef PROBLEM_CODE
-#define PROBLEM_CODE
+#pragma once
 #include <iostream>
 using std::cout;
 using std::endl;
@@ -243,14 +242,19 @@ template <class Item> Item queue_array<Item>::get() {
 // binary search tree implementations, left pointer, right pointer
 // parent pointer (an optional pointer)
 template <class Item> struct tree {
-  Item item;              // data item
-  tree *parent = nullptr; // pointer to parent
-  tree *left = nullptr;   // pointer to left child
-  tree *right = nullptr;  // pointer to right child
+  Item item;    // data item
+  tree *parent; // pointer to parent
+  tree *left;   // pointer to left child
+  tree *right;  // pointer to right child
+  tree() {
+    parent = nullptr;
+    left = nullptr;
+    right = nullptr;
+  }
 };
 // we assume that item is comparable, time complexity O(h), h is height of tree
 // first we look that tree is not null, and check the root first
-// otherwise, we recursively look to left or right, depend on is 
+// otherwise, we recursively look to left or right, depend on is
 // less or greater than root, and find the suitable position
 template <class Item>
 tree<Item> *search_tree(tree<Item> *tr, const Item &item) {
@@ -276,24 +280,23 @@ template <class Item> tree<Item> *find_minimum(tree<Item> *tr) {
 template <class Item> tree<Item> *find_maximum(tree<Item> *t) {
   if (t == nullptr)
     return nullptr;
-  tree<Item> *max = t; //temporary variable, you don't need change the tree
+  tree<Item> *max = t; // temporary variable, you don't need change the tree
   while (max->right != nullptr)
     max = max->right;
   return max;
 }
-// empty method: check if the tree is null, additional function for error handling
-template <class Item> bool empty_tree(tree<Item>* t) {
-  return t == nullptr;
-}
+// empty method: check if the tree is null, additional function for error
+// handling
+template <class Item> bool empty_tree(tree<Item> *t) { return t == nullptr; }
 // traversal in a tree, running time O(n), n is number of node
 // recursively look to left and right of subtree, until t is point
 // to nothing in binary search tree, processing the item first yield
 // pre-order traversals, while processing it last gives a post-order traversal
 template <class Item> void traverse_tree(tree<Item> *t) {
   if (t != nullptr) {
-    traverse_tree(t->left);  // recursively move to left of tree
+    traverse_tree(t->left);   // recursively move to left of tree
     cout << t->item << " | "; // assume t is work well with std::cout
-    traverse_tree(t->right); // recursively move to right of tree
+    traverse_tree(t->right);  // recursively move to right of tree
   }
 }
 // insertion in a tree, there is exactly one place to insert an item x
@@ -309,89 +312,88 @@ void insert_tree(tree<Item> **dest, const Item &val, tree<Item> *parent) {
   // allocating the node and linking it into the tree is a constant time
   // operation, after the search has been performed in O(h) time
   // height of search tree h denotes the
-  if (*dest == nullptr) //allocated the node and linked in after hit nullptr
+  if (*dest == nullptr) // allocated the node and linked in after hit nullptr
   {
     tree<Item> *temp = new tree<Item>;  // allocate temporary object
-    temp->item = val;                     // put x to temporary variable
+    temp->item = val;                   // put x to temporary variable
     temp->left = temp->right = nullptr; // set left and right point to nothing
     temp->parent = parent;              // copy parent to temporary parent
-    *dest = temp;                          // then copy temp to tree
-    return; //insertion happen only one time
+    *dest = temp;                       // then copy temp to tree
+    return;                             // insertion happen only one time
   }
-  //insert to left or right of the node
+  // insert to left or right of the node
   if (val < (*dest)->item)
     insert_tree(&((*dest)->left), val, *dest);
   else
     insert_tree(&((*dest)->right), val, *dest);
 }
-//finding the successor from the deleted node, left is less than right
-template<class Item> tree<Item>* successor_descendant(tree<Item>* node_delete)
-{
-  if (!node_delete->right) //there is no leaf from the deleted node
+// finding the successor from the deleted node, left is less than right
+template <class Item>
+tree<Item> *successor_descendant(tree<Item> *node_delete) {
+  if (!node_delete->right) // there is no leaf from the deleted node
     return nullptr;
   // other case : contain any or some leaf, look to right
-  tree<Item>* successor = node_delete->right;
-  // right is also still consist of any node, look to left since it's the successor 
+  tree<Item> *successor = node_delete->right;
+  // right is also still consist of any node, look to left since it's the
+  // successor
   while (successor->left)
     successor = successor->left;
   return successor;
 }
-//finding the predecessor from  the deleted node, left is less than right
-template<class Item> tree<Item>* predecessor_descendant(tree<Item>* node_delete)
-{
+// finding the predecessor from  the deleted node, left is less than right
+template <class Item>
+tree<Item> *predecessor_descendant(tree<Item> *node_delete) {
   if (!node_delete->left) // look to left of the deleted node
     return nullptr;
   // there is an or some leaf, look to left
-  tree<Item>* predecessor = node_delete->left;
+  tree<Item> *predecessor = node_delete->left;
   // left is also still consist of any node, look to right
   while (predecessor->right)
     predecessor = predecessor->right;
   return predecessor;
 }
-// deleted operation on binary search tree, val is value which node will be delete
-template<class Item> tree<Item> *delete_node(tree<Item> *tr, const Item &val)
-{
+// deleted operation on binary search tree, val is value which node will be
+// delete
+template <class Item> tree<Item> *delete_node(tree<Item> *tr, const Item &val) {
+  Item new_key;
   tree<Item> *del_node = search_tree(tr, val); // node with key to delete
-  tree<Item>* p_node; //node to be physically deleted
-  tree<Item>* child; //d's only child, if any
-  if (!del_node){
-	  std::cerr << "error : " << val<<" not exist";
+  tree<Item> *p_node;                          // node to be physically deleted
+  tree<Item> *child;                           // d's only child, if any
+  if (!del_node) {
+    std::cerr << "error : " << val << " not exist";
     return tr;
   }
-  if(!del_node->parent) //del_node is root as a simple case
+  if (!del_node->parent) // del_node is root as a simple case
   {
-	  if(!del_node->left && !del_node->right){ //left and right is nullptr
-      delete del_node; //no need extra work, just delete the node
-      return nullptr; //root only tree
-	  }
+    if ((!del_node->left) && (!del_node->right)) { // left and right is nullptr
+      delete del_node; // no need extra work, just delete the node
+      return nullptr;  // root only tree
+    }
     // maybe, left or right has a node or child, find node to physically delete
-    if (del_node->left) //find the predecessor
+    if (del_node->left) // find the predecessor
       p_node = predecessor_descendant(del_node);
-    else //otherwise find the successor
+    else // otherwise find the successor
       p_node = successor_descendant(del_node);
-  }
-  else
-  {
-    if ((!del_node->left) || (!del_node->right))
-    {
-      //if deleted node has <= 1 child, so try to find non-null child
+  } else {
+    if ((!del_node->left) || (!del_node->right)) {
+      // if deleted node has <= 1 child, so try to find non-null child
       if (del_node->left)
         child = del_node->left;
       else
         child = del_node->right;
-      if (del_node->parent->left == del_node) //fill null pointer
+      if (del_node->parent->left == del_node) // fill null pointer
         del_node->parent->left = child;
       else
-        del_node->parent->right = child;  
+        del_node->parent->right = child;
       if (child)
         child->parent = del_node->parent;
       delete del_node;
       return tr;
     }
-    p_node = successor_descendant(del_node); //p has two children
+    p_node = successor_descendant(del_node); // p has two children
   }
-  Item new_key = p_node->item; //deal with simple case of deletion
-  delete_node(tr, p_node->item); 
+  new_key = p_node->item; // deal with simple case of deletion
+  delete_node(tr, p_node->item);
   del_node->item = new_key;
   return tr;
 }
@@ -447,4 +449,3 @@ long fib_dynamic(int n);
 long fib_ultimate(int n);
 long binomial_coefficient(int n, int k);
 } // namespace problem
-#endif

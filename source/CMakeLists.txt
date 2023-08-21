@@ -6,5 +6,5 @@ cmake_minimum_required(VERSION 3.25)
 project(TheC)
 add_executable (main "main.cxx" "main.h" "rassoc.cpp" "problem.cpp"
         rsales.cpp
-        m_sales.cxx)
+        m_sales.cxx "dynamic.h" "dynamic.cpp")
 # TODO: Add tests and install targets if needed.

@@ -17,7 +17,10 @@ using std::sort;
 namespace Adv {
 class r_value {
 public:
-  r_value() { isbn = " "; revenue = 0; }
+  r_value() {
+    isbn = " ";
+    revenue = 0;
+  }
   r_value(string is, const double &rev) : isbn{std::move(is)}, revenue{rev} {}
   r_value(const r_value &rh) : isbn{rh.isbn}, revenue{rh.revenue} {}
   r_value(r_value &&s) noexcept; // mv ctor
@@ -104,7 +107,7 @@ inline Rhs_1 &Rhs_1::operator=(Rhs_1 mvCp) {
 }
 inline void Rhs_1::demo_mvCp() noexcept {
   Rhs_1 hp2 = {};
-  Rhs_1 hp = hp2;            // hp2 is lval
+  Rhs_1 hp = hp2;      // hp2 is lval
   hp = std::move(hp2); // mv ctor moves hp2
 }
 inline void Foo_1::noMoveOp() noexcept {
@@ -170,7 +173,10 @@ inline void r_value::cpMatch() noexcept {
 }
 class Ref_Mem_Fun {
 public:
-  Ref_Mem_Fun() { fixPoint = " "; xPoint = 0; }
+  Ref_Mem_Fun() {
+    fixPoint = " ";
+    xPoint = 0;
+  }
   Ref_Mem_Fun(const Ref_Mem_Fun &s) : fixPoint{s.fixPoint}, xPoint(0) {}
   Ref_Mem_Fun &
   operator=(const Ref_Mem_Fun &) &; // may assign only to modifiable lval

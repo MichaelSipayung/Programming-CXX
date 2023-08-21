@@ -1,13 +1,13 @@
 ﻿// Advanced C++.h : Include file for standard system include files,
 // or project specific include files.
-#ifndef MAIN_H
-#define MAIN_H
+#pragma once
 #include "accontrol.h"
 #include "aggeregate.h"
 #include "associative.h"
 #include "bind.h"
 #include "container.h"
 #include "ctor.h"
+#include "dynamic.h"
 #include "fileinout.h"
 #include "friendbs.h"
 #include "function.hpp"
@@ -38,5 +38,4 @@
 #include "strvec.h"
 #include "templ.h"
 #include <iostream>
-#endif
-// TODO: Reference additional headers your program requires here.
+//  TODO: Reference additional headers your program requires here.

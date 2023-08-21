@@ -1,5 +1,4 @@
-#ifndef COPY_CTOR_H
-#define COPY_CTOR_H
+#pragma once
 #include <iostream>
 #include <memory>
 #include <vector>
@@ -24,7 +23,7 @@ public:
   Foo() = default;
   Foo(const Foo &) : isbn{" "}, x{0}, y{0} {} // copy ctor
   Foo &operator=(const Foo &);                // ass op
-  ~Foo(){};                                   // destructor
+  ~Foo() {}                                   // destructor
 private:
   string isbn;
   int x = 0;
@@ -105,4 +104,3 @@ inline void swap(HasPtr_1 &lhs, HasPtr_1 &rhs) {
   swap(lhs.i, rhs.i);   // swap the int members
 }
 } // namespace Adv
-#endif
