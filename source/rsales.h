@@ -10,7 +10,7 @@ using std::ostream;
 using std::string;
 #include <vector>
 using std::vector;
-namespace Refactor {
+namespace refactor {
 class Sales_Data {
   // friend declarations for nonmember sales_data operations added
   friend Sales_Data add(const Sales_Data &, const Sales_Data &);

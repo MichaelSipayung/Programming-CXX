@@ -14,7 +14,7 @@ using std::ofstream; // output file
 using std::istringstream; // read a string
 using std::ostringstream; // write a string
 #include <vector>
-namespace Refactor {
+namespace refactor {
 struct PersonalInfo {
   string name;
   vector<string> phones;

@@ -1,6 +1,6 @@
 #include "rsales.h"
 // using namespace Refactor;
-namespace Refactor {
+namespace refactor {
 // define and initialize a static class member
 double Account::interestRate = initRate();
 /*avg_price: get the average*/

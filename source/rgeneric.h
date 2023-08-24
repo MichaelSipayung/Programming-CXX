@@ -30,7 +30,7 @@ using std::inserter;       // insert val with specific location
 #include <functional>
 using std::bind; // binding argumens
 typedef vector<string>::size_type size_type;
-namespace Refactor {
+namespace refactor {
 // read only algorithm
 void useFind(const vector<int> &x, const int &val) {
   auto result = find(x.cbegin(), x.cend(), val);

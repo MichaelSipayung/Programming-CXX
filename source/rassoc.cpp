@@ -20,7 +20,7 @@ using std::pair;
 using std::runtime_error;
 using std::vector;
 
-namespace Refactor {
+namespace refactor {
 // word counting program, using map
 // if the given word not exist, create it and
 // if the given word exist more than one time, increase it

@@ -13,7 +13,7 @@
 #include <unordered_map>
 #include <utility> //the pair type
 #include <vector>
-namespace Refactor {
+namespace refactor {
 // debugPurpose : test if insertion, erasing element and others work properly
 // test case map with every type
 template <typename Object1, typename Object2>
@@ -108,7 +108,7 @@ void subscript_map(std::map<Object1, Object2> &x, const Object1 &key,
                    const Object2 &_val) {
   x[key] = _val; // key is exists, don't write but change val
   // test the result
-  Refactor::debugPurpose(x);
+  refactor::debugPurpose(x);
 }
 // prefer accessing elements using function rather
 // than subscript operator since it will write if not exist
