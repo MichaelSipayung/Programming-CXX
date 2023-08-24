@@ -44,3 +44,4 @@ void refactor::linked_application()
         point = point->next;
 	}
 }
+

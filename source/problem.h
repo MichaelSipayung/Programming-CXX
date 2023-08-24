@@ -293,7 +293,7 @@ template <class Item> bool empty_tree(tree<Item> *t) { return t == nullptr; }
 // to nothing in binary search tree, processing the item first yield
 // pre-order traversals, while processing it last gives a post-order traversal
 template <class Item> void traverse_tree(tree<Item> *t) {
-  if (t != nullptr) {
+  if (t) {
     traverse_tree(t->left);   // recursively move to left of tree
     cout << t->item << " | "; // assume t is work well with std::cout
     traverse_tree(t->right);  // recursively move to right of tree
