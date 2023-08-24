@@ -41,4 +41,12 @@ void tree_traverse(const std::shared_ptr<my_tree> tr)
 		tree_traverse<Object>(tr->right); //go right
 	}
 }
+//reference count, track how many object pointed to the current pointer
+void reference_count();
+//automatically free the associated memory
+std::shared_ptr<int> factory();
+//test automatically free memory
+void use_factory();
+//searching on a using smart pointer
+std::shared_ptr<my_tree> search_my_tree(std::shared_ptr<my_tree> tr, const std::string &val);
 }

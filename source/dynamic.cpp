@@ -45,3 +45,47 @@ void refactor::linked_application()
 	}
 }
 
+void refactor::reference_count()
+{
+	const auto x = std::make_shared<int>(12);
+	const auto& y(x);
+    std::cout << "count : " << x.use_count() << std::endl;
+    std::cout << "count : " << y.use_count() << std::endl;
+    auto z(y);
+    *z = 14;
+    //use count may slow operation and it's used only for debugging
+    std::cout << "count : " << y.use_count()<<" val : " <<*y<< std::endl;
+    std::cout << "count : " << z.use_count() << " val : "<<*z<<std::endl;
+    std::cout << "count : " << x.use_count() << " val : " <<*x<<std::endl;
+	const auto xy = std::make_shared<int>(15);
+    z = xy; //decrements z reference count, increments xy count
+    std::cout << "count : " << z.use_count() << " val : " << *z << std::endl;
+    std::cout << "count : " << xy.use_count() << " val : " << *xy << std::endl;
+    //check if use_count is one
+    if (xy.unique())
+        std::cout << "use count 1" << std::endl;
+    else
+	    std::cout << "not unique" << std::endl;
+	const std::shared_ptr<int> uniq; //point to nothing, use count to zero
+    std::cout << "unique : " << uniq.use_count() << std::endl;
+    z = uniq;
+	std::cout << "use count for z after point to null pointer : " << z.use_count() << std::endl;
+}
+
+std::shared_ptr<int> refactor::factory(){
+    return std::make_shared<int>(12);
+}
+
+void refactor::use_factory(){
+    std::shared_ptr<int>  p = factory();
+} //when p goes out of scope, the memory to which p points is automatically freed
+std::shared_ptr<refactor::my_tree> refactor::search_my_tree(std::shared_ptr<my_tree> tr, const std::string& val)
+{
+    if (!tr)
+        return nullptr;
+    if (tr->isbn == val)
+        return tr;
+    if (tr->isbn < val)
+	    return search_my_tree(tr->left, val);
+    return search_my_tree(tr->right, val);
+}

@@ -258,7 +258,7 @@ template <class Item> struct tree {
 // less or greater than root, and find the suitable position
 template <class Item>
 tree<Item> *search_tree(tree<Item> *tr, const Item &item) {
-  if (tr == nullptr) // base case
+  if (!tr) // base case
     return nullptr;
   if (tr->item == item) // start at the root
     return tr;
