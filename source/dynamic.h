@@ -3,6 +3,8 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <vector>
+
 namespace refactor {
 // modification of binary search tree using smart pointer
 struct my_tree
@@ -21,6 +23,26 @@ struct my_linked_list
 	my_linked_list():item(),next(nullptr){}
 	my_linked_list(const Object &val, std::shared_ptr<my_linked_list> &next_it):
 		item(val), next(next_it){}
+};
+//str_blob class
+class str_blob
+{
+public:
+	typedef std::vector<std::string>::size_type size_type;
+	str_blob();
+	str_blob(std::initializer_list<std::string> il);
+	size_type size()const { return data->size(); }
+	bool empty()const { return data->empty(); }
+	//add and remove element
+	void push_back(const std::string& t)const { data->push_back(t); }
+	void pop_back() const;
+	//element access
+	std::string& front() const;
+	std::string& back() const;
+private:
+	std::shared_ptr<std::vector<std::string>> data;
+	//throw msg if data[i] is not valid
+	void check(size_type i, const std::string &msg) const;
 };
 //pointer initialization
 void init_pointer();

@@ -89,7 +89,7 @@ template <class Item> void stack_array_base<Item>::top() {
 template <class Item> size_t stack_array_base<Item>::size() const { return n_; }
 // check if the index  exceed from maximum capacity of stack
 template <class Item> bool stack_array_base<Item>::check_size() const {
-  return idx_ >= n_ ? true : false;
+  return idx_ >= n_;
 }
 // stack based on linked-list, all method is equal in array based
 template <class Item> class stack_linked_based {
@@ -131,7 +131,7 @@ template <class Item> stack_linked_based<Item>::node::node(Item x, node *t) {
   next = t;
 }
 // fifo queue ADT interface, first in, first out
-// non analog version of vector
+// non-analog version of vector
 template <class Item> class queue_linked {
 public:
   queue_linked();

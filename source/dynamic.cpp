@@ -1,7 +1,44 @@
 #include "dynamic.h"
 #include <iostream>
+using std::string;
 #include <memory>
 #include <string>
+#include <vector>
+using std::vector;
+using std::make_shared;
+using std::shared_ptr;
+//allocate an empty vector
+refactor::str_blob::str_blob():data(make_shared<vector<std::string>>()) {}
+//contructor initializes the vector's elements by copying the values in the list
+refactor::str_blob::str_blob(std::initializer_list<std::string> il)
+	:data(make_shared<vector<std::string>>(il))
+{
+}
+
+void refactor::str_blob::pop_back() const
+{
+    check(0, "pop_back on empty str_blob");
+    data->pop_back();
+}
+
+std::string& refactor::str_blob::front() const
+{
+    check(0, "front on empty str_blob");
+    return data->front(); 
+}
+
+std::string& refactor::str_blob::back() const
+{
+    check(0, "back on empty str_blob");
+    return data->back();
+}
+
+//private member to ensure that access the valid range
+void refactor::str_blob::check(const size_type i, const std::string& msg) const
+{
+    if (i > data->size())
+        throw std::out_of_range(msg);
+}
 
 void refactor::init_pointer() {
 	const std::string auth_name = "Miller";
