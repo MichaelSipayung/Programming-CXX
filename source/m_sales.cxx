@@ -19,12 +19,12 @@ M_Sales_data add(const M_Sales_data &first, const M_Sales_data &right) {
 }
 std::istream &read(std::istream &is, M_Sales_data &item) {
   double price = 0.0;
-  // demo read defenition as friend function
+  // demo read definition as friend function
   is >> price;
   return is;
 }
 std::ostream &print(std::ostream &os, const M_Sales_data &item) {
-  // demo print defenition as friend
+  // demo print definition as friend
   os << item.isbn();
   return os;
 }

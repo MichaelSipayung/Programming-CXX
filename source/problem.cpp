@@ -1,6 +1,5 @@
 #include "problem.h"
 #include <iostream>
-#include <valarray>
 using std::cout;
 using std::endl;
 using std::string;
@@ -363,7 +362,7 @@ long fib_dynamic(const int n) {
 }
 // find fibonacci number using dynamic programming with constant space
 // this version only reduce the space required while performing fib_dynamic
-// the idea is, we using last two value to compute fib(n)
+// the idea is we using last two value to compute fib(n)
 long fib_ultimate(const int n) {
   long back1 = 1; // last two values for f[0], f[1]
   long back2 = 0;

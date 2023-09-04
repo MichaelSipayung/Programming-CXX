@@ -168,4 +168,4 @@ word_count(std::unordered_map<std::string, size_t> &);
 /*std::unordered_map<M_Sales_data, decltype(hasher)*,size_t> &wordCount
   (std::unordered_map<M_Sales_data, decltype(hasher)*, size_t>&);
 */
-} // namespace Refactor
+} // namespace refactor

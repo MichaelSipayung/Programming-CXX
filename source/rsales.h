@@ -150,5 +150,5 @@ private:
 };
 inline void Account::rate(double newRate) { interestRate = newRate; }
 inline double Account::initRate() { return 0.008; }
-} // namespace Refactor
+} // namespace refactor
 #endif

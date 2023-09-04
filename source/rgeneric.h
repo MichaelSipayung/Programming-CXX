@@ -373,5 +373,5 @@ void mergeList_m(list<Object> &_x, list<Object> &_y) {
 template <typename Object> void reverseList_m(list<Object> &_x) {
   _x.reverse();
 }
-} // namespace Refactor
+} // namespace refactor
 #endif

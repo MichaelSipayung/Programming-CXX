@@ -44,5 +44,5 @@ void test_istringstream() {
     people.push_back(info); // append this record to people
   }
 }
-} // namespace Refactor
+} // namespace refactor
 #endif

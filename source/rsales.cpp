@@ -50,4 +50,4 @@ Window_mgr::ScreenIndex Window_mgr::addScreen(const Screen &s) {
   screens.push_back(s);
   return screens.size() - 1;
 }
-} // namespace Refactor
+} // namespace refactor

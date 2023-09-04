@@ -440,5 +440,5 @@ void prioQueTest() {
   order_name.push("steve");
   cout << "low priority : " << order_name.top() << endl;
 }
-} // namespace Refactor
+} // namespace refactor
 #endif

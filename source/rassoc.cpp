@@ -236,4 +236,4 @@ size_t> &_x) { return _x;
 }*/
 // using sales data as a key on associative container
 // for unordered version, we must define == operator on sales data
-} // namespace Refactor
+} // namespace refactor
