@@ -9,7 +9,6 @@ using std::shared_ptr;
 using std::vector;
 #include <new>
 using std::nothrow;
-using std::bad_alloc;
 // allocate an empty vector
 refactor::str_blob::str_blob() : data_(make_shared<vector<std::string>>()) {}
 // constructor initializes the vector's elements by copying the values in the
@@ -151,4 +150,40 @@ void refactor::freeing_direct()
     std::cout << "ps :" << *ps << std::endl;
     delete pi;
     delete ps;
+}
+//demonstrate how to deal with built in pointer
+int* refactor::factory_md(const int &val)
+{
+    return new int(val);//caller is responsible for deleting this memory
+}
+//fix some bug through call delete inside caller
+void refactor::use_factory_md(){
+	const auto p = factory_md(12);
+    delete p;
+    if(p)
+	    std::cout << "fixing bug on built in pointer";
+}
+//resetting a value on a built in pointer
+void refactor::reset_pointer_val()
+{
+    auto x = new int(12);
+    delete x;
+    //after delete, if we need the pointer, we must set to nullptr
+    x = nullptr;
+    if(!x)
+	    std::cout << "ok, safely reset pointer to null";
+}
+//using shared_ptr with new, note: must use direct initialization
+void refactor::smart_ptr_new(){
+    shared_ptr<int> x(new int(12)); //x point to an int with value 12
+}
+//another operation on smart pointer
+void refactor::reset_smart_ptr()
+{
+    auto p = make_shared<int>(12);
+    p.reset(new int(13)); //p point to new object
+    //control changes to the object
+    if (!p.unique())
+        p.reset(new int(*p));//we are not alone, allocate new copy
+    *p += 13; //we're the only pointer, change this object
 }

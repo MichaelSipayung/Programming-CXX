@@ -75,4 +75,13 @@ void initialize_const_direct();
 void memory_exhaust();
 //freeing dynamic memory
 void freeing_direct();
+//fixing bug on built in pointer
+int* factory_md(const int&);
+void use_factory_md();
+//resetting a value on a pointer
+void reset_pointer_val();
+//using shared_ptr with new
+void smart_ptr_new();
+//reset operation on smart pointer
+void reset_smart_ptr();
 } // namespace refactor

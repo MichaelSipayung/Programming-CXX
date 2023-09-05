@@ -1,5 +1,4 @@
-#ifndef OVERLOAD_OP_H
-#define OVERLOAD_OP_H
+#pragma once
 #include <iostream>
 #include <string>
 #include <vector>
@@ -8,9 +7,9 @@ class Sales_Cl {
 
 public:
   Sales_Cl() = default;
-  Sales_Cl(const std::string &s) : bookNo{s} {}
-  Sales_Cl(const std::string &s, unsigned n, double p)
-      : bookNo{s}, units_sold{n}, revenue{p * n} {}
+  explicit Sales_Cl(const std::string &s) : bookNo{s} {}
+  Sales_Cl(std::string s, unsigned n, double p)
+      : bookNo{std::move(s)}, units_sold{n}, revenue{p * n} {}
   // overload
   Sales_Cl &operator+=(const Sales_Cl &);
 
@@ -47,11 +46,11 @@ public:
   IncDec_Operator &operator++(); // prefix op
   IncDec_Operator &operator--();
   IncDec_Operator
-  operator++(int); // postfix, an extra arg supply to distiguishes
+  operator++(int); // postfix, an extra arg supply to distinguishes
   IncDec_Operator operator--(int);
   std::string &operator*() const; // we intended not to change the state
   std::string *operator->() const;
-  ~IncDec_Operator() {}
+  ~IncDec_Operator() = default;
   void show_curr();
   void show_str() const;
 
@@ -65,7 +64,7 @@ private:
 struct absInt {
   int operator()(int val) const { return val < 0 ? -val : val; }
   std::ostream &operator()(std::ostream &, const std::string &);
-  void test_funObj();
+  static void test_funObj();
 };
 inline void absInt::test_funObj() {
   absInt test_x;
@@ -79,8 +78,8 @@ inline std::ostream &absInt::operator()(std::ostream &os,
 // function obj classes with state
 class PrintString {
 public:
-  PrintString(std::ostream &o = std::cout, char c = ' ') : os{o}, sep{c} {}
-  void operator()(const std::string s) const { os << s << sep; }
+  explicit PrintString(std::ostream &o = std::cout, char c = ' ') : os{o}, sep{c} {}
+  void operator()(const std::string &s) const { os << s << sep; }
 
 private:
   std::ostream &os;
@@ -88,21 +87,20 @@ private:
 };
 // replace the lambda version
 // has same meaning, demo overload f call op
-// function objects : lamda
+// function objects : lambda
 class Shorter_Str {
 public:
   bool operator()(const std::string &x, const std::string &y) {
     return x.size() < y.size();
   }
 };
-// classes representing lamdas with captures
+// classes representing lambda with captures
 class SizeComp {
 public:
-  SizeComp(size_t n) : sz{n} {} // param for each cap lambda
-  bool operator()(const std::string &s) {
+  explicit SizeComp(size_t n) : sz{n} {} // param for each cap lambda
+  bool operator()(const std::string &s)const {
     return s.size() >= sz;
-  } // cal op as th lamda did
+  } // cal op as th lambda did
 private:
   size_t sz;
 };
-#endif
