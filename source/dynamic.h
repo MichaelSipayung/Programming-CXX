@@ -84,4 +84,7 @@ void reset_pointer_val();
 void smart_ptr_new();
 //reset operation on smart pointer
 void reset_smart_ptr();
+//smart pointer and exceptions
+void handle_exception();
+void bad_ptr();
 } // namespace refactor

@@ -125,6 +125,7 @@ void refactor::initialize_direct()
 	auto pi = new int;// pi point to a dynamically allocated, unnamed, uninitialized int
     auto ps = new string; //ps points to empty string
 	//using direct initialization
+	std::cout << pi << ps;
     auto pt = new int(12); //object to which pt points has value 12
 }
 //dynamically allocated const objects
@@ -186,4 +187,17 @@ void refactor::reset_smart_ptr()
     if (!p.unique())
         p.reset(new int(*p));//we are not alone, allocate new copy
     *p += 13; //we're the only pointer, change this object
+}
+//using smart pointer when there is a possibility an exception will occur
+//avoid using built in pointer, when the exception occurs the variable will not freed
+void refactor::handle_exception(){
+    shared_ptr<int> x(new int(12));
+    //code that throw an exception that is not caught inside function
+    //shared_ptr will automatically freed when the function end
+}
+//this demonstration will be bad practice to deal with exception
+void refactor::bad_ptr(){
+	const auto x = new int(12); //ok, if exception occurs before we freed resource!
+    //resource used by x will not be freed
+	delete x; //freed the resource
 }
