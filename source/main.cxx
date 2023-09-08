@@ -1,7 +1,10 @@
 #include "main.h"
 using namespace problem;
 using namespace refactor;
-int main(int argc, char *argv[]) {
-	reset_pointer_val();
+int main() {
+	init_unique_ptr();
+	//test copy
+	const auto x = clone(12);
+	cout << *x;
 	return 0;
 }

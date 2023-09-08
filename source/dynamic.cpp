@@ -3,6 +3,7 @@
 using std::string;
 #include <memory>
 #include <string>
+#include <utility>
 #include <vector>
 using std::make_shared;
 using std::shared_ptr;
@@ -153,8 +154,7 @@ void refactor::freeing_direct()
     delete ps;
 }
 //demonstrate how to deal with built in pointer
-int* refactor::factory_md(const int &val)
-{
+int* refactor::factory_md(const int &val){
     return new int(val);//caller is responsible for deleting this memory
 }
 //fix some bug through call delete inside caller
@@ -200,4 +200,23 @@ void refactor::bad_ptr(){
 	const auto x = new int(12); //ok, if exception occurs before we freed resource!
     //resource used by x will not be freed
 	delete x; //freed the resource
+}
+//unique_ptr does not support copy and assignment
+void refactor::init_unique_ptr()
+{
+    std::unique_ptr<int> x; //x point to int
+    //it must be using direct form to initialize unique_ptr
+    std::unique_ptr<string> y(new string("hello world"));
+    std::cout << *y;
+    //even if we can't copy, we can transfer ownership from one non const
+    //unique_ptr to another by calling release or reset
+    const std::unique_ptr<string> p1(y.release()); //transfer ownership from y
+    std::cout << std::endl<<*p1;
+    std::unique_ptr<string> p2(new string("the c++"));
+    const std::unique_ptr<string> p3 = std::move(p2); //prefer move rather than reset
+    std::cout << *p3;
+}
+//copy and assignment in unique_ptr in object is about to destroyed
+std::unique_ptr<int> refactor::clone(int p){
+    return std::make_unique<int>(p); //compiler know that the object is about to destroyed
 }
