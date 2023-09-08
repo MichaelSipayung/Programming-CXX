@@ -92,4 +92,10 @@ void bad_ptr();
 void init_unique_ptr();
 //copy and assign unique_ptr that is about to destroyed
 std::unique_ptr<int> clone(int);
+//weak_ptr is smart pointer that does not control the lifetime of the
+//object to which it points. Binding a weak_ptr to a shared_ptr does not change
+//the reference count of that shared ptr
+void init_weak_ptr();
+//safely access weak_ptr
+void access_weak_ptr();
 } // namespace refactor

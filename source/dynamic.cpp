@@ -220,3 +220,23 @@ void refactor::init_unique_ptr()
 std::unique_ptr<int> refactor::clone(int p){
     return std::make_unique<int>(p); //compiler know that the object is about to destroyed
 }
+//copy or assignment (binding) doesn't change the reference count
+void refactor::init_weak_ptr()
+{
+	const auto x = make_shared<int>(13);
+    //we can't access y directly since it may be not exist
+    std::weak_ptr<int> y(x); //use_count in x unchanged
+    if (x.unique())
+	    std::cout << "weak_ptr shared behavior weakly";
+}
+//using lock to guarantee that weak_ptr is exist
+void refactor::access_weak_ptr()
+{
+	const auto x = make_shared<int>(13);
+	const std::weak_ptr<int> y(x);
+    //call lock to use weak_ptr object
+    if (const auto temp = y.lock())
+        std::cout << "exist... value : " << *temp;
+    else
+	    std::cerr << "sorry didn't exist!!";
+}
