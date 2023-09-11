@@ -9,8 +9,7 @@ using std::vector;
 double Sales_Cl::avg_price() const {
   if (units_sold)
     return revenue / units_sold;
-  else
-    return 0;
+  return 0;
 }
 Sales_Cl &Sales_Cl::operator+=(const Sales_Cl &rhs) {
   units_sold += rhs.units_sold;
@@ -24,19 +23,18 @@ ostream &operator<<(ostream &os, const Sales_Cl &rhs) {
 }
 void show_data(const Mat &rhs) { cout << *rhs.data.begin(); }
 // test
-bool Mat::chk_size(const Mat &rhs) {
+bool Mat::chk_size(const Mat &rhs) const {
   if (data.size() != rhs.data.size())
     return false;
   return true;
 }
 Mat &Mat::operator=(const Mat &rhs) {
-  auto temp = chk_size(rhs);
+  const auto temp = chk_size(rhs);
   if (temp)
     this->data = rhs.data;
   return *this;
 }
 Mat &Mat::operator+(const Mat &rhs) {
-  auto temp = this;
   if (!chk_size(rhs))
     return *this;
   for (int i = 0; i < data.size(); ++i)
@@ -44,16 +42,18 @@ Mat &Mat::operator+(const Mat &rhs) {
   return *this;
 }
 
-IncDec_Operator::IncDec_Operator(const IncDec_Operator &rh) {
+IncDec_Operator::IncDec_Operator(const IncDec_Operator &rh)
+    : str_data(nullptr) {
   data = rh.data;
   pos = rh.pos;
 }
+
 IncDec_Operator &IncDec_Operator::operator++() {
   if (pos < this->data.size())
     ++pos;
   return *this;
 }
-void IncDec_Operator::show_curr() { std::cout << data[pos]; }
+void IncDec_Operator::show_curr() const { std::cout << data[pos]; }
 IncDec_Operator &IncDec_Operator::operator--() {
   if (pos < 1)
     throw std::out_of_range("index out of range");
@@ -72,14 +72,15 @@ IncDec_Operator IncDec_Operator::operator--(int) {
   --*this; // move backward one el; prefix --check the decrement
   return temp;
 }
-IncDec_Operator::IncDec_Operator(const vector<int> &tmp) : data{tmp}, pos{0} {}
+IncDec_Operator::IncDec_Operator(const vector<int> &tmp)
+    : data{tmp}, str_data(nullptr), pos{0} {}
 
 string &IncDec_Operator::operator*() const { return (*str_data)[pos]; }
 string *IncDec_Operator::operator->() const {
   return &this->operator*(); // delegate the real work to the deref op
 }
 IncDec_Operator::IncDec_Operator(const vector<string> &x)
-    : str_data{new vector<string>(x.begin(), x.end())} {}
+    : str_data{new vector<string>(x.begin(), x.end())}, pos(0) {}
 
 void IncDec_Operator::show_str() const {
   auto begin = str_data->begin();

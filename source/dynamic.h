@@ -34,7 +34,7 @@ public:
   void pop_back() const;
   // element access
   std::string &front() const;
-  std::string &back() const;    
+  std::string &back() const;
 
 private:
   std::shared_ptr<std::vector<std::string>> data_;
@@ -67,35 +67,35 @@ void use_factory();
 // searching on a using smart pointer
 std::shared_ptr<my_tree> search_my_tree(std::shared_ptr<my_tree> tr,
                                         const std::string &val);
-//managing memory directly
+// managing memory directly
 void initialize_direct();
-//dynamically allocated const objects
+// dynamically allocated const objects
 void initialize_const_direct();
-//memory exhaustion
+// memory exhaustion
 void memory_exhaust();
-//freeing dynamic memory
+// freeing dynamic memory
 void freeing_direct();
-//fixing bug on built in pointer
-int* factory_md(const int&);
+// fixing bug on built in pointer
+int *factory_md(const int &);
 void use_factory_md();
-//resetting a value on a pointer
+// resetting a value on a pointer
 void reset_pointer_val();
-//using shared_ptr with new
+// using shared_ptr with new
 void smart_ptr_new();
-//reset operation on smart pointer
+// reset operation on smart pointer
 void reset_smart_ptr();
-//smart pointer and exceptions
+// smart pointer and exceptions
 void handle_exception();
 void bad_ptr();
-//unique ptr : own the object to which it points, only one unique_ptr
-//at a time can point to a given object
+// unique ptr : own the object to which it points, only one unique_ptr
+// at a time can point to a given object
 void init_unique_ptr();
-//copy and assign unique_ptr that is about to destroyed
+// copy and assign unique_ptr that is about to destroyed
 std::unique_ptr<int> clone(int);
-//weak_ptr is smart pointer that does not control the lifetime of the
-//object to which it points. Binding a weak_ptr to a shared_ptr does not change
-//the reference count of that shared ptr
+// weak_ptr is smart pointer that does not control the lifetime of the
+// object to which it points. Binding a weak_ptr to a shared_ptr does not change
+// the reference count of that shared ptr
 void init_weak_ptr();
-//safely access weak_ptr
+// safely access weak_ptr
 void access_weak_ptr();
 } // namespace refactor

@@ -32,7 +32,7 @@ public:
   Mat &operator+(const Mat &);
 
 private:
-  bool chk_size(const Mat &);
+  bool chk_size(const Mat &) const;
   std::vector<double> data;
 };
 void show_data(const Mat &);
@@ -51,7 +51,7 @@ public:
   std::string &operator*() const; // we intended not to change the state
   std::string *operator->() const;
   ~IncDec_Operator() = default;
-  void show_curr();
+  void show_curr() const;
   void show_str() const;
 
 private:
@@ -78,7 +78,8 @@ inline std::ostream &absInt::operator()(std::ostream &os,
 // function obj classes with state
 class PrintString {
 public:
-  explicit PrintString(std::ostream &o = std::cout, char c = ' ') : os{o}, sep{c} {}
+  explicit PrintString(std::ostream &o = std::cout, char c = ' ')
+      : os{o}, sep{c} {}
   void operator()(const std::string &s) const { os << s << sep; }
 
 private:
@@ -98,7 +99,7 @@ public:
 class SizeComp {
 public:
   explicit SizeComp(size_t n) : sz{n} {} // param for each cap lambda
-  bool operator()(const std::string &s)const {
+  bool operator()(const std::string &s) const {
     return s.size() >= sz;
   } // cal op as th lambda did
 private:
