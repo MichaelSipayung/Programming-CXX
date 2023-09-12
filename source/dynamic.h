@@ -1,10 +1,17 @@
 // dynamic memory and smart pointer
 #pragma once
 #include <iostream>
+using std::string;
+#include <map>
+using std::map;
 #include <memory>
+using std::shared_ptr;
+#include <set>
+using std::set;
 #include <string>
+#include <utility>
 #include <vector>
-
+using std::vector;
 namespace refactor {
 // modification of binary search tree using smart pointer
 struct my_tree {
@@ -98,4 +105,29 @@ std::unique_ptr<int> clone(int);
 void init_weak_ptr();
 // safely access weak_ptr
 void access_weak_ptr();
+
+//design text_query program
+class query_result; //declaration needed for return type in the query function
+class text_query
+{
+public:
+  using  line_no = std::vector<std::string>::size_type;
+  explicit text_query(std::ifstream&);
+  query_result query(const std::string&)const;
+private:
+  std::shared_ptr<std::vector<std::string>> file_; //input file
+	//map of each word to the lines in which that word appears
+  std::map<std::string, std::shared_ptr<std::set<line_no>>> wm_;
+};
+class query_result{
+  friend std::ostream &print(std::ostream&, const query_result&);
+public:
+  using  line_no = std::vector<std::string>::size_type;
+  query_result(string s, const shared_ptr<set<line_no>>& p, shared_ptr<vector<string>> f):
+    sought_(std::move(s)), lines_(p), file_(std::move(f)){}
+private:
+  string sought_; //word this query represents
+  shared_ptr<set<line_no>> lines_; //line it's on
+  shared_ptr<vector<string>>file_; //input file
+};
 } // namespace refactor

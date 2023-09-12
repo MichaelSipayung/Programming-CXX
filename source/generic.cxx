@@ -161,18 +161,19 @@ void useCaptureList(const std::vector<std::string> &x,
 void capByVal() {
   size_t v1 = 42; // local variable
   // copies v1 into the callable object named f
-  auto f = [v1] { return v1; };
-  v1 = 0;       // no effect on the corresponding value inside the lambda
-  auto j = f(); // j is 42; f store a copy of v1 when created it
+  //auto f = [v1] { return v1; };
+  //v1 = 0;       // no effect on the corresponding value inside the lambda
+  //auto j = f(); // j is 42; f store a copy of v1 when created it
 }
 void capByRef() {
   size_t v1 = 42;
+  v1++;
   // the object f2  contain reference to v1
-  auto f2 = [&v1] { return v1; };
+  //auto f2 = [&v1] { return v1; };
   // f2= 42
   // change it
-  v1 = 0;
-  auto j = f2(); // j is 0; f2 refers to v1; it doesn't store it
+  //v1 = 0;
+  //auto j = f2(); // j is 0; f2 refers to v1; it doesn't store it
 }
 // we can't copy reference object
 // eg. stream must pass by reference in lamda expression
@@ -192,9 +193,10 @@ void implicitCapture(std::vector<std::string> &word,
 // mutable lambda
 void changeValueLambda() {
   size_t v1 = 42;                           // local variable
-  auto f = [v1]() mutable { return ++v1; }; // dont omit the parameter list
-  v1 = 0;
-  auto j = f(); // j = 43
+  //auto f = [v1]() mutable { return ++v1; }; // dont omit the parameter list
+  //v1 = 0;
+  //auto j = f(); // j = 43
+  ++v1;
 }
 // specify the return type in lambda expression
 // case : transform every element in a container

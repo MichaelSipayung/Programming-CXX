@@ -8,4 +8,5 @@ add_executable (main "main.cxx" "main.h" "rassoc.cpp" "problem.cpp"
         rsales.cpp
         m_sales.cxx "dynamic.h" "dynamic.cpp"
         overload.cpp)
+set(CMAKE_CXX_STANDARD 11)
 # TODO: Add tests and install targets if needed.
