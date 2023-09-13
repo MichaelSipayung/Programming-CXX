@@ -1,7 +1,5 @@
 #include "dynamic.h"
 #include <iostream>
-
-#include "seqcontainer.h"
 using std::string;
 #include <fstream>
 #include <memory>
@@ -242,10 +240,10 @@ void refactor::access_weak_ptr() {
 std::ostream& refactor::print(std::ostream& os, const query_result& qr)
 {
   //if the word  was found, print the count and all occurrences
-	os << qr.sought_ << " occurs " << qr.lines_->size() << " " << endl;
+	os << qr.sought_ << " occurs " << qr.lines_->size() << " " << std::endl;
   //print each line in which the word appeared
   for (const auto num : *qr.lines_)//for every element in the set
-    os << "\t(line " << num + 1 << ") " << *(qr.file_->begin() + num) << endl;
+    os << "\t(line " << num + 1 << ") " << *(qr.file_->begin() + num) << std::endl;
   return os;
 }
 //text_query constructor takes an ifstream, which it's read a line at a time

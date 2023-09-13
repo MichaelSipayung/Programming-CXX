@@ -73,7 +73,7 @@ public:
   HasPtr(const HasPtr &p)
       : ps{new string(*p.ps)}, i{p.i} {} // each HasPtr has it's own cp
   HasPtr &operator=(const HasPtr &);
-  void test_safeAssig() const;
+  void test_safe_assign() const;
   ~HasPtr() { delete ps; }
 
 private:
@@ -81,26 +81,26 @@ private:
   int i;
 };
 // class act like pointer
-class HasPtr_1 {
+class has_ptr_1 {
 public:
-  friend void swap(HasPtr_1 &, HasPtr_1 &);
+  friend void swap(has_ptr_1 &, has_ptr_1 &);
   // ctor allocates a new str and a new counter, which it set to 1
-  HasPtr_1(const string &s = string())
-      : ps{new string(s)}, i{0}, use{new size_t(1)} {}
+  explicit has_ptr_1(const string &s = string())
+      : ps_{new string(s)}, i_{0}, use_{new size_t(1)} {}
   // cp ctor copies all three data members and increment the counter
-  HasPtr_1(const HasPtr_1 &p) : ps{p.ps}, i{p.i}, use{p.use} { ++*use; }
-  HasPtr_1 &operator=(const HasPtr_1 &);
+  has_ptr_1(const has_ptr_1 &p) : ps_{p.ps_}, i_{p.i_}, use_{p.use_} { ++*use_; }
+  has_ptr_1 &operator=(const has_ptr_1 &);
   size_t count() const;
-  ~HasPtr_1();
+  ~has_ptr_1();
 
 private:
-  string *ps;
-  int i;
-  size_t *use; // member to keep track of how many obj share *ps
+  string *ps_;
+  int i_;
+  size_t *use_; // member to keep track of how many obj share *ps
 };
-inline void swap(HasPtr_1 &lhs, HasPtr_1 &rhs) {
+inline void swap(has_ptr_1 &lhs, has_ptr_1 &rhs) {
   using std::swap;
-  swap(lhs.ps, rhs.ps); // swap the pointer, not the str data
-  swap(lhs.i, rhs.i);   // swap the int members
+  swap(lhs.ps_, rhs.ps_); // swap the pointer, not the str data
+  swap(lhs.i_, rhs.i_);   // swap the int members
 }
 } // namespace Adv
