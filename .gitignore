@@ -30,3 +30,6 @@
 /source/aggeregate.plist
 /source/consRef.plist
 /intelBuild
+/msbuild
+/source/out/build/x64-Clang-Debug
+/source/a.exe

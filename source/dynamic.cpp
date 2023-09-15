@@ -236,44 +236,45 @@ void refactor::access_weak_ptr() {
   else
     std::cerr << "sorry didn't exist!!";
 }
-//printing result, print its given query_result object on its given stream
-std::ostream& refactor::print(std::ostream& os, const query_result& qr)
-{
-  //if the word  was found, print the count and all occurrences
-	os << qr.sought_ << " occurs " << qr.lines_->size() << " " << std::endl;
-  //print each line in which the word appeared
-  for (const auto num : *qr.lines_)//for every element in the set
-    os << "\t(line " << num + 1 << ") " << *(qr.file_->begin() + num) << std::endl;
+// printing result, print its given query_result object on its given stream
+std::ostream &refactor::print(std::ostream &os, const query_result &qr) {
+  // if the word  was found, print the count and all occurrences
+  os << qr.sought_ << " occurs " << qr.lines_->size() << " " << std::endl;
+  // print each line in which the word appeared
+  for (const auto num : *qr.lines_) // for every element in the set
+    os << "\t(line " << num + 1 << ") " << *(qr.file_->begin() + num)
+       << std::endl;
   return os;
 }
-//text_query constructor takes an ifstream, which it's read a line at a time
-refactor::text_query::text_query(std::ifstream&is):file_(new vector<string>)
-{
+// text_query constructor takes an ifstream, which it's read a line at a time
+refactor::text_query::text_query(std::ifstream &is)
+    : file_(new vector<string>) {
   string text;
-  while (std::getline(is, text)) {//for each line in the file
-    file_->push_back(text); //remember this line of text
-    const int n = static_cast<int>(file_->size()) - 1; //the current line number
-    std::istringstream line(text); //separate the line into words
+  while (std::getline(is, text)) { // for each line in the file
+    file_->push_back(text);        // remember this line of text
+    const int n = static_cast<int>(file_->size()) - 1; // the current line
+                                                       // number
+    std::istringstream line(text); // separate the line into words
     string word;
-    while (line>>word) //for each word in that line
+    while (line >> word) // for each word in that line
     {
-      //if word is not already in wm, subscripting adds a new entry
-      //note: lines is reference, change made in lines also change wm_
-      auto& lines = wm_[word]; //lines is shared_ptr
-      if (!lines) //that pointer is null the first time we see word
-        lines.reset(new std::set<line_no>); //allocate a new set
-      lines->insert(n); //insert this line number
+      // if word is not already in wm, subscripting adds a new entry
+      // note: lines is reference, change made in lines also change wm_
+      auto &lines = wm_[word]; // lines is shared_ptr
+      if (!lines) // that pointer is null the first time we see word
+        lines.reset(new std::set<line_no>); // allocate a new set
+      lines->insert(n);                     // insert this line number
     }
   }
 }
-//the query function takes a string, which it uses
-//to locate the corresponding set of line numbers in the map
-refactor::query_result refactor::text_query::query(const std::string& src) const
-{
-  //we'll return pointer to this set if we don't find sought
-  static shared_ptr<set<line_no>> no_data(new set <line_no>);
-	//use find and not a subscript to avoid adding word to wm
+// the query function takes a string, which it uses
+// to locate the corresponding set of line numbers in the map
+refactor::query_result
+refactor::text_query::query(const std::string &src) const {
+  // we'll return pointer to this set if we don't find sought
+  static shared_ptr<set<line_no>> no_data(new set<line_no>);
+  // use find and not a subscript to avoid adding word to wm
   const auto loc = wm_.find(src);
-  return loc == wm_.end() ? query_result(src, no_data, file_)//not found
-		: query_result(src, loc->second, file_);
+  return loc == wm_.end() ? query_result(src, no_data, file_) // not found
+                          : query_result(src, loc->second, file_);
 }

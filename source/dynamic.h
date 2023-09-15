@@ -40,8 +40,8 @@ public:
   void push_back(const std::string &t) const { data_->push_back(t); }
   void pop_back() const;
   // element access
-  std::string &front() const;
-  std::string &back() const;
+  [[nodiscard]] std::string &front() const;
+  [[nodiscard]] std::string &back() const;
 
 private:
   std::shared_ptr<std::vector<std::string>> data_;
@@ -58,7 +58,7 @@ void tree_application();
 void linked_application();
 // traverse all element on binary tree
 template <typename Object>
-void tree_traverse(const std::shared_ptr<my_tree> tr) {
+void tree_traverse(const std::shared_ptr<my_tree> &tr) {
   if (tr) {
     tree_traverse<Object>(tr->left); // left first
     std::cout << tr->isbn << " ";
@@ -97,7 +97,7 @@ void bad_ptr();
 // unique ptr : own the object to which it points, only one unique_ptr
 // at a time can point to a given object
 void init_unique_ptr();
-// copy and assign unique_ptr that is about to destroyed
+// copy and assign unique_ptr that is about to be destroy
 std::unique_ptr<int> clone(int);
 // weak_ptr is smart pointer that does not control the lifetime of the
 // object to which it points. Binding a weak_ptr to a shared_ptr does not change
