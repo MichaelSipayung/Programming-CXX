@@ -88,7 +88,9 @@ public:
   explicit has_ptr_1(const string &s = string())
       : ps_{new string(s)}, i_{0}, use_{new size_t(1)} {}
   // cp ctor copies all three data members and increment the counter
-  has_ptr_1(const has_ptr_1 &p) : ps_{p.ps_}, i_{p.i_}, use_{p.use_} { ++*use_; }
+  has_ptr_1(const has_ptr_1 &p) : ps_{p.ps_}, i_{p.i_}, use_{p.use_} {
+    ++*use_;
+  }
   has_ptr_1 &operator=(const has_ptr_1 &);
   size_t count() const;
   ~has_ptr_1();
