@@ -1,10 +1,6 @@
 #ifndef CONTAINER_H
 #define CONTAINER_H
-#include <array>
-#include <forward_list>
 #include <iostream>
-#include <list>
-#include <vector>
 class DemoEmplace {
 public:
   DemoEmplace() = default;

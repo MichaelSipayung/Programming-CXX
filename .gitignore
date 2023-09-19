@@ -33,3 +33,4 @@
 /msbuild
 /source/out/build/x64-Clang-Debug
 /source/a.exe
+/source/.vscode
