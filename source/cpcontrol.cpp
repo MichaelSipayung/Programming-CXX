@@ -22,7 +22,7 @@ hash_ptr_copy &hash_ptr_copy::operator=(const hash_ptr_copy &rhs) {
     node_name_ = rhs.node_name_;
     node_ = rhs.node_;
   }
-  return *this;
+  return *this; // return to this object
 }
 // the destructor definition, the way we destroy member of a class
 hash_ptr_copy::~hash_ptr_copy() { delete node_; }
@@ -35,45 +35,41 @@ serial_copy &serial_copy::operator=(const serial_copy &rh) {
     serial_ = rh.serial_;
   return *this;
 }
-//value-like copy assignment operator, if an exception occurs during assignment
-//we already make assignment procedure safely by copying right hand side
-hash_ptr_value& hash_ptr_value::operator=(const hash_ptr_value& rhs)
-{
-  if (this != &rhs) //handle self assignment
+// value-like copy assignment operator, if an exception occurs during assignment
+// we already make assignment procedure safely by copying right hand side
+hash_ptr_value &hash_ptr_value::operator=(const hash_ptr_value &rhs) {
+  if (this != &rhs) // handle self assignment
   {
-    const auto temp = new string(*rhs.ps_); //copy the underlying str
-    delete ps_; //free the old memory
-    ps_ = temp; //copy data from rhs into this object
+    const auto temp = new string(*rhs.ps_); // copy the underlying str
+    delete ps_;                             // free the old memory
+    ps_ = temp; // copy data from rhs into this object
     i_ = rhs.i_;
   }
-	return *this;
+  return *this;
 }
-//assingment operator: first increment the counter in the right-hand operand
-//then decrement the counter of the left-hand operand, deleting the memory
-hash_ptr_pointer& hash_ptr_pointer::operator=(const hash_ptr_pointer& rhs)
-{
-  if(this!=&rhs)
-  {
-    ++*rhs.use; //increment the use count of the right-hand operand
-    if (--*use == 0) //decrement the counter of the left hand operand
+// assingment operator: first increment the counter in the right-hand operand
+// then decrement the counter of the left-hand operand, deleting the memory
+hash_ptr_pointer &hash_ptr_pointer::operator=(const hash_ptr_pointer &rhs) {
+  if (this != &rhs) {
+    ++*rhs.use;      // increment the use count of the right-hand operand
+    if (--*use == 0) // decrement the counter of the left hand operand
     {
-      delete ps; //ok no other user, just free the underlying object
+      delete ps; // ok no other user, just free the underlying object
       delete use;
     }
-    ps = rhs.ps; //copy data from right-hand operand
+    ps = rhs.ps; // copy data from right-hand operand
     i = rhs.i;
     use = rhs.use;
   }
-  return *this; //return this object
+  return *this; // return this object
 }
 
-//the destructor cannot unconditionally delete ps, there might be other object
-//pointing to that memory, instead destructor decrements the reference count
-hash_ptr_pointer::~hash_ptr_pointer()
-{
-  if(--*use==0) //if the reference count goes to zero
+// the destructor cannot unconditionally delete ps, there might be other object
+// pointing to that memory, instead destructor decrements the reference count
+hash_ptr_pointer::~hash_ptr_pointer() {
+  if (--*use == 0) // if the reference count goes to zero
   {
-    delete ps; //delete the string
-    delete use; //and the counter
+    delete ps;  // delete the string
+    delete use; // and the counter
   }
 }
