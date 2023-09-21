@@ -1,6 +1,6 @@
 #include "algorithm_repo.h"
 using namespace algorithm;
-//testing purpose,linked_list implementation simple case : string
+// testing purpose,linked_list implementation simple case : string
 void algorithm::test_list_implement() {
   auto auth = make_shared<list_data<string>>();
   auth->item = "Jack";
@@ -32,7 +32,7 @@ void algorithm::test_list_implement() {
   cout << "result after deleted : ";
   show_list(auth);
 }
-//testing purpose, binary tree implementation simple case : string
+// testing purpose, binary tree implementation simple case : string
 void algorithm::test_binaryTree_implement() {
   binary_tree<string> bin_tr("Maning");
   bin_tr.left->item = "Fimitr";
@@ -50,17 +50,17 @@ void algorithm::test_binaryTree_implement() {
   bin_tr.right->right = make_shared<binary_tree<string>>(rhs_bin);
 
   show_tree(make_aut);
-  //testing for all node is pass 1
+  // testing for all node is pass 1
   cout << "\nusing another style : ";
   auto found_m = search_tree(string("Zorrys"), make_aut);
-  if(found_m)
-    cout<<"found";
+  if (found_m)
+    cout << "found";
   else
-    cout<<"not found";
-  //test pass 2
+    cout << "not found";
+  // test pass 2
   auto auth = make_shared<binary_tree<string>>();
   auth->item = "Maning";
-  //parent is optional node
+  // parent is optional node
   auth->left = make_shared<binary_tree<string>>();
   auth->left->item = "Lessie";
   auth->right = make_shared<binary_tree<string>>();
@@ -68,35 +68,65 @@ void algorithm::test_binaryTree_implement() {
   cout << "\ntraverse all node : ";
   show_tree(auth);
   cout << "\nsearching operation : ";
-  const string auth_find="Maning";
-  auto found = search_tree(auth_find,auth);
-  if(found)
-    cout<<"found it";
+  const string auth_find = "Maning";
+  auto found = search_tree(auth_find, auth);
+  if (found)
+    cout << "found it";
   else
-    cout<<"not found";
+    cout << "not found";
 }
-//testing purpose for double linked list
-void algorithm::test_doubleList_implement(){
+// testing purpose for double linked list
+void algorithm::test_doubleList_implement() {
   auto dlA = make_shared<double_list<string>>();
-  dlA->item="A";
+  dlA->item = "A";
 
   auto dlB = make_shared<double_list<string>>();
   dlB->prev = make_shared<double_list<string>>();
-  dlB->item="B";
+  dlB->item = "B";
 
-  dlA->next=dlB;
-  dlB->prev=dlA;
+  dlA->next = dlB;
+  dlB->prev = dlA;
 
   auto dlC = make_shared<double_list<string>>();
-  dlC->item ="C";
+  dlC->item = "C";
   dlC->prev = make_shared<double_list<string>>();
-  dlB->next=dlC;
-  dlC->prev=dlB; 
+  dlB->next = dlC;
+  dlC->prev = dlB;
 
-  cout<<"prev B : "<<dlB->prev->item<<endl;
-  cout<<"next A : "<<dlA->next->item<<endl;
-  cout<<"next B : "<<dlB->next->item<<endl;
-  cout<<"prev C : "<<dlC->prev->item<<endl;
+  auto dlD = make_shared<double_list<string>>();
+  dlD->item = "D";
+  dlD->prev = make_shared<double_list<string>>();
+  dlD->prev = dlC;
+  dlC->next = dlD;
 
+  cout << "prev B : " << dlB->prev->item << endl;
+  cout << "next A : " << dlA->next->item << endl;
+  cout << "next B : " << dlB->next->item << endl;
+  cout << "prev C : " << dlC->prev->item << endl;
+  cout << "next C : " << dlC->next->item << endl;
+  cout << "prev D : " << dlD->prev->item << endl;
 
+  cout << "\nshow all : ";
+  show_doublyList(dlA); //show all node
+  //testing for searching
+  if(auto findIt=search_dbList("a",dlA))
+    cout<<"\nfound it ..."<<findIt->item;
+  else
+    cout<<"\nnot found";
 }
+void algorithm::show_doublyList(
+    const shared_ptr<double_list<string>> &db_list) {
+  if (db_list) { //do nothing if there is node 
+    cout << db_list->item << " - ";
+    show_doublyList(db_list->next); //recursive call to next node
+  }
+}
+shared_ptr<double_list<string>> algorithm::search_dbList
+  (const string &src, const shared_ptr<double_list<string>>& db_list){
+  if(!db_list)
+    return nullptr;
+  if(db_list->item==src)
+    return db_list;
+  return search_dbList(src,db_list->next);
+}
+

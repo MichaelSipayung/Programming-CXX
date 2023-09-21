@@ -79,12 +79,12 @@ template <typename Item> struct binary_tree {
   shared_ptr<binary_tree> parent; // pointer to parent
   shared_ptr<binary_tree> left;   // pointer to left child
   shared_ptr<binary_tree> right;  // pointer to right child
-  //ctor for single argument, initialize all node with default value for member item
-  explicit binary_tree(const Item& val_root) :item(val_root),left(make_shared<binary_tree>()),
-    right(make_shared<binary_tree>()), parent(make_shared<binary_tree>())
-  {
-  }
-  binary_tree() = default; //fix bug, consider to modify default behavior
+  // ctor for single argument, initialize all node with default value for member
+  // item
+  explicit binary_tree(const Item &val_root)
+      : item(val_root), left(make_shared<binary_tree>()),
+        right(make_shared<binary_tree>()), parent(make_shared<binary_tree>()) {}
+  binary_tree() = default; // fix bug, consider to modify default behavior
 };
 // searching operation on a binary search tree
 template <typename Item>
@@ -92,15 +92,15 @@ shared_ptr<binary_tree<Item>>
 search_tree(const Item &src, const shared_ptr<binary_tree<Item>> &tr) {
   // searching operation begin on root, then compare if less move to
   // left otherwise move to right until we traverse all node on a tree
-  if (!tr) //there is no element to traverse
+  if (!tr) // there is no element to traverse
     return nullptr;
-  if (tr->item == src) //destination
+  if (tr->item == src) // destination
     return tr;
-  cout<<tr->item<<" -- ";
-  if (src<tr->item) //compare given string to current item not vice versa
-    return search_tree(src, tr->left); //move left if the case is src<tr->item
-  else //otherwise move right
-  	return search_tree(src, tr->right);
+  cout << tr->item << " -- ";
+  if (src < tr->item) // compare given string to current item not vice versa
+    return search_tree(src, tr->left); // move left if the case is src<tr->item
+  else                                 // otherwise move right
+    return search_tree(src, tr->right);
 }
 // show all node and it's value
 template <typename Item>
@@ -112,14 +112,19 @@ void show_tree(const shared_ptr<binary_tree<Item>> &tr) {
     show_tree(tr->right);
   }
 }
+//testing purpose for binary tree implementation
 void test_binaryTree_implement();
-//to do: doubly linked list
-template<typename Object>
-struct double_list{
-	Object item;
-	shared_ptr<double_list> prev;
-	shared_ptr<double_list> next;
+//double linked list declaration
+template <typename Object> struct double_list {
+  Object item;
+  shared_ptr<double_list> prev;
+  shared_ptr<double_list> next;
 };
+//show all node in a double linked list recursive version
+void show_doublyList(const shared_ptr<double_list<string>> &);
+//testing purpose for double linked list method
 void test_doubleList_implement();
-
+//searching operation on double linked list
+shared_ptr<double_list<string>> search_dbList(const string &,
+		const shared_ptr<double_list<string>>&);
 } // namespace algorithm
