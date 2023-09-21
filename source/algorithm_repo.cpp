@@ -109,11 +109,25 @@ void algorithm::test_doubleList_implement() {
   cout << "\nshow all : ";
   show_doublyList(dlA); //show all node
   //testing for searching
-  if(auto findIt=search_dbList("a",dlA))
+  if(auto findIt=search_dbList("A",dlA))
     cout<<"\nfound it ..."<<findIt->item;
   else
     cout<<"\nnot found";
+  //push an element on a back position
+  const string add("E");
+  push_back_dbList(add,dlD->next);
+  cout<<"\nafter push an item at back position : ";
+  show_doublyList(dlA); //show all node
+  //test for push front
+  push_front_dbList(string("1"),dlA);
+  cout<<"\nafter push an item at front position : ";
+  show_doublyList(dlA); //show all node
+  push_front_dbList(string("2"),dlA);
+  cout<<"\nafter push an item at front position : ";
+  show_doublyList(dlA); //show all node
+
 }
+//show all node in a doubly linked list
 void algorithm::show_doublyList(
     const shared_ptr<double_list<string>> &db_list) {
   if (db_list) { //do nothing if there is node 
@@ -121,6 +135,7 @@ void algorithm::show_doublyList(
     show_doublyList(db_list->next); //recursive call to next node
   }
 }
+//searching an item in a double linked list
 shared_ptr<double_list<string>> algorithm::search_dbList
   (const string &src, const shared_ptr<double_list<string>>& db_list){
   if(!db_list)
@@ -128,5 +143,31 @@ shared_ptr<double_list<string>> algorithm::search_dbList
   if(db_list->item==src)
     return db_list;
   return search_dbList(src,db_list->next);
+}
+//push an item to double linked list, push back
+void algorithm::push_back_dbList(const string& item, shared_ptr<double_list<string>>& db_list)
+{
+  if(!db_list){ //the last pointer is pointer->next that point to nothing
+    db_list=make_shared<double_list<string>>(); //since we point to null_ptr
+    db_list->item=item; //assign the given value
+  }
+}
+//push an item to double linked list, push front
+void algorithm::push_front_dbList(const string& item, 
+  shared_ptr<double_list<string>>& db_list)
+{
+  if(!db_list){ //there is no element or null pointer
+    db_list=make_shared<double_list<string>>(); //allocate a new place
+    db_list->item=item;
+  }
+  //safely add to the front through check the previous node, then move current item
+  else if(!db_list->prev){ //there is at least one node, check previous, assume null
+    //db_list->prev=make_shared<double_list<string>>(); //ask a new place
+    //db_list->prev->item=item;
+    auto temp = make_shared<double_list<string>>();
+    temp->item=item; //store item in the safe place temporary object
+    temp->next=db_list; //move next pointer to current node
+    db_list=temp; //just place all thing in db_list
+  }
 }
 

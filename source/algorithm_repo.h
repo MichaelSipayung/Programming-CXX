@@ -127,4 +127,8 @@ void test_doubleList_implement();
 //searching operation on double linked list
 shared_ptr<double_list<string>> search_dbList(const string &,
 		const shared_ptr<double_list<string>>&);
+//insertion on double linked list
+void push_back_dbList(const string&, shared_ptr<double_list<string>>&);
+//insertion on double linked list, push front
+void push_front_dbList(const string&, shared_ptr<double_list<string>>&);
 } // namespace algorithm
