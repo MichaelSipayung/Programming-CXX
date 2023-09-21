@@ -34,25 +34,25 @@ void algorithm::test_list_implement() {
 }
 // testing purpose, binary tree implementation simple case : string
 void algorithm::test_binaryTree_implement() {
-  binary_tree<string> bin_tr("Maning");
+  binary_tree<string> bin_tr("Manning");
   bin_tr.left->item = "Fimitr";
   bin_tr.right->item = "Merry";
   auto make_aut = make_shared<binary_tree<string>>(bin_tr);
 
-  binary_tree<string> lft_bin("Dimitr");
-  lft_bin.left->item = "Darthy";
+  binary_tree<string> lft_bin("Dimitri");
+  lft_bin.left->item = "Dar thy";
   lft_bin.right->item = "Dorthy";
   bin_tr.left->left = make_shared<binary_tree<string>>(lft_bin);
 
   binary_tree<string> rhs_bin("Orreys");
-  rhs_bin.left->item = "Norrys";
-  rhs_bin.right->item = "Zorrys";
+  rhs_bin.left->item = "Norris";
+  rhs_bin.right->item = "Zorro";
   bin_tr.right->right = make_shared<binary_tree<string>>(rhs_bin);
 
   show_tree(make_aut);
   // testing for all node is pass 1
   cout << "\nusing another style : ";
-  auto found_m = search_tree(string("Zorrys"), make_aut);
+  auto found_m = search_tree(string("Zorro"), make_aut);
   if (found_m)
     cout << "found";
   else
@@ -74,6 +74,20 @@ void algorithm::test_binaryTree_implement() {
     cout << "found it";
   else
     cout << "not found";
+  //testing for finding minimum element on binary tree
+  cout<<"\nFinding minimum element : ";
+  auto fmin = find_min_tree(make_aut);
+  if(fmin)
+    cout<<fmin->item<<endl;
+  else
+    cout<<"not found\n";
+
+  cout<<"\nFinding maximum element : ";
+  auto fmax = find_max_tree(make_aut);
+  if(fmax)
+    cout<<fmax->item<<endl;
+  else
+    cout<<"not found\n";
 }
 // testing purpose for double linked list
 void algorithm::test_doubleList_implement() {
@@ -170,4 +184,18 @@ void algorithm::push_front_dbList(const string& item,
     db_list=temp; //just place all thing in db_list
   }
 }
-
+//test case for insertion on a binary tree
+void algorithm::test_insertion_tree()
+{
+  auto auth = make_shared<binary_tree<string>>();
+  auth->item = "Maning";
+  auth->parent=auth;
+  // parent is optional node
+  auth->left = make_shared<binary_tree<string>>();
+  auth->left->item = "Lessie";
+  auth->right = make_shared<binary_tree<string>>();
+  auth->right->item = "Thomas";
+  insert_node_tree(string("Lieith"),auth->parent, auth);
+  cout << "\ntraverse all node : ";
+  show_tree(auth);
+}

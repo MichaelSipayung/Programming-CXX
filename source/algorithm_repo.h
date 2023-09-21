@@ -112,6 +112,50 @@ void show_tree(const shared_ptr<binary_tree<Item>> &tr) {
     show_tree(tr->right);
   }
 }
+//finding minimum of the element on a tree, the minimum element is
+//always place in the left of the tree, just look to left most
+template<typename Item>
+shared_ptr<binary_tree<Item>> find_min_tree(const shared_ptr<binary_tree<Item>> &tr)
+{
+	if(!tr) //there is no element, just show nothing
+		return nullptr;
+	auto temp=tr;
+	while(temp->left) //there is a node in a left!
+		temp=temp->left; //just move the pointer to the left
+	return temp; //just show node before left=nullptr
+}
+//finding maximum of the element on a tree, the maximum element is
+//always place in the right of the tree, just look to right most
+template<typename Item>
+shared_ptr<binary_tree<Item>> find_max_tree(const shared_ptr<binary_tree<Item>> &tr)
+{
+	if(!tr)
+		return nullptr;
+	auto temp  = tr;
+	while(temp->right)
+		temp=temp->right;
+	return temp;
+}
+//isertion a binary tree, insertion happen while we meet nullptr
+//placing a node is according to the item is less than put on the right
+template<typename Item>
+void insert_node_tree(const Item &item,shared_ptr<binary_tree<Item>>&parent,
+	shared_ptr<binary_tree<Item>> &tr	)
+{
+	if(!tr){ //meet nullptr
+		auto temp= make_shared<binary_tree<Item>>(); //allocate new object
+		temp->item=item; //place the fresh item to temporary object
+		temp->parent=parent; //since the parent is optional, we need not worry
+		tr=temp; //just move all temporary assignment above
+		return; //don't forget to stop after insertion 
+	}
+	if(item<tr->item) //less than, focus on the left
+		insert_node_tree(item,tr,tr->left); //move to left until nullptr encounter
+	else //otherwise move to right of subtree
+		insert_node_tree(item,tr,tr->right); 
+}
+//test case for insertion on a binary tree
+void test_insertion_tree();
 //testing purpose for binary tree implementation
 void test_binaryTree_implement();
 //double linked list declaration
