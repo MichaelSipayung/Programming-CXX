@@ -175,4 +175,63 @@ shared_ptr<double_list<string>> search_dbList(const string &,
 void push_back_dbList(const string&, shared_ptr<double_list<string>>&);
 //insertion on double linked list, push front
 void push_front_dbList(const string&, shared_ptr<double_list<string>>&);
+//successor descendant, finding successor of the given node
+template<typename Item>
+shared_ptr<binary_tree<Item>> succesor_node(const shared_ptr<binary_tree<Item>> &tr)
+{
+	if(!tr) //node is null, return null
+		return nullptr;
+	auto temp = tr->right; //successor of tr is placed on the right
+	while(temp->left) //traverse, if there is a sub node, focus to the left
+		temp=temp->left; //assign the current left node
+	return temp; //return the successor of tr
+
+}
+//deletion on a binary tree, the challange task is delete node with to children
+template<typename Item>
+void delete_node_tree(const Item &del,shared_ptr<binary_tree<Item>> &tr)
+{
+	if(!tr)
+		return;
+	if(del<tr->item) //look left if it's less than
+		delete_node_tree(del,tr->left);
+	else if(tr->item>del) //look right if it's greater than
+		delete_node_tree(del,tr->right);
+	else if(tr->left && tr->right) //contain two child
+	{
+		tr->item= find_min_tree(tr->right)->item;
+		delete_node_tree(tr->item,tr->right);
+	}
+	else{ 
+		//since we are using smart pointer, we care not to delete it explicitly
+		//auto temp = tr; //store in tempory object
+		tr=(tr->left)?tr->left:tr->right; //replace the destination
+		//temp.reset(); //clear the old memory
+	}
+}
+//testing for deletion in binary search tree
+void delete_node_test();
+//predecessor descendant, finding predecessor of the given node
+template<typename Item>
+shared_ptr<binary_tree<Item>> predecessor_node(const shared_ptr<binary_tree<Item>> &tr)
+{
+	if(!tr)
+		return nullptr; //node node
+	auto temp  = tr->left; //the predecessor is located on the left
+	while(temp->right) //look to right of the left node
+		temp=temp->right;
+	return temp;
+}
+//test predecesor and successor function on a binary search tree
+template<typename Item>
+void test_pred_succ(const shared_ptr<binary_tree<Item>> &tr)
+{
+	auto succ = succesor_node(tr);
+	cout<<endl;
+	if(succ)
+		cout<<"succesor_node : "<<succ->item<<endl;
+	auto pred  = predecessor_node(tr);
+	if(pred)
+		cout<<"predecessor_node : "<< pred->item<<endl;
+}
 } // namespace algorithm

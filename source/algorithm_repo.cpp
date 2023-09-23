@@ -198,4 +198,31 @@ void algorithm::test_insertion_tree()
   insert_node_tree(string("Lieith"),auth->parent, auth);
   cout << "\ntraverse all node : ";
   show_tree(auth);
+  test_pred_succ(auth);
+}
+void algorithm::delete_node_test(){
+  auto data = make_shared<binary_tree<int>>();
+  data->item = 6;
+  
+  data->left = make_shared<binary_tree<int>>();
+  data->left->item=2;
+
+  data->right = make_shared<binary_tree<int>>();
+  data->right->item=8;
+
+  data->left->left = make_shared<binary_tree<int>>();
+  data->left->left->item=1;
+
+  data->left->right = make_shared<binary_tree<int>>();
+  data->left->right->item=4;
+
+  data->left->right->left = make_shared<binary_tree<int>>();
+  data->left->right->left->item=3;
+  cout<<"\nlook the data after constructed : ";
+  show_tree(data);
+  const int del =2;
+  cout<<"\ntest deletion : ";
+  delete_node_tree(del,data);
+  show_tree(data);
+  
 }
