@@ -81,9 +81,9 @@ template <typename Item> struct binary_tree {
   shared_ptr<binary_tree> right;  // pointer to right child
   // ctor for single argument, initialize all node with default value for member
   // item
-  explicit binary_tree(const Item &val_root)
-      : item(val_root), left(make_shared<binary_tree>()),
-        right(make_shared<binary_tree>()), parent(make_shared<binary_tree>()) {}
+  explicit binary_tree(Item val_root)
+      : item(std::move(val_root)), parent(make_shared<binary_tree>()),
+        left(make_shared<binary_tree>()), right(make_shared<binary_tree>()) {}
   binary_tree() = default; // fix bug, consider to modify default behavior
 };
 // searching operation on a binary search tree
@@ -112,126 +112,306 @@ void show_tree(const shared_ptr<binary_tree<Item>> &tr) {
     show_tree(tr->right);
   }
 }
-//finding minimum of the element on a tree, the minimum element is
-//always place in the left of the tree, just look to left most
-template<typename Item>
-shared_ptr<binary_tree<Item>> find_min_tree(const shared_ptr<binary_tree<Item>> &tr)
-{
-	if(!tr) //there is no element, just show nothing
-		return nullptr;
-	auto temp=tr;
-	while(temp->left) //there is a node in a left!
-		temp=temp->left; //just move the pointer to the left
-	return temp; //just show node before left=nullptr
+// finding minimum of the element on a tree, the minimum element is
+// always place in the left of the tree, just look to left most
+template <typename Item>
+shared_ptr<binary_tree<Item>>
+find_min_tree(const shared_ptr<binary_tree<Item>> &tr) {
+  if (!tr) // there is no element, just show nothing
+    return nullptr;
+  if (!tr->left)
+    return tr;
+  return find_min_tree(tr->left);
 }
-//finding maximum of the element on a tree, the maximum element is
-//always place in the right of the tree, just look to right most
-template<typename Item>
-shared_ptr<binary_tree<Item>> find_max_tree(const shared_ptr<binary_tree<Item>> &tr)
-{
-	if(!tr)
-		return nullptr;
-	auto temp  = tr;
-	while(temp->right)
-		temp=temp->right;
-	return temp;
+// finding maximum of the element on a tree, the maximum element is
+// always place in the right of the tree, just look to right most
+template <typename Item>
+shared_ptr<binary_tree<Item>>
+find_max_tree(const shared_ptr<binary_tree<Item>> &tr) {
+  if (!tr)
+    return nullptr;
+  auto temp = tr;
+  while (temp->right)
+    temp = temp->right;
+  return temp;
 }
-//isertion a binary tree, insertion happen while we meet nullptr
-//placing a node is according to the item is less than put on the right
-template<typename Item>
-void insert_node_tree(const Item &item,shared_ptr<binary_tree<Item>>&parent,
-	shared_ptr<binary_tree<Item>> &tr	)
-{
-	if(!tr){ //meet nullptr
-		auto temp= make_shared<binary_tree<Item>>(); //allocate new object
-		temp->item=item; //place the fresh item to temporary object
-		temp->parent=parent; //since the parent is optional, we need not worry
-		tr=temp; //just move all temporary assignment above
-		return; //don't forget to stop after insertion 
-	}
-	if(item<tr->item) //less than, focus on the left
-		insert_node_tree(item,tr,tr->left); //move to left until nullptr encounter
-	else //otherwise move to right of subtree
-		insert_node_tree(item,tr,tr->right); 
+// insertion a binary tree, insertion happen while we meet nullptr
+// placing a node is according to the item is less than put on the right
+template <typename Item>
+void insert_node_tree(const Item &item, shared_ptr<binary_tree<Item>> &parent,
+                      shared_ptr<binary_tree<Item>> &tr) {
+  if (!tr) {                                      // meet nullptr
+    auto temp = make_shared<binary_tree<Item>>(); // allocate new object
+    temp->item = item;     // place the fresh item to temporary object
+    temp->parent = parent; // since the parent is optional, we need not worry
+    tr = temp;             // just move all temporary assignment above
+    return;                // don't forget to stop after insertion
+  }
+  if (item < tr->item)                    // less than, focus on the left
+    insert_node_tree(item, tr, tr->left); // move to left until nullptr
+                                          // encounter
+  else                                    // otherwise move to right of subtree
+    insert_node_tree(item, tr, tr->right);
 }
-//test case for insertion on a binary tree
+// test case for insertion on a binary tree
 void test_insertion_tree();
-//testing purpose for binary tree implementation
+// testing purpose for binary tree implementation
 void test_binaryTree_implement();
-//double linked list declaration
+// double linked list declaration
 template <typename Object> struct double_list {
   Object item;
   shared_ptr<double_list> prev;
   shared_ptr<double_list> next;
 };
-//show all node in a double linked list recursive version
-void show_doublyList(const shared_ptr<double_list<string>> &);
-//testing purpose for double linked list method
-void test_doubleList_implement();
-//searching operation on double linked list
-shared_ptr<double_list<string>> search_dbList(const string &,
-		const shared_ptr<double_list<string>>&);
-//insertion on double linked list
-void push_back_dbList(const string&, shared_ptr<double_list<string>>&);
-//insertion on double linked list, push front
-void push_front_dbList(const string&, shared_ptr<double_list<string>>&);
-//successor descendant, finding successor of the given node
-template<typename Item>
-shared_ptr<binary_tree<Item>> succesor_node(const shared_ptr<binary_tree<Item>> &tr)
-{
-	if(!tr) //node is null, return null
-		return nullptr;
-	auto temp = tr->right; //successor of tr is placed on the right
-	while(temp->left) //traverse, if there is a sub node, focus to the left
-		temp=temp->left; //assign the current left node
-	return temp; //return the successor of tr
-
+// show all node in a double linked list recursive version
+void show_doubly_list(const shared_ptr<double_list<string>> &);
+// testing purpose for double linked list method
+void test_double_list_implement();
+// searching operation on double linked list
+shared_ptr<double_list<string>>
+search_db_list(const string &, const shared_ptr<double_list<string>> &);
+// insertion on double linked list
+void push_back_db_list(const string &, shared_ptr<double_list<string>> &);
+// insertion on double linked list, push front
+void push_front_dbList(const string &, shared_ptr<double_list<string>> &);
+// successor descendant, finding successor of the given node
+template <typename Item>
+shared_ptr<binary_tree<Item>>
+successor_node(const shared_ptr<binary_tree<Item>> &tr) {
+  if (!tr) // node is null, return null
+    return nullptr;
+  auto temp = tr->right; // successor of tr is placed on the right
+  while (temp->left)     // traverse, if there is a sub node, focus to the left
+    temp = temp->left;   // assign the current left node
+  return temp;           // return the successor of tr
 }
-//deletion on a binary tree, the challange task is delete node with to children
-template<typename Item>
-void delete_node_tree(const Item &del,shared_ptr<binary_tree<Item>> &tr)
-{
-	if(!tr)
-		return;
-	if(del<tr->item) //look left if it's less than
-		delete_node_tree(del,tr->left);
-	else if(tr->item>del) //look right if it's greater than
-		delete_node_tree(del,tr->right);
-	else if(tr->left && tr->right) //contain two child
-	{
-		tr->item= find_min_tree(tr->right)->item;
-		delete_node_tree(tr->item,tr->right);
-	}
-	else{ 
-		//since we are using smart pointer, we care not to delete it explicitly
-		//auto temp = tr; //store in tempory object
-		tr=(tr->left)?tr->left:tr->right; //replace the destination
-		//temp.reset(); //clear the old memory
-	}
+// deletion on a binary tree, the challenge task is delete node with to children
+template <typename Item>
+void delete_node_tree(const Item &del, shared_ptr<binary_tree<Item>> &tr) {
+  if (!tr) // null pointer, do nothing, as base case
+    return;
+  // begin operation, look the destination
+  if (del < tr->item) // look left if it's less than
+    delete_node_tree(del, tr->left);
+  else if (tr->item < del) // look right if it's greater than
+    delete_node_tree(del, tr->right);
+  else if ((tr->left) && (tr->right)) // contain two child, pay attention
+  {
+    tr->item = find_min_tree(tr->right)->item; // look the minimum
+    delete_node_tree(tr->item, tr->right);
+  } else {
+    // since we are using smart pointer, we care not to delete it explicitly
+    // auto temp = tr; //store in temporary object
+    tr = (tr->left) ? tr->left : tr->right; // replace the destination
+    // temp.reset(); //clear the old memory
+  }
 }
-//testing for deletion in binary search tree
+// testing for deletion in binary search tree
 void delete_node_test();
-//predecessor descendant, finding predecessor of the given node
-template<typename Item>
-shared_ptr<binary_tree<Item>> predecessor_node(const shared_ptr<binary_tree<Item>> &tr)
-{
-	if(!tr)
-		return nullptr; //node node
-	auto temp  = tr->left; //the predecessor is located on the left
-	while(temp->right) //look to right of the left node
-		temp=temp->right;
-	return temp;
+// predecessor descendant, finding predecessor of the given node
+template <typename Item>
+shared_ptr<binary_tree<Item>>
+predecessor_node(const shared_ptr<binary_tree<Item>> &tr) {
+  if (!tr)
+    return nullptr;     // node node
+  auto temp = tr->left; // the predecessor is located on the left
+  while (temp->right)   // look to right of the left node
+    temp = temp->right;
+  return temp;
 }
-//test predecesor and successor function on a binary search tree
-template<typename Item>
-void test_pred_succ(const shared_ptr<binary_tree<Item>> &tr)
+// test predecessor and successor function on a binary search tree
+template <typename Item>
+void test_pred_succ(const shared_ptr<binary_tree<Item>> &tr) {
+  auto succ = successor_node(tr);
+  cout << endl;
+  if (succ)
+    cout << "successor_node : " << succ->item << endl;
+  auto pred = predecessor_node(tr);
+  if (pred)
+    cout << "predecessor_node : " << pred->item << endl;
+}
+// modification of binary search tree, design using class
+template <typename Comparable> class binary_search_tree_m {
+public:
+  binary_search_tree_m(const binary_search_tree_m &rhs); // copy ctor
+  binary_search_tree_m(binary_search_tree_m &&rhs);      // move ctor
+  ~binary_search_tree_m() {                              // destructor
+    clear();
+  }
+  // finding minimum element
+  const Comparable &min() const { return min(root); }
+  // finding maximum element
+  const Comparable &max() const { return max(root); }
+  bool contain(const Comparable &x) const; // is x in the binary tree
+  // test if there is at least one element or none
+  bool empty() const { return root ? false : true; }
+  // show all element
+  void show(std::ostream &out = cout) const { show(root, out); }
+  // show all item
+  void clear();                     // clear all item
+  void insert(const Comparable &);  // insert item
+  void insert(const Comparable &&); // insert item  move operation
+  void remove(const Comparable &x); // remove item
+private:
+  struct binary_tree_node {
+    Comparable element;
+    shared_ptr<binary_tree_node> left;
+    shared_ptr<binary_tree_node> right;
+    binary_tree_node(const Comparable &x, shared_ptr<binary_tree_node> lh,
+                     shared_ptr<binary_tree_node> rh)
+        : element(x), left(lh), right(rh) {}
+    binary_tree_node(Comparable &&x, shared_ptr<binary_tree_node> lh,
+                     shared_ptr<binary_tree_node> rh)
+        : element(std::move(x)), left(lh), right(rh) {}
+  };
+  shared_ptr<binary_tree_node> root;
+  // internal method for binary search tree
+  void insert(const Comparable &x, shared_ptr<binary_tree_node> &tr); //insertion
+  void insert(Comparable &&x, shared_ptr<binary_tree_node> &tr);
+  void remove(const Comparable &x, shared_ptr<binary_tree_node> &tr); //removing
+  shared_ptr<binary_tree_node>
+  min(const shared_ptr<binary_tree_node> &tr) const; //min element
+  shared_ptr<binary_tree_node>
+  max(const shared_ptr<binary_tree_node> &tr) const; //max element
+  bool contain(const Comparable &x, shared_ptr<binary_tree_node> &tr) const; //exist 
+  void clear(shared_ptr<binary_tree_node> &tr); //clear element
+  void show(const shared_ptr<binary_tree_node> &tr, std::ostream &out) const; //show all
+  //clone current tree, for copy ctor demonstration
+  shared_ptr<binary_tree_node> clone(shared_ptr<binary_tree_node> &tr) const; 
+};
+//copy constructor for binary search tree
+template <typename Comparable>
+binary_search_tree_m<Comparable>::binary_search_tree_m(const binary_search_tree_m& rhs)
+	:root(nullptr){
+  root = clone(rhs.root);
+}
+
+// return true if x is in the tree
+template <typename Comparable>
+bool binary_search_tree_m<Comparable>::contain(const Comparable &x) const {
+  return contain(x, root);
+}
+// clear all node or item in binary tree
+template <typename Comparable> void binary_search_tree_m<Comparable>::clear() {
+  clear(root);
+}
+
+// insertion method, insert item x to binary tree
+template <typename Comparable>
+void binary_search_tree_m<Comparable>::insert(const Comparable &x) {
+  insert(x, root);
+}
+// insertion, the second version using move
+template <typename Comparable>
+void binary_search_tree_m<Comparable>::insert(const Comparable &&x) {
+  insert(std::move(x), root);
+}
+// removing an item, x
+template <typename Comparable>
+void binary_search_tree_m<Comparable>::remove(const Comparable &x) {
+  remove(x, root);
+}
+// private member function for node operation, contain: test if x inside the
+// tree
+template <typename Comparable>
+bool binary_search_tree_m<Comparable>::contain(
+    const Comparable &x, shared_ptr<binary_tree_node> &tr) const {
+  if (!tr)
+    return false;
+  if (tr->element < x)
+    return contain(x, tr->right);
+  if (tr->element > x)
+    return contain(x, tr->left);
+  return true;
+}
+// clear all node, clear all item in binary tree
+template <typename Comparable>
+void binary_search_tree_m<Comparable>::clear(shared_ptr<binary_tree_node> &tr) {
+  if (tr) {
+    clear(tr->left);  // clear left of the tree
+    clear(tr->right); // then clear right of the tree
+  }
+}
+
+// show current item on a tree
+template <typename Comparable>
+void binary_search_tree_m<Comparable>::show(
+    const shared_ptr<binary_tree_node> &tr, std::ostream &out) const {
+  if (tr) { // the tree is not null
+    show(tr->left, out);
+    out << tr->item << " - ";
+    show(tr->right, out);
+  }
+}
+//clone all node to new tree
+template <typename Comparable>
+shared_ptr<typename binary_search_tree_m<Comparable>::binary_tree_node> binary_search_tree_m<Comparable>::clone(
+	shared_ptr<binary_tree_node>& tr) const
 {
-	auto succ = succesor_node(tr);
-	cout<<endl;
-	if(succ)
-		cout<<"succesor_node : "<<succ->item<<endl;
-	auto pred  = predecessor_node(tr);
-	if(pred)
-		cout<<"predecessor_node : "<< pred->item<<endl;
+  if (!tr)
+    return nullptr;
+  return make_shared<binary_tree_node>(tr->element,clone(tr->left), clone(tr->right));
+}
+
+// insert an element first version
+template <typename Comparable>
+void binary_search_tree_m<Comparable>::insert(
+    const Comparable &x, shared_ptr<binary_tree_node> &tr) {
+  if (!tr)
+    tr = make_shared<binary_tree_node>(x, nullptr, nullptr);
+  else if (tr->element < x)
+    insert(x, tr->right);
+  else if (x, tr->element > x)
+    insert(x, tr->left);
+  else
+    ; // duplicate element
+}
+// insertion, by moving the element
+template <typename Comparable>
+void binary_search_tree_m<Comparable>::insert(
+    Comparable &&x, shared_ptr<binary_tree_node> &tr) {
+  if (!tr)
+    tr = make_shared<binary_tree_node>(std::move(x), nullptr, nullptr);
+  else if (tr->element < x)
+    insert(std::move(x), tr->right);
+  else if (tr->element > x)
+    insert(std::move(x), tr->left);
+  else
+    ; // duplicate
+}
+// remove a node from binary search tree
+template <typename Comparable>
+void binary_search_tree_m<Comparable>::remove(
+    const Comparable &x, shared_ptr<binary_tree_node> &tr) {
+  if (!tr)
+    return; // do nothing there is no item
+  if (tr->element < x)
+    remove(x, tr->right);
+  else if (tr->element > x)
+    remove(x, tr->left);
+  else if (tr->left && tr->right) { // two children
+    tr->element = min(tr->right);
+    remove(tr->element, tr->right);
+  } else
+    tr = (tr->left) ? tr->left : tr->right;
+}
+
+// finding minimum element
+template <typename Comparable>
+shared_ptr<typename binary_search_tree_m<Comparable>::binary_tree_node>
+binary_search_tree_m<Comparable>::min(
+    const shared_ptr<binary_tree_node> &tr) const {
+  if (!tr || !tr->left)
+    return tr;          // base case left null, terminate min is tr
+  return min(tr->left); // otherwise
+}
+// finding maximum element
+template <typename Comparable>
+shared_ptr<typename binary_search_tree_m<Comparable>::binary_tree_node>
+binary_search_tree_m<Comparable>::max(
+    const shared_ptr<binary_tree_node> &tr) const {
+  if (!tr || !tr->right)
+    return tr;
+  return max(tr->right);
 }
 } // namespace algorithm

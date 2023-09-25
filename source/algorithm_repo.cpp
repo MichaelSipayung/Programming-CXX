@@ -74,23 +74,23 @@ void algorithm::test_binaryTree_implement() {
     cout << "found it";
   else
     cout << "not found";
-  //testing for finding minimum element on binary tree
-  cout<<"\nFinding minimum element : ";
+  // testing for finding minimum element on binary tree
+  cout << "\nFinding minimum element : ";
   auto fmin = find_min_tree(make_aut);
-  if(fmin)
-    cout<<fmin->item<<endl;
+  if (fmin)
+    cout << fmin->item << endl;
   else
-    cout<<"not found\n";
+    cout << "not found\n";
 
-  cout<<"\nFinding maximum element : ";
+  cout << "\nFinding maximum element : ";
   auto fmax = find_max_tree(make_aut);
-  if(fmax)
-    cout<<fmax->item<<endl;
+  if (fmax)
+    cout << fmax->item << endl;
   else
-    cout<<"not found\n";
+    cout << "not found\n";
 }
 // testing purpose for double linked list
-void algorithm::test_doubleList_implement() {
+void algorithm::test_double_list_implement() {
   auto dlA = make_shared<double_list<string>>();
   dlA->item = "A";
 
@@ -121,108 +121,112 @@ void algorithm::test_doubleList_implement() {
   cout << "prev D : " << dlD->prev->item << endl;
 
   cout << "\nshow all : ";
-  show_doublyList(dlA); //show all node
-  //testing for searching
-  if(auto findIt=search_dbList("A",dlA))
-    cout<<"\nfound it ..."<<findIt->item;
+  show_doubly_list(dlA); // show all node
+  // testing for searching
+  if (auto findIt = search_db_list("A", dlA))
+    cout << "\nfound it ..." << findIt->item;
   else
-    cout<<"\nnot found";
-  //push an element on a back position
+    cout << "\nnot found";
+  // push an element on a back position
   const string add("E");
-  push_back_dbList(add,dlD->next);
-  cout<<"\nafter push an item at back position : ";
-  show_doublyList(dlA); //show all node
-  //test for push front
-  push_front_dbList(string("1"),dlA);
-  cout<<"\nafter push an item at front position : ";
-  show_doublyList(dlA); //show all node
-  push_front_dbList(string("2"),dlA);
-  cout<<"\nafter push an item at front position : ";
-  show_doublyList(dlA); //show all node
-
+  push_back_db_list(add, dlD->next);
+  cout << "\nafter push an item at back position : ";
+  show_doubly_list(dlA); // show all node
+  // test for push front
+  push_front_dbList(string("1"), dlA);
+  cout << "\nafter push an item at front position : ";
+  show_doubly_list(dlA); // show all node
+  push_front_dbList(string("2"), dlA);
+  cout << "\nafter push an item at front position : ";
+  show_doubly_list(dlA); // show all node
 }
-//show all node in a doubly linked list
-void algorithm::show_doublyList(
+// show all node in a doubly linked list
+void algorithm::show_doubly_list(
     const shared_ptr<double_list<string>> &db_list) {
-  if (db_list) { //do nothing if there is node 
+  if (db_list) { // do nothing if there is node
     cout << db_list->item << " - ";
-    show_doublyList(db_list->next); //recursive call to next node
+    show_doubly_list(db_list->next); // recursive call to next node
   }
 }
-//searching an item in a double linked list
-shared_ptr<double_list<string>> algorithm::search_dbList
-  (const string &src, const shared_ptr<double_list<string>>& db_list){
-  if(!db_list)
+// searching an item in a double linked list
+shared_ptr<double_list<string>>
+algorithm::search_db_list(const string &src,
+                          const shared_ptr<double_list<string>> &db_list) {
+  if (!db_list)
     return nullptr;
-  if(db_list->item==src)
+  if (db_list->item == src)
     return db_list;
-  return search_dbList(src,db_list->next);
+  return search_db_list(src, db_list->next);
 }
-//push an item to double linked list, push back
-void algorithm::push_back_dbList(const string& item, shared_ptr<double_list<string>>& db_list)
-{
-  if(!db_list){ //the last pointer is pointer->next that point to nothing
-    db_list=make_shared<double_list<string>>(); //since we point to null_ptr
-    db_list->item=item; //assign the given value
+// push an item to double linked list, push back
+void algorithm::push_back_db_list(const string &item,
+                                  shared_ptr<double_list<string>> &db_list) {
+  if (!db_list) { // the last pointer is pointer->next that point to nothing
+    db_list = make_shared<double_list<string>>(); // since we point to null_ptr
+    db_list->item = item;                         // assign the given value
   }
 }
-//push an item to double linked list, push front
-void algorithm::push_front_dbList(const string& item, 
-  shared_ptr<double_list<string>>& db_list)
-{
-  if(!db_list){ //there is no element or null pointer
-    db_list=make_shared<double_list<string>>(); //allocate a new place
-    db_list->item=item;
+// push an item to double linked list, push front
+void algorithm::push_front_dbList(const string &item,
+                                  shared_ptr<double_list<string>> &db_list) {
+  if (!db_list) { // there is no element or null pointer
+    db_list = make_shared<double_list<string>>(); // allocate a new place
+    db_list->item = item;
   }
-  //safely add to the front through check the previous node, then move current item
-  else if(!db_list->prev){ //there is at least one node, check previous, assume null
-    //db_list->prev=make_shared<double_list<string>>(); //ask a new place
-    //db_list->prev->item=item;
+  // safely add to the front through check the previous node, then move current
+  // item
+  else if (!db_list->prev) { // there is at least one node, check previous,
+                             // assume null
+    // db_list->prev=make_shared<double_list<string>>(); //ask a new place
+    // db_list->prev->item=item;
     auto temp = make_shared<double_list<string>>();
-    temp->item=item; //store item in the safe place temporary object
-    temp->next=db_list; //move next pointer to current node
-    db_list=temp; //just place all thing in db_list
+    temp->item = item;    // store item in the safe place temporary object
+    temp->next = db_list; // move next pointer to current node
+    db_list = temp;       // just place all thing in db_list
   }
 }
-//test case for insertion on a binary tree
-void algorithm::test_insertion_tree()
-{
+// test case for insertion on a binary tree
+void algorithm::test_insertion_tree() {
   auto auth = make_shared<binary_tree<string>>();
   auth->item = "Maning";
-  auth->parent=auth;
+  auth->parent = auth;
   // parent is optional node
   auth->left = make_shared<binary_tree<string>>();
   auth->left->item = "Lessie";
   auth->right = make_shared<binary_tree<string>>();
   auth->right->item = "Thomas";
-  insert_node_tree(string("Lieith"),auth->parent, auth);
+  insert_node_tree(string("Lieith"), auth->parent, auth);
   cout << "\ntraverse all node : ";
   show_tree(auth);
   test_pred_succ(auth);
 }
-void algorithm::delete_node_test(){
+void algorithm::delete_node_test() {
   auto data = make_shared<binary_tree<int>>();
   data->item = 6;
-  
+
   data->left = make_shared<binary_tree<int>>();
-  data->left->item=2;
+  data->left->item = 2;
 
   data->right = make_shared<binary_tree<int>>();
-  data->right->item=8;
+  data->right->item = 8;
 
   data->left->left = make_shared<binary_tree<int>>();
-  data->left->left->item=1;
+  data->left->left->item = 1;
 
   data->left->right = make_shared<binary_tree<int>>();
-  data->left->right->item=4;
+  data->left->right->item = 4;
 
   data->left->right->left = make_shared<binary_tree<int>>();
-  data->left->right->left->item=3;
-  cout<<"\nlook the data after constructed : ";
+  data->left->right->left->item = 3;
+  cout << "\nlook the data after constructed : ";
   show_tree(data);
-  const int del =2;
-  cout<<"\ntest deletion : ";
-  delete_node_tree(del,data);
-  show_tree(data);
-  
+
+  cout << "delete test\n";
+  auto tempObj = data;
+  int n_data = 0;
+  cout << "input number to be deleted : ";
+  cin >> n_data;
+  delete_node_tree(n_data, tempObj);
+  cout << "del what ? " << n_data << ", result : ";
+  show_tree(tempObj);
 }
