@@ -1,6 +1,6 @@
 /*algorithm source code, this my private experiment using modern c++
- *some implementation may not really follow best design but
- *i do really try to improve piece by piece of the routine
+ *some implementation may not really follow best design, but
+ *I do really try to improve piece by piece of the routine
  */
 #pragma once
 #include <iostream>
@@ -99,8 +99,8 @@ search_tree(const Item &src, const shared_ptr<binary_tree<Item>> &tr) {
   cout << tr->item << " -- ";
   if (src < tr->item) // compare given string to current item not vice versa
     return search_tree(src, tr->left); // move left if the case is src<tr->item
-  else                                 // otherwise move right
-    return search_tree(src, tr->right);
+                                       // otherwise move right
+  return search_tree(src, tr->right);
 }
 // show all node and it's value
 template <typename Item>
@@ -233,20 +233,21 @@ void test_pred_succ(const shared_ptr<binary_tree<Item>> &tr) {
 // modification of binary search tree, design using class
 template <typename Comparable> class binary_search_tree_m {
 public:
-  binary_search_tree_m(const binary_search_tree_m &rhs); // copy ctor
-  binary_search_tree_m(binary_search_tree_m &&rhs);      // move ctor
-  ~binary_search_tree_m() {                              // destructor
+  binary_search_tree_m();
+  binary_search_tree_m(const binary_search_tree_m &rhs);     // copy ctor
+  binary_search_tree_m(binary_search_tree_m &&rhs) noexcept; // move ctor
+  ~binary_search_tree_m() {                                  // destructor
     clear();
   }
   // finding minimum element
-  const Comparable &min() const { return min(root); }
+  const Comparable &min() const { return min(root_); }
   // finding maximum element
-  const Comparable &max() const { return max(root); }
+  const Comparable &max() const { return max(root_); }
   bool contain(const Comparable &x) const; // is x in the binary tree
   // test if there is at least one element or none
-  bool empty() const { return root ? false : true; }
+  bool empty() const { return !root_; }
   // show all element
-  void show(std::ostream &out = cout) const { show(root, out); }
+  void show(std::ostream &out = cout) const;
   // show all item
   void clear();                     // clear all item
   void insert(const Comparable &);  // insert item
@@ -264,58 +265,77 @@ private:
                      shared_ptr<binary_tree_node> rh)
         : element(std::move(x)), left(lh), right(rh) {}
   };
-  shared_ptr<binary_tree_node> root;
+  shared_ptr<binary_tree_node> root_;
   // internal method for binary search tree
-  void insert(const Comparable &x, shared_ptr<binary_tree_node> &tr); //insertion
+  void insert(const Comparable &x,
+              shared_ptr<binary_tree_node> &tr); // insertion
   void insert(Comparable &&x, shared_ptr<binary_tree_node> &tr);
-  void remove(const Comparable &x, shared_ptr<binary_tree_node> &tr); //removing
+  void remove(const Comparable &x,
+              shared_ptr<binary_tree_node> &tr); // removing
   shared_ptr<binary_tree_node>
-  min(const shared_ptr<binary_tree_node> &tr) const; //min element
+  min(const shared_ptr<binary_tree_node> &tr) const; // min element
   shared_ptr<binary_tree_node>
-  max(const shared_ptr<binary_tree_node> &tr) const; //max element
-  bool contain(const Comparable &x, shared_ptr<binary_tree_node> &tr) const; //exist 
-  void clear(shared_ptr<binary_tree_node> &tr); //clear element
-  void show(const shared_ptr<binary_tree_node> &tr, std::ostream &out) const; //show all
-  //clone current tree, for copy ctor demonstration
-  shared_ptr<binary_tree_node> clone(shared_ptr<binary_tree_node> &tr) const; 
+  max(const shared_ptr<binary_tree_node> &tr) const; // max element
+  bool contain(const Comparable &x,
+               const shared_ptr<binary_tree_node> &tr) const; // exist
+  void clear(shared_ptr<binary_tree_node> &tr);         // clear element
+  void show(const shared_ptr<binary_tree_node> &tr,
+            std::ostream &out) const; // show all
+  // clone current tree, for copy ctor demonstration
+  shared_ptr<binary_tree_node> clone(const shared_ptr<binary_tree_node> &tr) const;
 };
-//copy constructor for binary search tree
+// default constructor for binary search tree class
 template <typename Comparable>
-binary_search_tree_m<Comparable>::binary_search_tree_m(const binary_search_tree_m& rhs)
-	:root(nullptr){
-  root = clone(rhs.root);
+binary_search_tree_m<Comparable>::binary_search_tree_m() = default;
+// copy constructor for binary search tree
+template <typename Comparable>
+binary_search_tree_m<Comparable>::binary_search_tree_m(
+    const binary_search_tree_m &rhs)
+    : root_(nullptr) {
+  root_ = clone(rhs.root_);
 }
-
+// move constructor
+template <typename Comparable>
+binary_search_tree_m<Comparable>::binary_search_tree_m(
+    binary_search_tree_m &&rhs) noexcept
+    : root_(nullptr) {
+  root_ = clone(std::move(rhs.root_));
+}
 // return true if x is in the tree
 template <typename Comparable>
 bool binary_search_tree_m<Comparable>::contain(const Comparable &x) const {
-  return contain(x, root);
+  return contain(x, root_);
 }
-// clear all node or item in binary tree
-template <typename Comparable> void binary_search_tree_m<Comparable>::clear() {
-  clear(root);
+// show all node
+template <typename Comparable>
+void binary_search_tree_m<Comparable>::show(std::ostream &out) const {
+  show(root_, out);
 }
 
+// clear all node or item in binary tree
+template <typename Comparable> void binary_search_tree_m<Comparable>::clear() {
+  clear(root_);
+}
 // insertion method, insert item x to binary tree
 template <typename Comparable>
 void binary_search_tree_m<Comparable>::insert(const Comparable &x) {
-  insert(x, root);
+  insert(x, root_);
 }
 // insertion, the second version using move
 template <typename Comparable>
 void binary_search_tree_m<Comparable>::insert(const Comparable &&x) {
-  insert(std::move(x), root);
+  insert(std::move(x), root_);
 }
 // removing an item, x
 template <typename Comparable>
 void binary_search_tree_m<Comparable>::remove(const Comparable &x) {
-  remove(x, root);
+  remove(x, root_);
 }
 // private member function for node operation, contain: test if x inside the
 // tree
 template <typename Comparable>
 bool binary_search_tree_m<Comparable>::contain(
-    const Comparable &x, shared_ptr<binary_tree_node> &tr) const {
+    const Comparable &x, const shared_ptr<binary_tree_node> &tr) const {
   if (!tr)
     return false;
   if (tr->element < x)
@@ -330,7 +350,9 @@ void binary_search_tree_m<Comparable>::clear(shared_ptr<binary_tree_node> &tr) {
   if (tr) {
     clear(tr->left);  // clear left of the tree
     clear(tr->right); // then clear right of the tree
+    tr.reset();       // free the resource
   }
+  tr = nullptr; // additional improvements
 }
 
 // show current item on a tree
@@ -339,34 +361,35 @@ void binary_search_tree_m<Comparable>::show(
     const shared_ptr<binary_tree_node> &tr, std::ostream &out) const {
   if (tr) { // the tree is not null
     show(tr->left, out);
-    out << tr->item << " - ";
+    out << tr->element << " - ";
     show(tr->right, out);
   }
 }
-//clone all node to new tree
+// clone all node to new tree
 template <typename Comparable>
-shared_ptr<typename binary_search_tree_m<Comparable>::binary_tree_node> binary_search_tree_m<Comparable>::clone(
-	shared_ptr<binary_tree_node>& tr) const
-{
+shared_ptr<typename binary_search_tree_m<Comparable>::binary_tree_node>
+binary_search_tree_m<Comparable>::clone(
+    const shared_ptr<binary_tree_node> &tr) const {
   if (!tr)
     return nullptr;
-  return make_shared<binary_tree_node>(tr->element,clone(tr->left), clone(tr->right));
+  return make_shared<binary_tree_node>(tr->element, clone(tr->left),
+                                       clone(tr->right));
 }
-
-// insert an element first version
+// insert an element non-move version
 template <typename Comparable>
 void binary_search_tree_m<Comparable>::insert(
     const Comparable &x, shared_ptr<binary_tree_node> &tr) {
-  if (!tr)
+  // insert x to specific location, constraint is left or right
+  if (!tr) // if tr is null pointer
     tr = make_shared<binary_tree_node>(x, nullptr, nullptr);
   else if (tr->element < x)
-    insert(x, tr->right);
-  else if (x, tr->element > x)
-    insert(x, tr->left);
+    insert(x, tr->right); // x is greater, put to right
+  else if (tr->element > x)
+    insert(x, tr->left); // x is smaller, insert to left
   else
     ; // duplicate element
 }
-// insertion, by moving the element
+// insertion, by moving the element, the second version
 template <typename Comparable>
 void binary_search_tree_m<Comparable>::insert(
     Comparable &&x, shared_ptr<binary_tree_node> &tr) {
@@ -377,9 +400,9 @@ void binary_search_tree_m<Comparable>::insert(
   else if (tr->element > x)
     insert(std::move(x), tr->left);
   else
-    ; // duplicate
+    ; // duplicate, just return
 }
-// remove a node from binary search tree
+// remove a node or an item from binary search tree
 template <typename Comparable>
 void binary_search_tree_m<Comparable>::remove(
     const Comparable &x, shared_ptr<binary_tree_node> &tr) {
@@ -389,14 +412,19 @@ void binary_search_tree_m<Comparable>::remove(
     remove(x, tr->right);
   else if (tr->element > x)
     remove(x, tr->left);
-  else if (tr->left && tr->right) { // two children
-    tr->element = min(tr->right);
-    remove(tr->element, tr->right);
-  } else
-    tr = (tr->left) ? tr->left : tr->right;
+  else if (tr->left && tr->right) { // two children, the special case
+    tr->element =
+        min(tr->right)->element; // replace the deleted node with pred descent
+    remove(tr->element, tr->right); // then move right
+  } else // otherwise, replace the new element
+  {
+    auto temp = tr;
+    tr = (tr->left) ? tr->left
+                    : tr->right; // there is at least one child? left or right
+    temp.reset();                // free the resource
+  }
 }
-
-// finding minimum element
+// finding minimum element, destination on the left
 template <typename Comparable>
 shared_ptr<typename binary_search_tree_m<Comparable>::binary_tree_node>
 binary_search_tree_m<Comparable>::min(
@@ -405,13 +433,13 @@ binary_search_tree_m<Comparable>::min(
     return tr;          // base case left null, terminate min is tr
   return min(tr->left); // otherwise
 }
-// finding maximum element
+// finding maximum element, note destination on the right
 template <typename Comparable>
 shared_ptr<typename binary_search_tree_m<Comparable>::binary_tree_node>
 binary_search_tree_m<Comparable>::max(
     const shared_ptr<binary_tree_node> &tr) const {
   if (!tr || !tr->right)
     return tr;
-  return max(tr->right);
+  return max(tr->right); // move right
 }
 } // namespace algorithm

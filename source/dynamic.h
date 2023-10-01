@@ -97,7 +97,7 @@ void bad_ptr();
 // unique ptr : own the object to which it points, only one unique_ptr
 // at a time can point to a given object
 void init_unique_ptr();
-// copy and assign unique_ptr that is about to be destroy
+// copy and assign unique_ptr that is about to be destroyed
 std::unique_ptr<int> clone(int);
 // weak_ptr is smart pointer that does not control the lifetime of the
 // object to which it points. Binding a weak_ptr to a shared_ptr does not change

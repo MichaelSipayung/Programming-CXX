@@ -188,14 +188,14 @@ void algorithm::push_front_dbList(const string &item,
 // test case for insertion on a binary tree
 void algorithm::test_insertion_tree() {
   auto auth = make_shared<binary_tree<string>>();
-  auth->item = "Maning";
+  auth->item = "Manning";
   auth->parent = auth;
   // parent is optional node
   auth->left = make_shared<binary_tree<string>>();
   auth->left->item = "Lessie";
   auth->right = make_shared<binary_tree<string>>();
   auth->right->item = "Thomas";
-  insert_node_tree(string("Lieith"), auth->parent, auth);
+  insert_node_tree(string("Lilith"), auth->parent, auth);
   cout << "\ntraverse all node : ";
   show_tree(auth);
   test_pred_succ(auth);
