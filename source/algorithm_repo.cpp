@@ -133,10 +133,10 @@ void algorithm::test_double_list_implement() {
   cout << "\nafter push an item at back position : ";
   show_doubly_list(dlA); // show all node
   // test for push front
-  push_front_dbList(string("1"), dlA);
+  push_front_db_list(string("1"), dlA);
   cout << "\nafter push an item at front position : ";
   show_doubly_list(dlA); // show all node
-  push_front_dbList(string("2"), dlA);
+  push_front_db_list(string("2"), dlA);
   cout << "\nafter push an item at front position : ";
   show_doubly_list(dlA); // show all node
 }
@@ -167,7 +167,7 @@ void algorithm::push_back_db_list(const string &item,
   }
 }
 // push an item to double linked list, push front
-void algorithm::push_front_dbList(const string &item,
+void algorithm::push_front_db_list(const string &item,
                                   shared_ptr<double_list<string>> &db_list) {
   if (!db_list) { // there is no element or null pointer
     db_list = make_shared<double_list<string>>(); // allocate a new place

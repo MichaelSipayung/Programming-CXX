@@ -173,7 +173,7 @@ search_db_list(const string &, const shared_ptr<double_list<string>> &);
 // insertion on double linked list
 void push_back_db_list(const string &, shared_ptr<double_list<string>> &);
 // insertion on double linked list, push front
-void push_front_dbList(const string &, shared_ptr<double_list<string>> &);
+void push_front_db_list(const string &, shared_ptr<double_list<string>> &);
 // successor descendant, finding successor of the given node
 template <typename Item>
 shared_ptr<binary_tree<Item>>
@@ -278,11 +278,12 @@ private:
   max(const shared_ptr<binary_tree_node> &tr) const; // max element
   bool contain(const Comparable &x,
                const shared_ptr<binary_tree_node> &tr) const; // exist
-  void clear(shared_ptr<binary_tree_node> &tr);         // clear element
+  void clear(shared_ptr<binary_tree_node> &tr);               // clear element
   void show(const shared_ptr<binary_tree_node> &tr,
             std::ostream &out) const; // show all
   // clone current tree, for copy ctor demonstration
-  shared_ptr<binary_tree_node> clone(const shared_ptr<binary_tree_node> &tr) const;
+  shared_ptr<binary_tree_node>
+  clone(const shared_ptr<binary_tree_node> &tr) const;
 };
 // default constructor for binary search tree class
 template <typename Comparable>
@@ -416,7 +417,7 @@ void binary_search_tree_m<Comparable>::remove(
     tr->element =
         min(tr->right)->element; // replace the deleted node with pred descent
     remove(tr->element, tr->right); // then move right
-  } else // otherwise, replace the new element
+  } else                            // otherwise, replace the new element
   {
     auto temp = tr;
     tr = (tr->left) ? tr->left
@@ -442,4 +443,66 @@ binary_search_tree_m<Comparable>::max(
     return tr;
   return max(tr->right); // move right
 }
+// fast matrix multiplication
+template <typename Item>
+void multiply(const vector<vector<Item>> &a, const vector<vector<Item>> &b,
+              vector<vector<Item>> &c) {
+  const auto n = a.size();
+  for (auto i = 0; i < n; ++i)
+    for (auto j = 0; j < n; ++j) {
+      c[i][j] = 0;
+      for (auto k = 0; k < n; ++k)
+        c[i][j] += a[i][k] * b[k][j];
+    }
+}
+// avl tree class declaration
+template <typename Comparable> class avl_tree {
+private:
+  struct avl_node {
+    Comparable element;
+    shared_ptr<avl_node> left;
+    shared_ptr<avl_node> right;
+    int height;
+    avl_node(const Comparable &x, shared_ptr<avl_node> lh,
+             shared_ptr<avl_node> rh, int h = 0)
+        : element(x), left(lh), right(rh), height(h) {}
+    avl_node(Comparable &&x, shared_ptr<avl_node> lh, shared_ptr<avl_node> rh,
+             int h = 0)
+        : element(std::move(x)), left(lh), right(rh), height(h) {}
+  };
+  shared_ptr<avl_node> root_;
+  void insert(const Comparable &x, shared_ptr<avl_node> &tr);
+  void insert(Comparable &&x, shared_ptr<avl_node> &tr);
+  void remove(const Comparable &x, shared_ptr<avl_node> &tr);
+  void balance(shared_ptr<avl_node> &tr);
+  void rotate_with_left_child(shared_ptr<avl_node> &k2);
+  void rotate_with_right_child(shared_ptr<avl_node> &k1);
+  void double_with_left_child(shared_ptr<avl_node> &k3);
+  void double_with_right_child(shared_ptr<avl_node> &k1);
+  int height(const shared_ptr<avl_node> &tr) const {
+    return tr ? tr->height : -1;
+  }
+  void show(const shared_ptr<avl_node> &tr, std::ostream &out) const;
+  shared_ptr<avl_node> clone(const shared_ptr<avl_node> &tr) const;
+  void clear(shared_ptr<avl_node> &tr);
+  bool contain(const Comparable &x, const shared_ptr<avl_node> &tr) const;
+  shared_ptr<avl_node> find_min(const shared_ptr<avl_node> &tr) const;
+  shared_ptr<avl_node> find_max(const shared_ptr<avl_node> &tr) const;
+  //void remove(const Comparable &x, shared_ptr<avl_node> &tr);
+  void make_empty(shared_ptr<avl_node> &tr);
+  void insert(const Comparable &x);
+  void insert(Comparable &&x);
+  void remove(const Comparable &x);
+  void show(std::ostream &out = cout) const;
+  bool contain(const Comparable &x) const;
+  void clear();
+
+public:
+  avl_tree() = default;
+  avl_tree(const avl_tree &rhs);
+  avl_tree(avl_tree &&rhs) noexcept;
+  ~avl_tree() { clear(); }
+  avl_tree &operator=(const avl_tree &rhs);
+  avl_tree &operator=(avl_tree &&rhs) noexcept;
+};
 } // namespace algorithm
