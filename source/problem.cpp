@@ -399,4 +399,5 @@ long binomial_coefficient(const int n, const int k) {
             [j];   // fill i,j with before and after
   return bc[n][k]; // return the binomial coefficient
 }
+
 } // namespace problem
